@@ -7,6 +7,7 @@
 <small>
   @tracey_pooh
   <br/>
+  TV, A/V, VR/AR/3D, Docker/Kubernetes
 
   2018 Oct 15-16
 </small>
@@ -34,20 +35,23 @@
 - 20M books, lendable
 - 5M videos, 5M audio & live concerts
 - 3M images
-- 300K software items & emulation (in JS!)
+- 300K software items & emulation (in JS)
 
 ---
 <a href="https://web.archive.org/web/19961219202222/http://www.apple.com:80/">
-  <img style="height:800px" src="wayback-apple.png"/>
+  <img style="height:800px" data-src="wayback-apple.png"/>
 </a>
 
 ---
 <a href="https://archive.org/details/msdos_Pac-Man_1983">
-  <img style="height:800px" src="software.png"/>
+  <img style="height:800px" data-src="software.png"/>
 </a>
 
 ---
-<img style="height:155px" src="https://archive.org/download/third-eye/third-eye.png"/>
+https://archive.org/tv
+
+---
+<img style="height:155px" data-src="https://archive.org/download/third-eye/third-eye.png"/>
 - OCR 'lower third'
   - chyrons
     - overlaid text on broadcasts
@@ -60,16 +64,29 @@
   - BBC News
 
 ---
+# Chyron filtering
+- tesseract OCR
+  - free; errors
+- <a href="http://manpages.ubuntu.com/manpages/man1/simhash.1.html">simhash</a>
+  - groups 'nearly the same'
+    - character flips
+    - word off in time
+- look for vowels
+- pick 'most seen' group every minute
+  - and tweet
+
+---
 <div style="max-width:500px; margin:auto">
-  <img src="https://archive.org/download/third-eye/xmsn-full.png"/>
+  <img data-src="https://archive.org/download/third-eye/xmsn-full.png"/>
   <img src="down.png"/>
-  <img src="https://archive.org/download/third-eye/xmsn.png"/>
+  <img data-src="https://archive.org/download/third-eye/xmsn.png"/>
   <img src="down.png"/>
   <pre>
   AFTER WH MEETING, SCHUMER DISHES
   WHEN HE THOUGHT NIC WAS OFF
   </pre>
 </div>
+
 ---
 # bots
 - twitter bots
@@ -80,21 +97,92 @@
   - https://twitter.com/tvThirdEye/lists/all
 
 ---
-<img src="https://archive.org/download/third-eye/tweet.png"/>
+<img data-src="https://archive.org/download/third-eye/tweet.png"/>
+https://tweetdeck.com
 
 ---
-https://tweetdeck.com
+# API
+- https://archive.org/details/third-eye
+- TSV
+- cropped imagery
+- raw + filtered OCR
+
+---
+# Research
+- How cable news networks covered Kavanaugh-Ford hearing
+  - Aaron Williams, Danielle Rindler, Chris Alcantara,
+  - Kevin Schaul & Kevin Uhrmacher
+- https://www.washingtonpost.com/graphics/2018/politics/kavanaugh-ford-hearing-chyrons/
+
+---
+# Research
+- audio fingerprints
+  - presented keynote paper on<br/> <a href="http://www.brycejdietrich.com/files/dietrich_schultz_television.pdf">CSPAN floor speeches and vocal pitch</a> <br/>Bryce Dietrich, UIowa
+  - discovered 375K political Ads
+  - find sound bites of speeches
+
+---
+# CNNs
+- Convolutional Neural Network
+  - filtered neural network
+- each layer uses output from prior layer as input
+- multi-node connections (but not "fully connected")
+
+---
+# CNN Example
+- feed in image
+- node looking for eyelash
+- node looking for iris
+  - could feed to node looking for eye
+- meanwhile... nose node
+  - all feed to face recognizer node
+  - could feed to "is this Barack Obama?"
 
 ---
 # Face-o-matic
 https://blog.archive.org/2017/07/19/introducing-face-o-matic/
-<img src="https://blog.archive.org/wp-content/uploads/2017/07/Pentafecta.jpg"/>
+<img data-src="https://blog.archive.org/wp-content/uploads/2017/07/Pentafecta.jpg"/>
 
 ---
-ARKit / OpenFace
+# ARKit / OpenFace
 - implementation of <a href="https://arxiv.org/abs/1503.03832">FaceNet</a>
 - https://cmusatyalab.github.io/openface/demo-3-classifier
 - similar to tensorflow (Torch..)
+
+---
+# Image Matching
+- pixel diff algorithms (MAE, RMSE, MSE)
+- perceptual hashing pHash.org
+  - image => _8x8 grayscale_
+  - convolve to 8x8 image with DCT
+  - reduce to _64bit_ number
+  - hamming distance Int64 pairs
+
+---
+### pHash - to gray 8x8
+<style> .hashes img { width:150px; } </style>
+<div class="hashes">
+  <img src="hash-images/AaronSwartz.png">
+  <img src="hash-images/AaronXimm.png">
+  <img src="hash-images/AlexisRossi.png">
+  <img src="hash-images/BrewsterKahle.png">
+  <img src="hash-images/JudeCohelo.png">
+  <img src="hash-images/TraceyJaquith.png">
+  <br/>
+  <img src="hash-images/AaronSwartz.png.jpg">
+  <img src="hash-images/AaronXimm.png.jpg">
+  <img src="hash-images/AlexisRossi.png.jpg">
+  <img src="hash-images/BrewsterKahle.png.jpg">
+  <img src="hash-images/JudeCohelo.png.jpg">
+  <img src="hash-images/TraceyJaquith.png.jpg">
+  <br/>
+  <img src="hash-images/AaronSwartz-gray.png">
+  <img src="hash-images/AaronXimm-gray.png">
+  <img src="hash-images/AlexisRossi-gray.png">
+  <img src="hash-images/BrewsterKahle-gray.png">
+  <img src="hash-images/JudeCohelo-gray.png">
+  <img src="hash-images/TraceyJaquith-gray.png">
+</div>
 
 ---
 # OpenFace Training
@@ -112,3 +200,17 @@ ARKit / OpenFace
 <img src="https://archive.org/~tracey/train/__aligned/TraceyJaquith/c.png"/>
 <img src="https://archive.org/~tracey/train/__aligned/TraceyJaquith/f.png"/>
 
+---
+<!-- .slide: data-background-color="black" -->
+### miniARchive
+<iframe width="960" height="540" src="https://www.youtube.com/embed/Y94pLw9X2yY?start=50&end=80"
+  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+---
+## GitLab + Auto DevOps + Kubernetes + Docker
+<img data-src="https://archive.org/download/auto-devops/auto-devops_itemimage.png"/>
+https://archive.org/details/auto-devops
+
+---
+<!-- .slide: data-background="https://media.giphy.com/media/q4ICE9wYvOwBG/giphy.gif" -->
+# The End
