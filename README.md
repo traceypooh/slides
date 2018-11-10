@@ -1,6 +1,8 @@
 # slides
 Slides and decks from recent Talks and gatherings
 
+[aaron-swartz-day-webamp](https://traceypooh.github.io/slides/aaron-swartz-day-webamp)
+
 [demuxed-third-eye](https://traceypooh.github.io/slides/demuxed-third-eye)
 
 [demuxed-webamp](https://traceypooh.github.io/slides/demuxed-webamp)
