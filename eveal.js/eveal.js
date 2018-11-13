@@ -71,7 +71,7 @@ require(BASE + 'lib/js/head.min.js', function() {
   }
 
 
-  require('../eveal.js/reveal.js/js/reveal.js', function(){
+  require(BASE + 'js/reveal.js', function(){
     // More info about config & dependencies:
     // - https://github.com/hakimel/reveal.js#configuration
     // - https://github.com/hakimel/reveal.js#dependencies
