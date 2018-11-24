@@ -26,5 +26,42 @@ https://github.com/traceypooh/slides
 <img height="500" data-src="NWL_Press_DontIronWhileStrikeisHot_122116.jpg"/>
 
 ---
+# compare www-xxx -v- review apps
+
+---
+- we are more comfortable still with block-device storage than torrented pieces for entire archives
+  - eg: S3/EC2 => K8 or o/w -- seems anxiety++
+
+---
+# LB vs ingress for alt ports
+kubectl expose -ndweb deployment/production --type=LoadBalancer --name=porter
+kubectl patch  -ndweb svc/porter -p='{"spec":{"externalIPs":["'${K8_INGRESS_IP?}"]}}'
+
+---
+# monorepo speed++
+- `test` phase first = faster (when possible)
+- takeover git mgmt
+- build/test code in same tree
+  - RUN move up to master head first
+  - RUN reinvoke build script (now at master) where moves tree pointer back to $COMMIT
+
+---
+# monorepo .git
+- git shallow clone
+- git checkout --detach ..  &&  git fetch ..  &&  git checkout ..
+- git 'advertised' commits
+  ```omnibus_gitconfig['system'] = {"uploadpack" => ["allowReachableSHA1InWant = true"]}```
+- `build` pull from prior build saved in registry
+
+---
+# top tips
+- POSTGRES_ENABLED=false / PV
+- remove old replicasets, trim registry periodically
+- GitLab API for last master `test` status
+
+
+
+---
 <!-- .slide: data-background="https://media.giphy.com/media/Gdjgn0hy8zBRK/giphy.gif" -->
 # The End
+
