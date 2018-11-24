@@ -34,8 +34,8 @@ https://github.com/traceypooh/slides
 
 ---
 # LB vs ingress for alt ports
-kubectl expose -ndweb deployment/production --type=LoadBalancer --name=porter
-kubectl patch  -ndweb svc/porter -p='{"spec":{"externalIPs":["'${K8_INGRESS_IP?}"]}}'
+- `kubectl expose -ndweb deployment/production --type=LoadBalancer --name=porter`
+- `kubectl patch  -ndweb svc/porter -p='{"spec":{"externalIPs":["'${K8_INGRESS_IP?}"]}}'`
 
 ---
 # monorepo speed++
@@ -47,15 +47,22 @@ kubectl patch  -ndweb svc/porter -p='{"spec":{"externalIPs":["'${K8_INGRESS_IP?}
 
 ---
 # monorepo .git
-- git shallow clone
-- git checkout --detach ..  &&  git fetch ..  &&  git checkout ..
+- `git shallow clone`
+- `git checkout --detach ..  &&  git fetch ..  &&  git checkout ..`
 - git 'advertised' commits
   ```omnibus_gitconfig['system'] = {"uploadpack" => ["allowReachableSHA1InWant = true"]}```
 - `build` pull from prior build saved in registry
 
 ---
+# kubeadm 'on prem' K8 cluster from scratch
+- https://gitlab.com/internetarchive/kre8
+  - shows/uses GitLab 'Auto DevOps' CI/CD end-to-end
+  - coworker can try out - low committment
+
+---
 # top tips
 - POSTGRES_ENABLED=false / PV
+  - can use simple `localstorage` for 1 (tainted) or 2-node k8 clusters
 - remove old replicasets, trim registry periodically
 - GitLab API for last master `test` status
 
