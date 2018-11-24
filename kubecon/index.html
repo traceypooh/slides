@@ -19,26 +19,46 @@ https://github.com/traceypooh/slides
 
 ---
 # The Internet Archive
-## moving to Kubernetes
+## Moving to Kubernetes
+
+---
+<!-- .slide: data-background="ia-truck-cartoon.jpg" -->
+<img src="sign.png" style="position:fixed; right:0; top:0"/>
+
+<small style="position:fixed; bottom:0; color:white !important">credit: www.flickr.com/photos/cassidy/6898197626</small>
 
 ---
 # Coming soon!
 <img height="500" data-src="NWL_Press_DontIronWhileStrikeisHot_122116.jpg"/>
 
 ---
+# Where we Are
+- rapidly moving webapps to k8
+  - archive.org website ready
+  - bookscanning and mgmt webapps
+  - dweb.me
+- AWS-like k8 `✔`
+- EC2-like k8 `✔`
+
+---
+# .. But!
+- still more comfortable w/ block-device storage than torrented pieces for entire data Archives
+  - eg: S3 => K8 or o/w -- seems anxiety++
+
+---
 # compare www-xxx -v- review apps
+- contractors can work/test full site
+  - w/o ssh keys/access
+  - 12h timezone shift OK
+    - no staff/approval need
+    - `game changer!`
+- git branches => 'review apps' consistent/update over time
+- `kre8/branch-sync-edit.sh`
+  - 'copy file change to pod on save' fast script
+  - webapp instant f/b w/o full push and CI/CD
 
 ---
-- we are more comfortable still with block-device storage than torrented pieces for entire archives
-  - eg: S3/EC2 => K8 or o/w -- seems anxiety++
-
----
-# LB vs ingress for alt ports
-- `kubectl expose -ndweb deployment/production --type=LoadBalancer --name=porter`
-- `kubectl patch  -ndweb svc/porter -p='{"spec":{"externalIPs":["'${K8_INGRESS_IP?}"]}}'`
-
----
-# monorepo speed++
+# Monorepo speed++
 - `test` phase first = faster (when possible)
 - takeover git mgmt
 - build/test code in same tree
@@ -46,7 +66,7 @@ https://github.com/traceypooh/slides
   - RUN reinvoke build script (now at master) where moves tree pointer back to $COMMIT
 
 ---
-# monorepo .git
+# Monorepo .git
 - `git shallow clone`
 - `git checkout --detach ..  &&  git fetch ..  &&  git checkout ..`
 - git 'advertised' commits
@@ -60,13 +80,18 @@ https://github.com/traceypooh/slides
   - coworker can try out - low committment
 
 ---
-# top tips
-- POSTGRES_ENABLED=false / PV
-  - can use simple `localstorage` for 1 (tainted) or 2-node k8 clusters
-- remove old replicasets, trim registry periodically
-- GitLab API for last master `test` status
+# Top Tips
+- POSTGRES_ENABLED=false CI/CD var
+  - avoids extra (unused!) PV per branch/deploy
+- can use simple `localstorage` for 1 (tainted) or 2-node k8 clusters
+- periodically: remove old replicasets, trim registry
+- GitLab API for last master `test` phase status
+  - 'OK to push live?'
 
-
+---
+# LB vs ingress for alt ports
+- `kubectl expose -ndweb deployment/production --type=LoadBalancer --name=porter`
+- `kubectl patch  -ndweb svc/porter -p='{"spec":{"externalIPs":["'${K8_INGRESS_IP?}"]}}'`
 
 ---
 <!-- .slide: data-background="https://media.giphy.com/media/Gdjgn0hy8zBRK/giphy.gif" -->
