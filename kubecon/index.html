@@ -94,6 +94,27 @@ https://github.com/traceypooh/slides
 
 ---
 # www-xxx (bespoke) -v- review apps (k8)
+webapps quick development at archive.org
+
+---
+# www-tracey.archive.org
+- ssh 'bastion' with homedirs
+- NFS /home/ automounts throughout cluster
+- edit:
+  - emacs/vi on (linux) bastion
+  - laptop editors with sftp / rsync-over-ssh on `[save]`
+- nginx virtual hosts
+  - https://archive.org => `/petabox/www/..` (production)
+  - https://www-NAME.archive.org => `/home/NAME/petabox/www/..` (dev)
+
+---
+# www-NAME.archive.org issues
+- single 'dest' (multiple branches tricky)
+- ssh keys and acccess
+- NFS /home/ dirs
+
+---
+K8 + Auto DevOps 'review apps'
 - contractors can work/test full site
   - w/o ssh keys/access
   - 12h timezone shift OK
