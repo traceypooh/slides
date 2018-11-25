@@ -6,8 +6,8 @@
 ## Seattle, WA
 
 <small>
-  @tracey_pooh
-  <br/>
+  @tracey_pooh<br/>
+  @dvanduzer<br/>
 
   2018 December
 </small>
@@ -23,7 +23,7 @@ https://github.com/traceypooh/slides
 
 ---
 <!-- .slide: data-background="ia-truck-cartoon.jpg" -->
-<img src="sign.png" style="position:fixed; right:0; top:0"/>
+<img src="sign.png" style="position:fixed; right:0; top:0; background: 0"/>
 
 <small style="position:fixed; bottom:0; color:white !important">credit: www.flickr.com/photos/cassidy/6898197626</small>
 
@@ -93,20 +93,20 @@ https://github.com/traceypooh/slides
   - eg: S3 => K8 or o/w -- seems anxiety++
 
 ---
-# compare www-xxx -v- review apps
+# www-xxx (bespoke) -v- review apps (k8)
 - contractors can work/test full site
   - w/o ssh keys/access
   - 12h timezone shift OK
-    - no staff/approval need
-    - `game changer!`
+    - no staff/approval need - `game changer!`
 - git branches => 'review apps' consistent/update over time
 - `kre8/branch-sync-edit.sh`
   - 'copy file change to pod on save' fast script
   - webapp instant f/b w/o full push and CI/CD
 
 ---
-# Monorepo speed++
-- `test` phase first = faster (when possible)
+# MonoRepo speed++
+- 4.8G tree => [6..9] GB docker images
+- `test` phase _first_ = faster (when possible)
 - takeover git mgmt
 - build/test code in same tree
   - RUN move up to master head first
@@ -121,14 +121,18 @@ https://github.com/traceypooh/slides
 - `build` pull from prior build saved in registry
 
 ---
-# kubeadm 'on prem' K8 cluster from scratch
+# 'on prem' K8 cluster from scratch
 - https://gitlab.com/internetarchive/kre8
+  <img style="width:10%; vertical-align:middle" data-src="i/pirate-coin-rotated-small.png"/>
   - shows/uses GitLab 'Auto DevOps' CI/CD end-to-end
+  - need 1+ VM w/ ssh access and sudo
+    - (ubuntu based so far)
+  - uses `kubeadm`
   - coworker can try out - low committment
 
 ---
 # Top Tips
-- POSTGRES_ENABLED=false CI/CD var
+- `POSTGRES_ENABLED=false` CI/CD var
   - avoids extra (unused!) PV per branch/deploy
 - can use simple `localstorage` for 1 (tainted) or 2-node k8 clusters
 - periodically: remove old replicasets, trim registry
