@@ -108,17 +108,35 @@ https://github.com/traceypooh/slides
 - 4.8G tree => [6..9] GB docker images
 - `test` phase _first_ = faster (when possible)
 - takeover git mgmt
+  - naive `git clone` every CI/CD phase = nonstarter
 - build/test code in same tree
-  - RUN move up to master head first
-  - RUN reinvoke build script (now at master) where moves tree pointer back to $COMMIT
+  - `RUN ..` move git tree up to head of master first
+  - `RUN ..` reinvoke build script (now at master);
+    - move git tree pointer back to `$COMMIT`
 
 ---
 # Monorepo .git
+- `$FETCH` either:
+  - `master:master`
+  - `master:master my-awesome-branch:ca6745`
+- `$CHECKOUT` either:
+  - `master` or `my-awesome-branch` (head) or `ca6745`
 - `git shallow clone`
-- `git checkout --detach ..  &&  git fetch ..  &&  git checkout ..`
-- git 'advertised' commits
-  ```omnibus_gitconfig['system'] = {"uploadpack" => ["allowReachableSHA1InWant = true"]}```
-- `build` pull from prior build saved in registry
+  - (docker image basis; recut weekly or so; baseline image used in each phase)
+
+---
+# Monorepo .git
+- `git checkout --detach`
+  - avoid tangle with git tree state
+- `git fetch -depth 1 -f -origin $FETCH`
+  - git 'advertised' commits
+  - ```omnibus_gitconfig['system'] = {"uploadpack" => ["allowReachableSHA1InWant = true"]}```
+- `git checkout -f $CHECKOUT`
+  - reset HEAD pointer to state in _origin's_ branch/commit
+  - (makes our concept of branch/commit now be same as origin's)
+
+- `build` pull from prior branch's build saved in registry
+
 
 ---
 # 'on prem' K8 cluster from scratch
