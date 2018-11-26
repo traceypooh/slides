@@ -81,8 +81,8 @@ https://github.com/traceypooh/slides
   - archive.org website ready
   - bookscanning and mgmt webapps
   - dweb.me
-- AWS-like k8 `✔`
-- EC2-like k8 `✔`
+- AWS-like (webapps) k8 `✔`
+- EC2-like (processing) k8 `✔`
 - GitLab managed registry `✔`
 
 ---
@@ -96,20 +96,36 @@ https://github.com/traceypooh/slides
   <img data-src="bad-blood.jpg"/>
 </a>
 
+
+---
+## Timeline / Evolution
+| Month | Progress
+|:--- | ---
+| 2014/11 | `docker` for audio fingerprints - controversial
+| 2015/10 | `MozFest` OpenNews `docker` talk TJ mind blown
+| 2016/8  | switched `.mp3/.mp4` generation to `docker`
+| 2017/6  | <a href="https://archive.org/~tracey/docker-talker">IA Engr Presentation</a>
+| 2018/6  | <a href="https://archive.org/~tracey/kubernetes-special-topic">IA Engr. Special Topic talk</a>
+| 2018/7  | <a href="https://archive.org/~tracey/auto-devops">_GitLab 'Auto DevOps'_ Changes Everything - Dev & Ops Harmony - Confessions of a middle child</a>
+| 2018/8  | main archive.org repo CI/`test` moves manual CI setup to GitLab Auto DevOps (GLADO) K8
+
+---
+## Timeline / Evolution
+| Month | Progress
+|:--- | ---
+| 2018/9  | archive.org website 'review apps' => GLADO K8
+| 2018/10 | bookscan webapps => GLADO K8
+| 2018/12 | dweb.me (archive.org decentralized)=>GLADO K8
+
+
 ---
 <!-- .slide: data-background="i/container-ship-sink.jpg" -->
 
-
 ---
-# Timeline / Evolution
-| Date | Progress
-|:--- | ---
-| 2014/11 | `docker` for audio fingerprints - controversial
-| 2016/8  | `docker` begins making `.mp3/.mp4` from original upload files
-| 2017/6  | <a href="https://archive.org/~tracey/docker-talker">IA Engr Presentation</a>
-| 2018/6  | <a href="https://archive.org/~tracey/kubernetes-special-topic">IA Engr. Special Topic talk</a>
-| 2018/7  | <a href="https://archive.org/~tracey/auto-devops">GitLab 'Auto DevOps' Changes Everything - Dev & Ops Harmony - Confessions of a middle child</a>
-|
+# logjam breakthroughs:
+- david (ops-heavy history) and tracey (dev-heavy history) teamup
+- _already using_ 'on pre' `GitLab` for repos w/ ssh-key user accounts .org-wide
+- GitLab advertises `with Kubernetes` July/2018
 
 ---
 # www-xxx (bespoke) -v- review apps (k8)
@@ -203,6 +219,15 @@ git pro
 - periodically: remove old replicasets, trim registry
 - GitLab API for last master `test` phase status
   - 'OK to push live?'
+
+---
+## Multilingual and Agnostic
+- xxx refine this
+- docker allows for many langs/platforms/OS easily
+- docker and more stateless apps coax you into doing things the right way
+<a href="https://www.youtube.com/watch?time_continue=2&v=vTwJzTsb2QQ">
+  <img data-src="i/herding-cats.jpg"/>
+</a>
 
 ---
 # LB vs ingress for alt ports
