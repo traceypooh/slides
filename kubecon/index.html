@@ -83,11 +83,33 @@ https://github.com/traceypooh/slides
   - dweb.me
 - AWS-like k8 `✔`
 - EC2-like k8 `✔`
+- GitLab managed registry `✔`
 
 ---
 # .. But!
 - still more comfortable w/ block-device storage than torrented pieces for entire data Archives
   - eg: S3 => K8 or o/w -- seems anxiety++
+
+---
+# Avoid Bad Blood
+<a href="https://www.youtube.com/watch?v=QcIy9NiNbmo">
+  <img data-src="bad-blood.jpg"/>
+</a>
+
+---
+<!-- .slide: data-background="i/container-ship-sink.jpg" -->
+
+
+---
+# Timeline / Evolution
+| Date | Progress
+|:--- | ---
+| 2014/11 | `docker` for audio fingerprints - controversial
+| 2016/8  | `docker` begins making `.mp3/.mp4` from original upload files
+| 2017/6  | <a href="https://archive.org/~tracey/docker-talker">IA Engr Presentation</a>
+| 2018/6  | <a href="https://archive.org/~tracey/kubernetes-special-topic">IA Engr. Special Topic talk</a>
+| 2018/7  | <a href="https://archive.org/~tracey/auto-devops">GitLab 'Auto DevOps' Changes Everything - Dev & Ops Harmony - Confessions of a middle child</a>
+|
 
 ---
 # www-xxx (bespoke) -v- review apps (k8)
@@ -122,6 +144,9 @@ webapps quick development at archive.org
   - webapp instant f/b w/o full push and CI/CD
 
 ---
+# xxx 2001
+
+---
 # MonoRepo speed++
 - 4.8G tree => [6..9] GB docker images
 - `test` phase _first_ = faster (when possible)
@@ -152,8 +177,12 @@ webapps quick development at archive.org
 - `git checkout -f $CHECKOUT`
   - reset HEAD pointer to state in _origin's_ branch/commit
   - (makes our concept of branch/commit now be same as origin's)
-
 - `build` pull from prior branch's build saved in registry
+
+---
+## because we have _this_ guy and you don't
+<img data-src="git-pro.jpg"><br/>
+git pro
 
 
 ---
