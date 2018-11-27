@@ -38,19 +38,19 @@ https://github.com/traceypooh/slides
 - 200K software items & emulation
 ---
 <a href="https://web.archive.org/web/19961219202222/http://www.apple.com:80/">
-  <img style="height:700px" src="i/wayback-apple.png"/>
+  <img style="max-height:700px" src="i/wayback-apple.png"/>
 </a>
 ---
 <a href="https://archive.org/details/goodytwoshoes00newyiala">
-  <img style="height:700px" src="i/bookreader.jpg"/>
+  <img style="max-height:700px" src="i/bookreader.jpg"/>
 </a>
 ---
 <a href="https://archive.org/details/msdos_Pac-Man_1983">
-  <img style="height:700px" src="i/software.png"/>
+  <img style="max-height:700px" src="i/software.png"/>
 </a>
 ---
 <a href="https://archive.org/details/Sita_Sings_the_Blues">
-  <img style="height:700px" src="i/av.jpg"/>
+  <img style="max-height:700px" src="i/av.jpg"/>
 </a>
 
 ---
@@ -121,13 +121,13 @@ https://github.com/traceypooh/slides
 
 ---
 # LogJam BreakThroughs
-- david (ops-heavy history) and tracey (dev-heavy history) teamup (end of 2017)
-- _already using_ 'on premise' `GitLab` for repos w/ ssh-key user accounts .org-wide
+- david (ops-heavy history) + tracey (dev-heavy history) teamup (end of 2017)
 - GitLab advertises `with Kubernetes` July/2018
+- _already using_ 'on premise' `GitLab` for repos w/ ssh-key user accounts .org-wide
 
 ---
 ## Work Towards Common Goals
-Devs and Ops
+Devs & Ops
 <a href="https://en.wikipedia.org/wiki/The_Uncanny_X-Men_and_The_New_Teen_Titans">
   <img data-src="harmony.jpg"/>
 </a>
@@ -166,12 +166,12 @@ webapps quick development at archive.org
 
 ---
 <!-- .slide: data-background="black" -->
-<iframe src="https://archive.org/embed/kubecon-monolith?autoplay=1" width="960" height="540" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
+<iframe src="https://archive.org/embed/kubecon-monolith" width="960" height="540" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
 <!-- video src="Monolith.mp4" autoplay controls mozallowfullscreen webkitallowfullscreen allowfullscreen -->
 
 ---
 # MonoRepo speed++
-- 4.8G tree => [6..9] GB docker images
+- 4.8G tree => 6GB .. 9GB docker images
 - `test` phase _first_ = faster (when possible)
 - takeover git mgmt
   - naive `git clone` every CI/CD phase = nonstarter
@@ -199,13 +199,13 @@ webapps quick development at archive.org
   - ```omnibus_gitconfig['system'] = {"uploadpack" => ["allowReachableSHA1InWant = true"]}```
 - `git checkout -f $CHECKOUT`
   - reset HEAD pointer to state in _origin's_ branch/commit
-  - (makes our concept of branch/commit now be same as origin's)
+  - (makes concept of branch/commit now same as origin's)
 - `build` pull from prior branch's build saved in registry
 
 ---
 ## because we have _this_ guy and you don't
 <img data-src="git-pro.jpg"><br/>
-git pro
+^ git pro
 
 
 ---
