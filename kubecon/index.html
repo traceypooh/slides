@@ -165,6 +165,36 @@ webapps quick development at archive.org
   - webapp instant f/b w/o full push and CI/CD
 
 ---
+# Crawling Case Study
+
+---
+## Anatomy of Archival Crawling
+1. Start with a list of websites
+2. Fetch all those URLs
+3. Extract Hyperlinks from all the fetched content
+  - Now you have a list of websites again
+  - Which you can Fetch and Extract and...
+4. Serialize captures into WARC (Web Archive) format
+5. Persist to permanent item storage
+
+---
+## Heritrix
+- open source Java crawler developed at IA
+- very good at pipelining these stages
+- but, single machine operation
+
+## CrawlHQ
+- distributed frontier management
+- multiple Heritrix instances share single URL deduplication queue
+
+---
+## Rewriting CrawlHQ as Demo of K8S auto-scaling
+- Kafka partitions for work queue
+- FoundationDB for hashes of seen URLs
+- 38,000 lines of code is now 73 lines of Python
+- throughput scales automatically with GitLab `REPLICAS` variable
+  
+---
 <!-- .slide: data-background="black" -->
 <iframe src="https://archive.org/embed/kubecon-monolith?autoplay=1" width="960" height="540" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
 <!-- video src="Monolith.mp4" autoplay controls mozallowfullscreen webkitallowfullscreen allowfullscreen -->
