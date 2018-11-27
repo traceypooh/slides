@@ -64,9 +64,9 @@ https://github.com/traceypooh/slides
 <title>commute</title>
 <format>h.264</format>
 <original>commute.avi</original>
+<md5>ff17ed66e7db5693dd208dd6ac488ff8</md5>
 <mtime>1325973601</mtime>
 <size>11919082</size>
-<md5>ff17ed66e7db5693dd208dd6ac488ff8</md5>
 <crc32>ad1df03a</crc32>
 <sha1>e9f9de8379cd25653d487ab30d198fc61a050091</sha1>
 <length>115.61</length>
@@ -74,6 +74,29 @@ https://github.com/traceypooh/slides
 <width>640</width>
 </file>
 ```
+
+---
+<!-- .slide: data-background="i/container-ship-sink.jpg" -->
+
+---
+## Timeline / Evolution
+| Month | Progress
+|:--- | ---
+| 2014/11 | `docker` for audio fingerprints - controversial
+| 2015/10 | `MozFest` OpenNews `docker` talk mind blown
+| 2016/8  | switched `.mp3/.mp4` generation to `docker`
+| 2017/6  | <a href="https://archive.org/~tracey/docker-talker">IA Engr. Presentation</a>
+| 2018/6  | <a href="https://archive.org/~tracey/kubernetes-special-topic">IA Engr. Special Topic talk</a>
+| 2018/7  | <a href="https://archive.org/~tracey/auto-devops">_GitLab 'Auto DevOps'_ Changes Everything - Dev & Ops Harmony - Confessions of a middle child</a>
+
+---
+## Timeline / Evolution
+| Month | Moves into GitLab Auto DevOps Kubernetes
+|:--- | ---
+| 2018/8  | archive.org main repo CI/`test` migrated
+| 2018/9  | archive.org full pipelines, website 'review apps'
+| 2018/10 | bookscan webapps
+| 2018/12 | dweb.me (archive.org decentralized)
 
 ---
 # Where we Are
@@ -96,45 +119,21 @@ https://github.com/traceypooh/slides
   <img data-src="bad-blood.jpg"/>
 </a>
 
-
 ---
-## Timeline / Evolution
-| Month | Progress
-|:--- | ---
-| 2014/11 | `docker` for audio fingerprints - controversial
-| 2015/10 | `MozFest` OpenNews `docker` talk mind blown
-| 2016/8  | switched `.mp3/.mp4` generation to `docker`
-| 2017/6  | <a href="https://archive.org/~tracey/docker-talker">IA Engr Presentation</a>
-| 2018/6  | <a href="https://archive.org/~tracey/kubernetes-special-topic">IA Engr. Special Topic talk</a>
-| 2018/7  | <a href="https://archive.org/~tracey/auto-devops">_GitLab 'Auto DevOps'_ Changes Everything - Dev & Ops Harmony - Confessions of a middle child</a>
-
----
-## Timeline / Evolution
-| Month | Moves into GitLab Auto DevOps K8
-|:--- | ---
-| 2018/8  | archive.org main repo CI/`test` migrates manual CI
-| 2018/9  | archive.org website 'review apps'
-| 2018/10 | bookscan webapps
-| 2018/12 | dweb.me (archive.org decentralized)
-
-
----
-<!-- .slide: data-background="i/container-ship-sink.jpg" -->
-
----
-# LogJam Breakthroughs:
-- david (ops-heavy history) and tracey (dev-heavy history) teamup
-- _already using_ 'on pre' `GitLab` for repos w/ ssh-key user accounts .org-wide
+# LogJam BreakThroughs
+- david (ops-heavy history) and tracey (dev-heavy history) teamup (end of 2017)
+- _already using_ 'on premise' `GitLab` for repos w/ ssh-key user accounts .org-wide
 - GitLab advertises `with Kubernetes` July/2018
 
 ---
-# Work Towards Common Goals
+## Work Towards Common Goals
+Devs and Ops
 <a href="https://en.wikipedia.org/wiki/The_Uncanny_X-Men_and_The_New_Teen_Titans">
   <img data-src="harmony.jpg"/>
 </a>
 
 ---
-# www-xxx (bespoke) -v- review apps (k8)
+# www-NAME (bespoke) -v- review apps (GitLab + k8)
 webapps quick development at archive.org
 
 ---
@@ -166,7 +165,8 @@ webapps quick development at archive.org
   - webapp instant f/b w/o full push and CI/CD
 
 ---
-# xxx 2001
+<!-- .slide: data-background="black" -->
+<video src="Monolith.mp4" autoplay controls mozallowfullscreen webkitallowfullscreen allowfullscreen></video>
 
 ---
 # MonoRepo speed++
@@ -227,18 +227,18 @@ git pro
   - 'OK to push live?'
 
 ---
+## LoadBalancer vs Ingress for Alt Ports
+- `kubectl expose -ndweb deployment/production --type=LoadBalancer --name=porter`
+- `kubectl patch  -ndweb svc/porter -p='{"spec":{"externalIPs":["'${K8_INGRESS_IP?}"]}}'`
+
+---
 ## Multilingual and Agnostic
-- xxx refine this
-- docker allows for many langs/platforms/OS easily
-- docker and more stateless apps coax you into doing things the right way
+- docker allows many langs/platforms/OS easily
+- docker / stateless apps coax into doing things _the right way_
+- forces rebuildable recipes / less 'named pets'
 <a href="https://www.youtube.com/watch?time_continue=2&v=vTwJzTsb2QQ">
   <img data-src="i/herding-cats.jpg"/>
 </a>
-
----
-# LB vs ingress for alt ports
-- `kubectl expose -ndweb deployment/production --type=LoadBalancer --name=porter`
-- `kubectl patch  -ndweb svc/porter -p='{"spec":{"externalIPs":["'${K8_INGRESS_IP?}"]}}'`
 
 ---
 <!-- .slide: data-background="https://media.giphy.com/media/Gdjgn0hy8zBRK/giphy.gif" -->
