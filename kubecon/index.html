@@ -61,17 +61,17 @@ https://github.com/traceypooh/slides
   - keep original versions with 2+ checksums and logs
 ```xml
 <file name="commute.mp4" source="derivative">
-<title>commute</title>
-<format>h.264</format>
-<original>commute.avi</original>
-<md5>ff17ed66e7db5693dd208dd6ac488ff8</md5>
-<mtime>1325973601</mtime>
-<size>11919082</size>
-<crc32>ad1df03a</crc32>
-<sha1>e9f9de8379cd25653d487ab30d198fc61a050091</sha1>
-<length>115.61</length>
-<height>480</height>
-<width>640</width>
+  <title>commute</title>
+  <format>h.264</format>
+  <original>commute.avi</original>
+  <md5>ff17ed66e7db5693dd208dd6ac488ff8</md5>
+  <mtime>1325973601</mtime>
+  <size>11919082</size>
+  <crc32>ad1df03a</crc32>
+  <sha1>e9f9de8379cd25653d487ab30d198fc61a050091</sha1>
+  <length>115.61</length>
+  <height>480</height>
+  <width>640</width>
 </file>
 ```
 
@@ -84,29 +84,29 @@ https://github.com/traceypooh/slides
 |:--- | ---
 | 2014/11 | `docker` for audio fingerprints - controversial
 | 2015/10 | `MozFest` OpenNews `docker` talk mind blown
-| 2016/8  | switched `.mp3/.mp4` generation to `docker`
+| 2016/8  | switched `mp3/mp4` generation to `docker`
 | 2017/6  | <a href="https://archive.org/~tracey/docker-talker">IA Engr. Presentation</a>
 | 2018/6  | <a href="https://archive.org/~tracey/kubernetes-special-topic">IA Engr. Special Topic talk</a>
 | 2018/7  | <a href="https://archive.org/~tracey/auto-devops">_GitLab 'Auto DevOps'_ Changes Everything - Dev & Ops Harmony - Confessions of a middle child</a>
+
+---
+# LogJam BreakThroughs
+- TeamUp! (end of 2017)
+  - David (ops-heavy history)
+  - Tracey (dev-heavy history)
+- GitLab advertises `with Kubernetes` July/2018
+  - _already using_ 'on premise' `GitLab` for repos
+  - w/ ssh-key user accounts .org-wide
 
 ---
 ## Timeline / Evolution
 | Month | Moves into GitLab Auto DevOps Kubernetes
 |:--- | ---
 | 2018/8  | archive.org main repo CI/`test` migrated
-| 2018/9  | archive.org full pipelines, website 'review apps'
+| 2018/9  | archive.org full pipelines, <a href="https://ia-petabox.archive.org/">website 'review apps'</a>
 | 2018/10 | bookscan webapps
-| 2018/12 | dweb.me (archive.org decentralized)
-
----
-# Where we Are
-- rapidly moving webapps to k8
-  - archive.org website ready
-  - bookscanning and mgmt webapps
-  - dweb.me
-- AWS-like (webapps) k8 `✔`
-- EC2-like (processing) k8 `✔`
-- GitLab managed registry `✔`
+| 2018/10 | moved to GitLab's docker registry
+| 2018/12 | <a href="https://dweb.archive.org/">dweb.archive.org</a> (archive.org decentralized)
 
 ---
 # .. But!
@@ -120,12 +120,6 @@ https://github.com/traceypooh/slides
 </a>
 
 ---
-# LogJam BreakThroughs
-- david (ops-heavy history) + tracey (dev-heavy history) teamup (end of 2017)
-- GitLab advertises `with Kubernetes` July/2018
-- _already using_ 'on premise' `GitLab` for repos w/ ssh-key user accounts .org-wide
-
----
 ## Work Towards Common Goals
 Devs & Ops
 <a href="https://en.wikipedia.org/wiki/The_Uncanny_X-Men_and_The_New_Teen_Titans">
@@ -135,6 +129,10 @@ Devs & Ops
 ---
 # www-NAME (bespoke) -v- review apps (GitLab + k8)
 webapps quick development at archive.org
+
+---
+## Auto DevOps Pipelines
+<img src="../auto-devops/pipeline.png"/>
 
 ---
 # www-tracey.archive.org
@@ -193,7 +191,7 @@ webapps quick development at archive.org
 - FoundationDB for hashes of seen URLs
 - 38,000 lines of code is now 73 lines of Python
 - throughput scales automatically with GitLab `REPLICAS` variable
-  
+
 ---
 <!-- .slide: data-background="black" -->
 <iframe src="https://archive.org/embed/kubecon-monolith" width="960" height="540" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
@@ -247,6 +245,7 @@ webapps quick development at archive.org
     - (ubuntu based so far)
   - uses `kubeadm`
   - coworker can try out - low committment
+  - `kallr`
 
 ---
 # Top Tips
@@ -261,6 +260,10 @@ webapps quick development at archive.org
 ## LoadBalancer vs Ingress for Alt Ports
 - `kubectl expose -ndweb deployment/production --type=LoadBalancer --name=porter`
 - `kubectl patch  -ndweb svc/porter -p='{"spec":{"externalIPs":["'${K8_INGRESS_IP?}"]}}'`
+- allows for non :80 :443 :5000 ports
+  - websockets!
+    - wss://dweb.me:4246
+    - ws:// possible too
 
 ---
 ## Multilingual and Agnostic
