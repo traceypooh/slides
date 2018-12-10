@@ -108,6 +108,11 @@ https://github.com/traceypooh/slides
 ```
 
 ---
+# .. But!
+- still more comfortable w/ block-device storage than torrented pieces for entire data Archives
+  - eg: S3 => K8 or o/w -- seems anxiety++
+
+---
 # Circulation
 - 300B+ web pages _WayBack Machine_
 - 15M books
@@ -117,7 +122,7 @@ https://github.com/traceypooh/slides
 - 200K software items & emulation
 
 ---
-## Somewhere in Circulation section
+## xxx Somewhere in Circulation section
 # Library!
 - Absolute browser Privacy
   - no personal data or IP addresses extracted
@@ -153,11 +158,6 @@ https://github.com/traceypooh/slides
 | 2018/12 | <a href="https://dweb.archive.org/">dweb.archive.org</a> (archive.org decentralized)
 
 ---
-# .. But!
-- still more comfortable w/ block-device storage than torrented pieces for entire data Archives
-  - eg: S3 => K8 or o/w -- seems anxiety++
-
----
 # Avoid Bad Blood
 <a href="https://www.youtube.com/watch?v=QcIy9NiNbmo">
   <img data-src="bad-blood.jpg"/>
@@ -173,10 +173,6 @@ Devs & Ops
 ---
 # www-NAME (bespoke) -v- review apps (GitLab + k8)
 webapps quick development at archive.org
-
----
-## Auto DevOps Pipelines
-<img src="../auto-devops/pipeline.png"/>
 
 ---
 # www-tracey.archive.org
@@ -205,6 +201,10 @@ webapps quick development at archive.org
 - `kre8/branch-sync-edit.sh`
   - 'copy file change to pod on save' fast script
   - webapp instant f/b w/o full push and CI/CD
+
+---
+## Auto DevOps Pipelines
+<img src="../auto-devops/pipeline.png"/>
 
 ---
 # Crawling Case Study
@@ -277,14 +277,15 @@ webapps quick development at archive.org
 
 ---
 # \* ** Monolith repo GIT ** \*
-- `git checkout --detach`
-  - <font color="gray">avoid tangle with git tree state</font>
-- `git fetch --depth 1 -f -origin branchX:ca6745`
-- `git checkout -f ca6745`
+fast forward a git clone depth 1
+- `git checkout --detach` <font color="gray">\*</font>
+- `git fetch --depth 1 -f -origin [brnch|ca6745]`
+- `git checkout -f [brnch|ca6745]`
+  <font color="gray">\* avoid tangle with git tree state</font>
 
-- Workaround (self-hosted GitLab):
-  - git 'advertised' commits
+- Workaround 'advertised' commits issue (self-hosted GitLab)
   - ```omnibus_gitconfig['system'] = {"uploadpack" => ["allowReachableSHA1InWant = true"]}```
+  - then able to fetch any commit
 
 ---
 ## because we have _this_ guy (and you don't)
