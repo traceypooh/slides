@@ -7,15 +7,15 @@
 ### KubeCon 2018 - Seattle, WA
 
 <small>
-  @tracey_pooh<br/>
-  @dvanduzer<br/>
+  @tracey_pooh<br>
+  @dvanduzer<br>
 
   2018 December 13
 </small>
 
 <small>
   _?_ for keyboard shortcuts
-</small><br/>
+</small><br>
 https://github.com/traceypooh/slides
 
 ---
@@ -29,10 +29,11 @@ https://github.com/traceypooh/slides
 <img height="500" data-src="NWL_Press_DontIronWhileStrikeisHot_122116.jpg"/>
 
 ---
-## What's in it for us?
-- language / platform / OS flexibility of Docker 
+### What's in it for Us?
+- language / platform / OS flexibility of Docker
 - model to enforce rebuildable recipes
 - more coding; less system building and admin
+- avoid cpu excess/starvation from static resource allocation
 - fewer "pet" servers
 <a href="https://www.youtube.com/watch?time_continue=2&v=vTwJzTsb2QQ">
   <img data-src="i/herding-cats.jpg"/>
@@ -246,47 +247,59 @@ webapps quick development at archive.org
 - `test` phase _first_ = faster (when possible)
 - takeover git mgmt
   - naive `git clone` every CI/CD phase = nonstarter
-- build/test code in same tree
-  - `RUN ..` move git tree up to head of master first
-  - `RUN ..` reinvoke build script (now at master);
-    - move git tree pointer back to `$COMMIT`
 
 ---
-# Monorepo .git
-- `$FETCH` either:
-  - `master:master`
-  - `master:master my-awesome-branch:ca6745`
-- `$CHECKOUT` either:
-  - `master` or `my-awesome-branch` (head) or `ca6745`
-- `git shallow clone`
-  - (docker image basis; recut weekly or so; baseline image used in each phase)
+## petabox Repo Docker Images
+|  |
+| :-------: |
+| `[petabase]` |
+| Baseline docker image <br> Ubuntu LTS<br> pkgs <br> js/npm/yarn <br> php/pecl/pear <br> python/pip2/3 <br> petabox _SHALLOW_ clone <br> CI `test` git fast fwd |
 
 ---
-# Monorepo .git
+|  |  |  |  |
+| :-------: | :-------: | :-------: | :-------: |
+| | `[petabase]` | | |
+| ⬇ | ⬇ | ⬇ | ⬇ |
+| `[workbase]` | `[webnode]` | `[dev]` | `[homenode]` |
+| 3rd party deriver pkgs + config<br>ffmpeg ..| git fast fwd<br>archive.org<br>website<br>nginx+<br>supervisor | git fast fwd <br>empty DB/SE<br>daemons/supervisor<br>archive.org website<br>item store/process | git fast fwd<br>misc nodes |
+| ⬇ | | | |
+| `[worker]`  | | | |
+| git fast fwd <br> mp3/mp4/etc | | | |
+
+
+---
+# Monolith repo speed++
+- `[petabase]` baseline image recut every 1-4 weeks
+  - git _shallow_ clone (2/3 size)
+  - all usages 'fast forward' to branch &amp; commit
+- `build` phase uses prior build
+  - via registry docker pull for branch
+
+---
+# \* ** Monolith repo GIT ** \*
 - `git checkout --detach`
-  - avoid tangle with git tree state
-- `git fetch -depth 1 -f -origin $FETCH`
+  - <font color="gray">avoid tangle with git tree state</font>
+- `git fetch --depth 1 -f -origin branchX:ca6745`
+- `git checkout -f ca6745`
+
+- Workaround (self-hosted GitLab):
   - git 'advertised' commits
   - ```omnibus_gitconfig['system'] = {"uploadpack" => ["allowReachableSHA1InWant = true"]}```
-- `git checkout -f $CHECKOUT`
-  - reset HEAD pointer to state in _origin's_ branch/commit
-  - (makes concept of branch/commit now same as origin's)
-- `build` pull from prior branch's build saved in registry
 
 ---
-## because we have _this_ guy and you don't
-<img data-src="git-pro.jpg"><br/>
+## because we have _this_ guy (and you don't)
+<img data-src="git-pro.jpg"><br>
 ^ git pro
 
 
 ---
-# 'on prem' K8 cluster from scratch
+## 'on prem' K8 cluster from scratch
 - https://gitlab.com/internetarchive/kre8
   <img style="width:10%; vertical-align:middle" data-src="i/pirate-coin-rotated-small.png"/>
   - shows/uses GitLab 'Auto DevOps' CI/CD end-to-end
+  - uses `kubeadm`
   - need 1+ VM w/ ssh access and sudo
     - (ubuntu based so far)
-  - uses `kubeadm`
   - coworker can try out - low committment
   - `kallr`
 
@@ -294,7 +307,7 @@ webapps quick development at archive.org
 # Top Tips
 - `POSTGRES_ENABLED=false` CI/CD var
   - avoids extra (unused!) PV per branch/deploy
-- can use simple `localstorage` for 1 (tainted) or 2-node k8 clusters
+- can use simple `localstorage` for 1 or 2-node k8 clusters
 - periodically: remove old replicasets, trim registry
 - GitLab API for last master `test` phase status
   - 'OK to push live?'
@@ -304,9 +317,8 @@ webapps quick development at archive.org
 - `kubectl expose -ndweb deployment/production --type=LoadBalancer --name=porter`
 - `kubectl patch  -ndweb svc/porter -p='{"spec":{"externalIPs":["'${K8_INGRESS_IP?}"]}}'`
 - allows for non :80 :443 :5000 ports
-  - websockets!
+  - websockets eg:
     - wss://dweb.me:4246
-    - ws:// possible too
 
 ---
 # Wish List
