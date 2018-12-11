@@ -306,12 +306,14 @@ fast forward a git clone depth 1
 
 ---
 # Top Tips
+- can use simple `localstorage` for 1 or 2-node k8 clusters
 - `POSTGRES_ENABLED=false` CI/CD var
   - avoids extra (unused!) PV per branch/deploy
-- can use simple `localstorage` for 1 or 2-node k8 clusters
-- periodically: remove old replicasets, trim registry
 - GitLab API for last master `test` phase status
   - 'OK to push live?'
+- periodically:
+  - remove old replicasets
+  - trim registry
 
 ---
 ## LoadBalancer vs Ingress for Alt Ports
@@ -322,16 +324,14 @@ fast forward a git clone depth 1
     - wss://dweb.me:4246
 
 ---
-# Wish List
-- better/automated cleaning:
-  - older docker images/containers on K8 nodes
-  - older registry images in GitLab
-
----
 # Near Future
-- archive.org production website to K8
-  - turn on elastic demand-based scaling
-  - (static lists of VMs now)
+
+archive.org production website to K8
+
+| | |
+|:--- | ---
+| now | static list of VMs + haproxy
+| new | elastic demand-based scaling
 
 ---
 <!-- .slide: data-background="https://media.giphy.com/media/Gdjgn0hy8zBRK/giphy.gif" -->
