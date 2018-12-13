@@ -19,10 +19,6 @@
 https://archive.org/~tracey/slides
 
 ---
-# the Internet Archive
-## to Collect & to Serve
-
----
 <!-- .slide: data-background="ia-truck-cartoon.jpg" -->
 <img src="sign.png" style="position:absolute; right:0; top:-250px; min-width:300px; min-height:300px !important; background: 0"/>
 
@@ -79,10 +75,11 @@ https://archive.org/~tracey/slides
 </a>
 
 ---
-## Curate: First potential Kubernetes Uses
+## Low Friction Migrations to Kubernetes
 - book scanning apps
 - crawl frontier management
 - finite duration projects
+- 'green field' / standalone apps
 
 ---
 # Preserve
@@ -98,12 +95,16 @@ https://archive.org/~tracey/slides
 <!-- .slide: data-background="i/container-ship-sink.jpg" -->
 
 ---
-## Example of Metadata
-- Validation & nontampering
-  - keep original versions with 2+ checksums and logs
+## Simplicicty == Longevity
+- simple directories of files
+- original files with metadata
+- multiple checksums
+- changes logged forever
+- replication: 'just' rsync
+
 ```xml
 <file name="commute.mp4" source="derivative">
-  <title>commute</title>
+  <title>commute time-lapse</title>
   <format>h.264</format>
   <original>commute.avi</original>
   <md5>ff17ed66e7db5693dd208dd6ac488ff8</md5>
@@ -118,15 +119,15 @@ https://archive.org/~tracey/slides
 ```
 
 ---
-# .. But!
-- still more comfortable w/ block-device storage than torrented pieces for entire data Archives
-  - eg: S3 => K8 or o/w -- seems anxiety++
+- ~~striped RAID~~
+- ~~distributed filesystems~~
+- boring block devices
 
 ---
 # Circulate
 
 ---
-# Circulate
+# Serving
 - 300B+ web pages _WayBack Machine_
 - 15M books
 - 4M videos & TV News programs
@@ -134,13 +135,7 @@ https://archive.org/~tracey/slides
 - 3M images
 - 200K software items & emulation
 
----
-# Library!
-- browser privacy
-- no personal data extracted
-- anonymized IP addresses
-  - `+` systems slightly easier
-  - `-` less telemetry
+## ...to ~4m Daily Visitors
 
 ---
 ## Timeline / Evolution
@@ -154,15 +149,6 @@ https://archive.org/~tracey/slides
 | 2018/7  | <a href="https://archive.org/~tracey/auto-devops">_GitLab 'Auto DevOps'_ Changes Everything - Dev & Ops Harmony - Confessions of a middle child</a>
 
 ---
-# LogJam BreakThroughs
-- TeamUp! (end of 2017)
-  - David - ops-heavy history <img data-src="chocolate.png" style="vertical-align:middle"/>
-  - Tracey - dev-heavy history <img data-src="peanut-butter.jpg" style="vertical-align:middle"/>
-- GitLab advertises `with Kubernetes` July/2018
-  - _already using_ 'on premise' `GitLab` for repos
-  - w/ ssh-key user accounts .org-wide
-
----
 ## Timeline / Evolution
 | Month | Moves into GitLab Auto DevOps Kubernetes
 |:--- | ---
@@ -171,6 +157,26 @@ https://archive.org/~tracey/slides
 | 2018/10 | bookscan webapps
 | 2018/10 | moved to GitLab's docker registry
 | 2018/12 | <a href="https://dweb.archive.org/">dweb.archive.org</a> (archive.org decentralized)
+
+---
+# LogJam BreakThroughs
+- TeamUp! (end of 2017)
+  - David - ops-heavy history <img data-src="chocolate.png" style="vertical-align:middle"/>
+  - Tracey - dev-heavy history <img data-src="peanut-butter.jpg" style="vertical-align:middle"/>
+- GitLab advertises `with Kubernetes` July/2018
+  - _already using_ on premise `GitLab`
+  - w/ ssh-key user accounts .org-wide
+
+---
+## 'on prem' K8 cluster from scratch
+- https://gitlab.com/internetarchive/kre8
+  <img style="width:10%; vertical-align:middle" data-src="i/pirate-coin-rotated-small.png"/>
+  - `kubeadm` to create cluster
+  - sets up GitLab 'Auto DevOps' CI/CD full pipeline
+  - need 1+ VM w/ ssh access and sudo
+    - ubuntu based so far
+  - coworker can try - low committment
+  - `kallr`
 
 ---
 # Avoid Bad Blood
@@ -195,7 +201,7 @@ webapps quick development at archive.org
 - NFS /home/ automounts throughout cluster
 - edit:
   - emacs/vi on (linux) bastion
-  - laptop editors with sftp / rsync-over-ssh on `[save]`
+  - laptop editors sftp / rsync-over-ssh on `[save]`
 - nginx virtual hosts
   - https://archive.org => `/petabox/www/..` (production)
   - https://www-NAME.archive.org => `/home/NAME/petabox/www/..` (dev)
@@ -257,18 +263,17 @@ webapps quick development at archive.org
 <!-- video src="Monolith.mp4" autoplay controls mozallowfullscreen webkitallowfullscreen allowfullscreen -->
 
 ---
-# Monolith Repo speed++
+# Containing a Monolith
 - 4.8G tree => 6GB .. 9GB docker images
-- `test` phase _first_ = faster (when possible)
-- takeover git mgmt
-  - naive `git clone` every CI/CD phase = nonstarter
+- `test` before `build` = faster dev feedback
+- naive `git clone` every CI/CD phase = nonstarter
 
 ---
 ## petabox Repo Docker Images
 |  |
 | :-------: |
 | `[petabase]` |
-| Baseline docker image <br> Ubuntu LTS<br> pkgs <br> js/npm/yarn <br> php/pecl/pear <br> python/pip2/3 <br> petabox repo git _SHALLOW_ clone <br> CI `test` after git fast fwd |
+| Baseline docker image <br> Ubuntu LTS<br> pkgs <br> js npm/yarn <br> php pecl/pear <br> python pip2/3 <br> petabox repo git _SHALLOW_ clone <br> CI `test` after git fast fwd |
 
 ---
 |  |  |  |  |
@@ -291,6 +296,8 @@ webapps quick development at archive.org
   - via registry docker pull for branch
 
 ---
+## how to Fast Forward Quickly from
+## weeks old Git Shallow Tree?
 <a href="https://www.myiconart.com/t-shirts/100368-fast-forward-t-shirt-tape-cassette">
   <img data-src="ff.png">
 </a>
@@ -312,17 +319,6 @@ fast forward a git clone depth 1
 <img data-src="git-pro.jpg"><br>
 ^ git pro
 
-
----
-## 'on prem' K8 cluster from scratch
-- https://gitlab.com/internetarchive/kre8
-  <img style="width:10%; vertical-align:middle" data-src="i/pirate-coin-rotated-small.png"/>
-  - `kubeadm` to create cluster
-  - sets up GitLab 'Auto DevOps' CI/CD full pipeline
-  - need 1+ VM w/ ssh access and sudo
-    - ubuntu based so far
-  - coworker can try - low committment
-  - `kallr`
 
 ---
 # Top Tips
@@ -352,6 +348,10 @@ archive.org production website => K8
 |:--- | ---
 | now | static list of VMs + haproxy
 | new | elastic demand-based scaling
+
+---
+# the Internet Archive
+## to Collect & to Serve
 
 ---
 <!-- .slide: data-background="https://media.giphy.com/media/Gdjgn0hy8zBRK/giphy.gif" -->
