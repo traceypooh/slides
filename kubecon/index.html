@@ -231,14 +231,12 @@ webapps quick development at archive.org
 # Crawling Case Study
 
 ---
-## Anatomy of Archival Crawling
+## Crawl Discovery Loop
 1. Start with a list of websites
 2. Fetch all those URLs
 3. Extract Hyperlinks from all the fetched content
   - Now you have a list of websites again
   - Which you can Fetch and Extract and...
-4. Serialize captures into WARC (Web Archive) format
-5. Persist to permanent item storage
 
 ---
 ## Heritrix
@@ -251,7 +249,8 @@ webapps quick development at archive.org
 - multiple Heritrix instances share single URL deduplication queue
 
 ---
-## Rewriting CrawlHQ as Demo of K8S auto-scaling
+# Demo of K8S auto-scaling
+## Rewriting CrawlHQ
 - Kafka partitions for work queue
 - FoundationDB for hashes of seen URLs
 - 38,000 lines of code is now 73 lines of Python
@@ -259,8 +258,7 @@ webapps quick development at archive.org
 
 ---
 <!-- .slide: data-background="black" -->
-<iframe src="https://archive.org/embed/kubecon-monolith" width="960" height="540" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
-<!-- video src="Monolith.mp4" autoplay controls mozallowfullscreen webkitallowfullscreen allowfullscreen -->
+<video src="Monolith.mp4" autoplay controls mozallowfullscreen webkitallowfullscreen allowfullscreen></video>
 
 ---
 # Containing a Monolith
