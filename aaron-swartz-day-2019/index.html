@@ -28,7 +28,7 @@ https://archive.org/~tracey/slides
 
 
 ---
-# tracey
+<b>tracey</b><br><br>
 expert plastic square presser
 
 
@@ -78,7 +78,28 @@ CMD bash -c "service fcgiwrap start  &&  nginx -g 'daemon off;'"
 ```
 
 ---
-## Web Components
+# HTML
+```html
+<script type="module" src="details-page.js"></script>
+<style>
+#theatre {
+  background-color: black;
+  height: 75vh;
+  text-align: center;
+}
+#jw6 {
+  margin: auto;
+}
+</style>
+<div id="theatre">
+  <div id="jw6"></div>
+  </div>
+<details-page mdapi={"metadata":{"title":"Baby-Elephant","creator":"Tracey","mediatype":"movies","identifier":"babyelephant"]}>javascript required</details-page>
+```
+
+
+---
+## Web Components / JavaScript
 ```javascript
 import { LitElement, html, css } from './web_modules/lit-element.js'
 
@@ -99,10 +120,11 @@ export class DetailsPage extends LitElement {
 customElements.define('details-page', DetailsPage)
 ```
 
+
 ---
 # prototype site
 
-https://www-www.dev.archive.org
+http://www-www.dev.archive.org/
 
 
 ---
@@ -113,9 +135,10 @@ https://www-www.dev.archive.org
 
 **SOcial LInked Data**
 
-- Decentralized, portable, data storage.
-- You own it, You control access to it by people/apps.
-- You can move it to any provider you like.
+- Decentralized, portable, data storage
+- You own it
+- You control access to it by people/apps
+- You can move it to any provider you like
 
 https://solid.mit.edu/
 
