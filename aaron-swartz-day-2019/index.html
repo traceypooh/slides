@@ -1,0 +1,168 @@
+<!doctype html><head><script src="../eveal.js/eveal.js"></script></head><body>
+
+# Internet Archive
+# Pods & Pods
+## ++diversity
+### Aaron Swartz Day, 2019
+
+<small>
+  by
+  [traceypooh](https://twitter.com/tracey_pooh)
+  <a href="https://github.com/traceypooh"><img style="margin:0" src="i/git.png"/></a>
+  <br/>
+</small>
+
+<small>
+ _?_ for key shortcuts
+</small><br/>
+https://archive.org/~tracey/slides
+
+
+
+<a href="https://archive.org">
+  <img src="i/glogo.png" style="position:fixed; bottom:0.5%; left:10%;"/>
+</a>
+<a href="https://www-www.dev.archive.org">
+  <img src="i/k8.png" style="position:fixed; bottom:0; left:80%;"/>
+</a>
+
+
+---
+# tracey
+expert plastic square presser
+
+
+---
+# Kubernetes
+## and Pods of Docker Containers
+
+
+---
+# Kubernetes
+- 1 code repo => 1 deployment (via GitLab)
+- `docker build`
+- deploy docker containers inside 'pods'
+- pods
+  - rolling update / rollback
+  - autoscale
+- built-in load balancer
+- DNS names
+
+
+---
+# More info
+- https://gitlab.com/internetarchive/kre8
+  - cluster creation & management
+  - GitLab tie-ins
+  - full CI / CD
+- https://docs.gitlab.com/ee/topics/autodevops/
+
+
+---
+# Dockerfile
+
+```bash
+FROM node
+
+RUN apt-get -y update  &&  apt-get -y install nginx fcgiwrap
+
+COPY .   /app
+WORKDIR  /app
+RUN       rm -rfv /var/www/html  &&  \
+  ln -s  /app/www /var/www/html  &&  \
+  ln -sf /app/default  /etc/nginx/sites-available/default  &&  \
+
+RUN npm install
+
+CMD bash -c "service fcgiwrap start  &&  nginx -g 'daemon off;'"
+```
+
+---
+## Web Components
+```javascript
+import { LitElement, html, css } from './web_modules/lit-element.js'
+
+export class DetailsPage extends LitElement {
+  static get styles() {
+    return css`
+#metadata { max-width: 800px; margin: auto; }`
+  }
+
+  render() {
+    return html`
+<div id="metadata">
+  <h1>${this.mdapi.metadata.title}</h1>
+</div>`
+  }
+}
+
+customElements.define('details-page', DetailsPage)
+```
+
+---
+# prototype site
+
+https://www-www.dev.archive.org
+
+
+---
+# Solid
+
+<img src="https://solid.inrupt.com/themes/custom/solid/logo.svg"
+  style="width:150px; position:absolute; top: 0; right: 5%;"/>
+
+**SOcial LInked Data**
+
+- Decentralized, portable, data storage.
+- You own it, You control access to it by people/apps.
+- You can move it to any provider you like.
+
+https://solid.mit.edu/
+
+
+---
+# Make a Pod on archive.org
+
+- https://pod.archive.org
+- https://solid.inrupt.com/how-it-works
+- https://solid.inrupt.com/docs/app-on-your-lunch-break
+
+<i>** coming to items soon!</i>
+
+
+---
+# Pods in Pods
+
+
+---
+# Diversity
+
+
+---
+makes us stronger
+
+
+---
+Dana Boyd
+
+```So many more people face the personal and professional harm of exclusion, the emotional burden of never-ending subtle misogyny ..```
+
+https://medium.com/p/facing-the-great-reckoning-head-on-8fe434e10630
+
+@zephoria
+
+
+---
+```Anybody that has any connection to an Institution like mine
+-- that comes with a certain amount of Privilege.```
+
+```Nudge that Privilege towards a Public purpose.```
+
+Michael Barker, Librarian<br>
+Philips Academy Andover<br>
+[Internet Archive's Hero Award, 2019](https://blog.archive.org/2019/10/23/unlocking-the-potential-for-every-high-school-library-2019-internet-archive-hero-award/)
+
+
+---
+<!-- .slide: data-background="https://media.giphy.com/media/q4ICE9wYvOwBG/giphy.gif" -->
+# The End
