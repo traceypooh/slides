@@ -42,7 +42,7 @@ TV Architect<br>
 | kubernetes | hashistack |
 | ---------- | :--------- |
 | ingress | fabio |
-| certmanager | domain-based letsencrypt certs w/ script to fabio; manual renew every 90d |
+| certmanager | domain-based letsencrypt certs script - certs put in fabio; manual renew every 90d |
 | runner | runner on one node |
 | review apps | review apps |
 
@@ -662,6 +662,34 @@ EOH
   - `nom-app` - open url for webapp
   - `nom-cp` - "hot copy" a file from laptop into container
   - `nom-status` - detailed info on your project
+
+
+---
+## Customizing
+Various CI/CD variables to customize
+the `project.nomad` and `.gitlab-ci.yml` files, keys:
+```
+NOMAD__CHECK_PROTOCOL
+NOMAD__CPU
+NOMAD__DEBUG
+NOMAD__HOME_RO
+NOMAD__HOME_RW
+NOMAD__HOSTNAME
+NOMAD__MEMORY
+NOMAD__MYSQL
+NOMAD__NO_DEPLOY
+NOMAD__PG
+NOMAD__PORT
+NOMAD__PORT2
+NOMAD__PORT2_NAME
+NOMAD__PORT3
+NOMAD__PORT3_NAME
+NOMAD__PV
+NOMAD__PV_DB
+NOMAD__PV_DB_DEST
+NOMAD__PV_DEST
+NOMAD__VAULT
+```
 
 
 ---
