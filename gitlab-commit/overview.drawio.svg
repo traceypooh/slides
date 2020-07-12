@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="671px" height="531px" viewBox="-0.5 -0.5 671 531" content="&lt;mxfile host=&quot;&quot; modified=&quot;2020-07-12T01:41:11.187Z&quot; agent=&quot;5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.46.0 Chrome/78.0.3904.130 Electron/7.3.1 Safari/537.36&quot; etag=&quot;Y3Us48H24K6RRrWLQclN&quot; version=&quot;13.1.3&quot;&gt;&lt;diagram id=&quot;6hGFLwfOUW9BJ-s0fimq&quot; name=&quot;Page-1&quot;&gt;7VnbcpswEP0av3YMMuA8+pI0D81MZ5yZpo8CFFAjtFQIX/L1lUDcDJ5JGsf2tM5DRnt03d1z0BpGaJFsvwqcxg8QEjayx+F2hJYj2566nvqvgV0JWNMbp0QiQUODNcCKvhIDjg2a05BknYESgEmadsEAOCeB7GBYCNh0hz0D6+6a4oj0gFWAWR/9QUMZG79sr8HvCY3iamfLvSl7ElwNNp5kMQ5h04LQ7QgtBIAsW8l2QZgOXhWXct7dgd76YIJw+ZYJtuWWU9aY5ca7e5zFNJM4eDFnlLvK8WxDE4a5suaxTJgCLdVUY4U0WVL7qT4Q9BW4xNWIQBuUE/G4S/UoKYhew2xNhCTbgw5YdVgUnwgkRIqdGrLtUmLXNTdNWlzPYHErJQ4yIDZUiOqVm2iphgnYgeChaS9CJFRMMSYIGUMEHLPbBp0LyHlI9BI6VM2YbwCpCdcvIuXOBBTnErrhVpERuyc9/4tTmT/NcoWx3HasnbHKs+oDHox1TYcMchGQCjRuqjRHpBpZkr2fF0EYlnTd3eNDUa62b1HU1xomohf9TUwlWaW4OPpGPXy6kdO0u1NipzxqIQ+wbgBONq1kLUeeCpv7O9d6nDe5raERmrX6mQ+t2c0ge9EYhVhm+iF0YBUO/NBcwsN3zPSWhfISGhjfGuZZbxWfIcRh+TlOR39uX3+WPaC/yVHk5/YI8C/Kz0ZD8pucSn7V9i353WGfgoIY4NDH6kIItBZdnGi9cT9La3ev2rwcbdrjU4qzJGiHNrGUaVGq6TMQH6fplSQXR5LpG0lylALKdnokqYgxfsTZS6Q8Vm2X6Xj4+hkTlTE9FnKl35nph7r0QzcD9HMH6GeNj1JBeP9HBeENVRDoZBWEN3gVrK53wYWJce8usNBJq3l0Fi1uqXxqtX82slRWI0RtfFyHQz+k0Xg4KZ+gw/4PaVOShZgkwK8K/IACsQgMydD0eILsvt2aTPqCrDR7fD2Oe2xZXiumS6NInaYzUMTy7B5FegTJYly88s0TNgskCOW4dpkG6iGNfcK+Q0YlVQ8ftPRBSkjUAKY75jgo6n8eLoDpeWo19Fz8tdaYMRrpuRL2mAe5ZJSTRf0JYNy7LuqX79qIGM4y026n8DhC3ntN7fSThAbuVfcoOnbOW+O+p8INcrHeq2n+5pqdDJW708+5ZpXZfK4p+lofvdDtHw==&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs/>
+    <g>
+        <path d="M 0 20 L 0 0 L 670 0 L 670 20" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 0 20 L 0 530 L 670 530 L 670 20" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 0 20 L 670 20" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 10px; margin-left: 335px;">
+                        <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: none; font-weight: bold; white-space: nowrap; ">
+                                Hashistack
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="335" y="14" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" font-weight="bold">
+                    Hashistack
+                </text>
+            </switch>
+        </g>
+        <path d="M 215 100 L 215 120 L 215 110 L 215 123.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 215 128.88 L 211.5 121.88 L 215 123.63 L 218.5 121.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 161 60 L 161 59.86 L 170.82 59.39 L 180.64 59.34 L 190.45 60.1 L 200.27 60.62 L 210.09 59.96 L 219.91 59.43 L 229.73 59.8 L 239.55 59.64 L 249.36 60.13 L 259.18 59.41 L 269 60 Q 275 60 275 66 L 275.22 66 L 274.85 71.6 L 275.05 77.2 L 275.19 82.8 L 274.82 88.4 L 275 94 Q 275 100 269 100 L 269 99.45 L 259.18 99.97 L 249.36 99.93 L 239.55 99.32 L 229.73 100.36 L 219.91 99.36 L 210.09 100.2 L 200.27 99.51 L 190.45 99.61 L 180.64 100.72 L 170.82 100.3 L 161 100 Q 155 100 155 94 L 155.08 94 L 155.17 88.4 L 155.05 82.8 L 155.24 77.2 L 154.78 71.6 L 155 66 Q 155 60 161 60 L 161 60 Z Z" fill="#ffffff" stroke="#000000" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="none"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 80px; margin-left: 156px;">
+                        <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: none; white-space: normal; word-wrap: normal; ">
+                                browser
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="215" y="84" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    browser
+                </text>
+            </switch>
+        </g>
+        <path d="M 215 240 L 215 273.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 215 278.88 L 211.5 271.88 L 215 273.63 L 218.5 271.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 161 200 L 161 199.42 L 170.82 199.5 L 180.64 199.68 L 190.45 199.93 L 200.27 199.89 L 210.09 199.53 L 219.91 199.8 L 229.73 199.26 L 239.55 200.1 L 249.36 200.45 L 259.18 199.61 L 269 200 Q 275 200 275 206 L 275.18 206 L 275.14 211.6 L 275 217.2 L 275.21 222.8 L 275.16 228.4 L 275 234 Q 275 240 269 240 L 269 240.29 L 259.18 239.5 L 249.36 240.66 L 239.55 240.27 L 229.73 239.98 L 219.91 240.49 L 210.09 239.49 L 200.27 239.61 L 190.45 239.65 L 180.64 240.21 L 170.82 239.96 L 161 240 Q 155 240 155 234 L 155.23 234 L 155.05 228.4 L 154.84 222.8 L 154.75 217.2 L 155.17 211.6 L 155 206 Q 155 200 161 200 L 161 200 Z Z" fill="#ffffff" stroke="#000000" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="none"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 220px; margin-left: 156px;">
+                        <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: none; white-space: normal; word-wrap: normal; ">
+                                Fabio loadbalancer 
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="215" y="224" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    Fabio loadbalancer 
+                </text>
+            </switch>
+        </g>
+        <path d="M 159.5 280 L 159.5 280.1 L 169.59 279.8 L 179.68 280.41 L 189.77 279.32 L 199.86 279.93 L 209.95 279.88 L 220.05 279.76 L 230.14 279.49 L 240.23 280.23 L 250.32 279.53 L 260.41 280.61 L 270.5 280 Q 275 280 275 284.5 L 275.11 284.5 L 274.78 288.7 L 275.16 292.9 L 275.06 297.1 L 274.79 301.3 L 275 305.5 Q 275 310 270.5 310 L 270.5 310.14 L 260.41 310.44 L 250.32 310.22 L 240.23 309.87 L 230.14 310.53 L 220.05 310.43 L 209.95 309.8 L 199.86 309.72 L 189.77 309.38 L 179.68 310.25 L 169.59 309.89 L 159.5 310 Q 155 310 155 305.5 L 154.97 305.5 L 155.14 301.3 L 155.14 297.1 L 155.06 292.9 L 155.13 288.7 L 155 284.5 Q 155 280 159.5 280 L 159.5 280 Z Z" fill="#ffffff" stroke="#000000" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="none"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 295px; margin-left: 156px;">
+                        <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: none; white-space: normal; word-wrap: normal; ">
+                                http to webapp
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="215" y="299" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    http to webapp
+                </text>
+            </switch>
+        </g>
+        <path d="M 150 390 L 150 390.75 L 160 389.65 L 170 389.35 L 180 389.31 L 190 389.37 L 200 389.71 L 210 389.6 L 220 389.54 L 230 389.69 L 240 389.99 L 250 389.83 L 260 390.67 L 270 390.27 L 280 390 Q 295 390 295 405 L 294.87 405 L 295.6 415 L 294.82 425 L 295.62 435 L 294.62 445 L 294.59 455 L 294.75 465 L 295 475 Q 295 490 280 490 L 280 489.58 L 270 490.23 L 260 489.73 L 250 490.23 L 240 489.49 L 230 490.32 L 220 489.57 L 210 489.95 L 200 489.38 L 190 489.5 L 180 489.62 L 170 489.7 L 160 489.56 L 150 490 Q 135 490 135 475 L 134.58 475 L 134.3 465 L 134.38 455 L 135.25 445 L 135.02 435 L 135.17 425 L 135.54 415 L 135 405 Q 135 390 150 390 L 150 390 Z Z" fill="#ffffff" stroke="#000000" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="none"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 158px; height: 1px; padding-top: 440px; margin-left: 136px;">
+                        <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: none; white-space: normal; word-wrap: normal; ">
+                                webapp Taskgroup
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="215" y="444" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    webapp Taskgroup...
+                </text>
+            </switch>
+        </g>
+        <path d="M 215 170 L 215 190 L 215 180 L 215 193.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 215 198.88 L 211.5 191.88 L 215 193.63 L 218.5 191.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 161 130 L 161 129.66 L 170.82 130.3 L 180.64 129.49 L 190.45 129.76 L 200.27 129.82 L 210.09 130.26 L 219.91 129.43 L 229.73 130.61 L 239.55 129.33 L 249.36 130.68 L 259.18 129.79 L 269 130 Q 275 130 275 136 L 275.17 136 L 275.15 141.6 L 274.76 147.2 L 275.14 152.8 L 274.81 158.4 L 275 164 Q 275 170 269 170 L 269 169.72 L 259.18 169.28 L 249.36 169.51 L 239.55 169.84 L 229.73 170.67 L 219.91 169.56 L 210.09 170.71 L 200.27 170.66 L 190.45 169.63 L 180.64 169.81 L 170.82 170.55 L 161 170 Q 155 170 155 164 L 154.91 164 L 155.14 158.4 L 155.15 152.8 L 155.23 147.2 L 155.08 141.6 L 155 136 Q 155 130 161 130 L 161 130 Z Z" fill="#ffffff" stroke="#000000" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="none"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 150px; margin-left: 156px;">
+                        <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: none; white-space: normal; word-wrap: normal; ">
+                                httpS to webapp
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="215" y="154" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    httpS to webapp
+                </text>
+            </switch>
+        </g>
+        <path d="M 205 460 L 225 460 L 210 460 L 223.63 460" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 228.88 460 L 221.88 463.5 L 223.63 460 L 221.88 456.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 165.2 440 L 165.2 440.02 L 170.12 439.98 L 175.04 439.98 L 179.96 440.24 L 184.88 440.12 L 189.8 440 Q 205 440 205 455.2 L 205.2 455.2 L 205.18 457.12 L 204.91 459.04 L 204.99 460.96 L 205.12 462.88 L 205 464.8 Q 205 480 189.8 480 L 189.8 480.19 L 184.88 479.87 L 179.96 479.92 L 175.04 479.99 L 170.12 480.12 L 165.2 480 Q 150 480 150 464.8 L 149.97 464.8 L 149.79 462.88 L 150.15 460.96 L 150.19 459.04 L 150.11 457.12 L 150 455.2 Q 150 440 165.2 440 L 165.2 440 Z Z" fill="#ffffff" stroke="#000000" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="none"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 53px; height: 1px; padding-top: 460px; margin-left: 151px;">
+                        <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: none; white-space: normal; word-wrap: normal; ">
+                                http daemon
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="178" y="464" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    http daem...
+                </text>
+            </switch>
+        </g>
+        <path d="M 245.2 440 L 245.2 439.99 L 250.12 439.95 L 255.04 440.14 L 259.96 439.77 L 264.88 440.04 L 269.8 440 Q 285 440 285 455.2 L 284.94 455.2 L 285.03 457.12 L 285.2 459.04 L 285.23 460.96 L 284.88 462.88 L 285 464.8 Q 285 480 269.8 480 L 269.8 480.12 L 264.88 479.92 L 259.96 480.08 L 255.04 479.92 L 250.12 479.85 L 245.2 480 Q 230 480 230 464.8 L 230.22 464.8 L 229.99 462.88 L 230.08 460.96 L 229.77 459.04 L 229.89 457.12 L 230 455.2 Q 230 440 245.2 440 L 245.2 440 Z Z" fill="#ffffff" stroke="#000000" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="none"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 53px; height: 1px; padding-top: 460px; margin-left: 231px;">
+                        <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: none; white-space: normal; word-wrap: normal; ">
+                                DB
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="258" y="464" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    DB
+                </text>
+            </switch>
+        </g>
+        <ellipse cx="125" cy="57.5" rx="7.5" ry="7.5" fill="#ffffff" stroke="#000000" pointer-events="none"/>
+        <path d="M 125 65 L 125.16 65 L 124.92 70 L 125.04 75 L 125.23 80 L 125.19 85 L 125 90 M 125 70 L 125 69.76 L 122 70.07 L 119 69.79 L 116 69.75 L 113 69.94 L 110 70 M 125 70 L 125 69.97 L 128 70.19 L 131 70.04 L 134 69.8 L 137 70.12 L 140 70 M 125 90 L 125.04 90.03 L 122.05 94.04 L 118.8 97.85 L 116.14 102.1 L 113.08 106.06 L 110 110 M 125 90 L 125.13 90.09 L 127.8 93.85 L 130.84 97.88 L 133.94 101.95 L 137.16 106.12 L 140 110" fill="none" stroke="#000000" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 215 310 Q 215 375 182.5 375 Q 150 375 150 433.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 150 438.88 L 146.5 431.88 L 150 433.63 L 153.5 431.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+    </g>
+    <switch>
+        <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/>
+        <a transform="translate(0,-5)" xlink:href="https://desk.draw.io/support/solutions/articles/16000042487" target="_blank">
+            <text text-anchor="middle" font-size="10px" x="50%" y="100%">
+                Viewer does not support full SVG 1.1
+            </text>
+        </a>
+    </switch>
+</svg>
