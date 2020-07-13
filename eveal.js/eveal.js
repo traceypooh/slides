@@ -25,14 +25,6 @@ require(BASE + 'lib/js/head.min.js', function() {
   var body = document.getElementsByTagName('body')[0];
   var markdown = body.innerHTML;
 
-  // for bulleted lists..
-  // handle 'soft tabs' of TAB getting turned into 2 SPACE chars
-  markdown = (markdown
-    .replace(/\n  \- /g, '\n\t- ')
-    .replace(/\n    \- /g, '\n\t\t- ')
-    .replace(/\n      \- /g, '\n\t\t\t- ')
-    .replace(/\n        \- /g, '\n\t\t\t\t- '))
-
   body.innerHTML = ('\n\
     <div class="reveal">\n\
     	<div class="slides">\n\
@@ -80,7 +72,10 @@ require(BASE + 'lib/js/head.min.js', function() {
         { src: BASE + 'plugin/markdown/marked.js' },
         { src: BASE + 'plugin/markdown/markdown.js' },
         { src: BASE + 'plugin/notes/notes.js', async: true },
-        { src: BASE + 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        { src: BASE + 'plugin/highlight/highlight.js', async: true, callback: function() {
+          hljs.configure({tabReplace: '  '})
+          hljs.initHighlightingOnLoad()
+        } }
       ]
     });
   });
