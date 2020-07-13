@@ -1,5 +1,5 @@
 <!doctype html><head><meta charset="utf-8"/><script src="../eveal.js/eveal.js"></script></head><body>
-<style> .slide-background { background-position: top left !important; background-size: 100% !important; background-image: url("bg.jpg"); } </style>
+<style> .slide-background { background-position: top left; background-size: contain !important; background-image: url("bg.jpg"); } </style>
 
 ---
 <!-- .slide: data-background="intro.jpg" -->
@@ -20,7 +20,6 @@ TV Architect<br>
 </div>
 
 ---
-<!-- .slide: data-background="title.jpg" -->
 <img src="containers-and-tracey.jpg"/>
 
 
@@ -66,10 +65,10 @@ TV Architect<br>
 
 
 ---
-<section data-background-image="overview.drawio.svg"></section>
+<section data-background-image="overview.drawio.svg" data-background-size="contain"></section>
 
 ---
-<section data-background-image="overview2.drawio.svg"></section>
+<section data-background-image="overview2.drawio.svg" data-background-size="contain"></section>
 
 
 
@@ -95,6 +94,7 @@ TV Architect<br>
 include:
   - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
 ```
+add this to your GitLab repository
 
 ---
 ## tl;dr 🥱
@@ -756,7 +756,7 @@ NOMAD__VAULT
 
 
 ---
-<img src="architecture.drawio.svg"/>
+<section data-background-image="architecture.drawio.svg" data-background-size="contain"></section>
 
 
 ---
