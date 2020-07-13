@@ -52,24 +52,39 @@ TV Architect<br>
 
 
 ---
-## hashsistack
+## Hashsistack
 - Nomad - deployment
 - Consul - network
 - Vault - secrets
 
 ---
-## hashsistack
+## Hashsistack
 - Nomad - deployment (container rollouts, restarts)
 - Consul - network (svc discovery, communication, config)
 - Vault - secrets
 
 ---
-## overview
+## Overview
 <img src="overview.drawio.svg"/>
 
 ---
-## overview
+## Overview
 <img src="overview2.drawio.svg"/>
+
+
+---
+## Approach & Goals
+- Make `nomad` an easy swap with `kubernetes`
+- Use GitLab's [build] phase
+  - works great as is
+  - build and `docker push` to registry
+
+- Custom [deploy] phase
+  - create `project.hcl` dynamically
+    - via `levant`
+    - use merged CI/CD vars & env. vars
+    - use `vault` for secrets
+  - auto-update review apps every `git push`
 
 
 ---
@@ -195,6 +210,53 @@ job SOMETHING {
 }
 ```
 
+
+---
+## [minimal project](https://gitlab.com/internetarchive/nomad/-/blob/master/etc/simple.hcl) can use with GitLab
+```
+# Minimal basic project using only GitLab CI/CD std. variables
+job "[[.CI_PROJECT_PATH_SLUG]]-[[.CI_COMMIT_REF_SLUG]]" {
+  group "[[.CI_PROJECT_PATH_SLUG]]-[[.CI_COMMIT_REF_SLUG]]" {
+    task "[[.CI_PROJECT_PATH_SLUG]]-[[.CI_COMMIT_REF_SLUG]]" {
+      driver = "docker"
+
+      config {
+        image = "[[.CI_REGISTRY_IMAGE]]/[[.CI_COMMIT_REF_SLUG]]:[[.CI_COMMIT_SHA]]"
+
+        port_map {
+          http = 5000
+        }
+
+        auth {
+          server_address = "[[.CI_REGISTRY]]"
+          username = "[[.CI_REGISTRY_USER]]"
+          password = "[[.CI_REGISTRY_PASSWORD]]"
+        }
+      }
+
+      resources {
+        network {
+          port "http" {}
+        }
+      }
+
+      service {
+        name = "[[.CI_PROJECT_PATH_SLUG]]-[[.CI_COMMIT_REF_SLUG]]"
+        tags = ["urlprefix-[[.CI_PROJECT_PATH_SLUG]]-[[.CI_COMMIT_REF_SLUG]].[[.KUBE_INGRESS_BASE_DOMAIN]]:443/"]
+        port = "http"
+        check {
+          type     = "http"
+          path     = "/"
+          interval = "10s"
+          timeout  = "2s"
+        }
+      }
+    } # end task
+  } # end group
+} # end job
+```
+
+
 ---
 ## NOMAD__SLUG 🐌
 
@@ -246,7 +308,7 @@ x-thumb                         service  50        running  2020-07-04T04:34:54-
 
 
 ---
-## project.nomad
+## Full project.nomad
 [https://gitlab.com/internetarchive/nomad/project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
 
 
