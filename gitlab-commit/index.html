@@ -2,19 +2,18 @@
 <style>
 pre.stretch code { max-height: 100% !important; }
 .slide-background {
-  background-position: top left; background-size: contain !important; background-image: url("bg.jpg");
+  background-position: top left; background-size: contain !important; background-image: url("bg.svg");
 }
 </style>
 
----
-<!-- .slide: data-background="intro.jpg" -->
+<!-- .slide: data-background="intro.svg" -->
 <div style="color: #ddd; margin-top:20%">
 Simple CI/CD with GitLab + Nomad<br>
 Tracey Jaquith
 </div>
 
 ---
-<!-- .slide: data-background="title.jpg" -->
+<!-- .slide: data-background="title.svg" -->
 <div style="color: #ddd">
 @tracey_pooh 🧸<br>
 Internet Archive 🏛️<br>
@@ -841,13 +840,18 @@ NOMAD__VAULT
 ---
 ## 🚨 Other factors - monorepos 🚨
 - Use new [Git Partial Clone](https://about.gitlab.com/blog/2020/03/13/partial-clone-for-massive-repositories/)
+  - saves space
+  - only pulls files for current branch/commit
 ```yml
 GIT_STRATEGY: none
 ```
-- Avoid specific branch & tangles with tree state
-- Get any history/commits we don't have yet
-  - CHECKOUT === branch name  ||  CHECKOUT === commit
-- Reset HEAD pointer to state in _origin's_ branch/commit
+
+---
+## 🚨 Other factors - monorepos 🚨
+1. Avoid current tree state tangles
+2. Fetch commits/history don't have yet
+  - CHECKOUT is branch name or commit
+3. Reset HEAD pointer to state in _origin's_ branch/commit
 ```bash
 git checkout --detach
 git fetch -f origin $CHECKOUT:$CHECKOUT || git fetch
@@ -879,7 +883,9 @@ git checkout -f $CHECKOUT
 
 
 ---
-## xxxx end slide
-
+<!-- .slide: data-background="end.svg" -->
+<div style="color: #ddd; margin-top:20%">
+Thank You!<br>
 slides: bit.ly/2BQ8eb4<br>
 repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
+</div>
