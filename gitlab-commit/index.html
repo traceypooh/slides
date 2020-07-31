@@ -1,5 +1,10 @@
 <!doctype html><head><meta charset="utf-8"/><script src="../eveal.js/eveal.js"></script></head><body>
-<style> .slide-background { background-position: top left; background-size: contain !important; background-image: url("bg.jpg"); } </style>
+<style>
+pre.stretch code { max-height: 100% !important; }
+.slide-background {
+  background-position: top left; background-size: contain !important; background-image: url("bg.jpg");
+}
+</style>
 
 ---
 <!-- .slide: data-background="intro.jpg" -->
@@ -14,26 +19,17 @@ Tracey Jaquith
 @tracey_pooh 🧸<br>
 Internet Archive 🏛️<br>
 TV Architect<br>
-· video/audio · devops · javascript ·
+· video/audio · devops · javascript ·<br><br>
+
+slides: bit.ly/2BQ8eb4<br>
+repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 </div>
 
 </div>
 
 ---
-<img src="containers-and-tracey.jpg"/>
-
-
----
-#### vs. kubernetes
-| kubernetes | hashistack |
-| ---------- | :--------- |
-| the many pound gorilla | smaller, lighter, single binaries per tool |
-| used almost everywhere | less known 'also ran' |
-| networking footprint | minimal network needs |
-| great deploy to cloud | simpler for deploying on-premise |
-| great for 2-3+ fulltime devops | 1 parttime devops OK |
-| great for large amounts of teams and devs | good for trusted 50 devs/contractors |
-| builtin namespaces & superior RBAC company security | optional namespaces & ACL user security |
+<img src="containers-and-tracey.jpg"/><br/>
+bit.ly/2BQ8eb4
 
 
 ---
@@ -47,7 +43,51 @@ TV Architect<br>
 
 
 ---
-<img src="sw-sanity.jpg"/>
+## Who talk is for
+- Some of:
+  - GitLab CI/CD users
+  - on-premise / maintain own cluster
+  - Kubernetes is a lot - something smaller?
+  - simpler deployments
+
+bit.ly/2BQ8eb4
+
+
+---
+## Approach & Goals
+- Make `nomad` an easy swap with `kubernetes`
+- Use GitLab's [build] phase
+- Custom [deploy] phase
+
+bit.ly/2BQ8eb4
+
+
+---
+## Why Nomad?
+#### a bad month ..
+- k8s v1.18 issues
+  - VM networking / certmanager / no https
+- `kubeadm` cert 1y expiry
+  - v1.14 no auto-renew
+- persistent volume rook/ceph corruptionS
+- GitLab workarounds for k8s v1.16+
+  - `extensions/v1beta` -v- `apps/v1`
+  - hacks until GitLab v13
+
+
+---
+<img src="sw-sanity.jpg"/><br/>
+bit.ly/2BQ8eb4
+
+
+---
+## Why Nomad?
+- archive.org Ops preference
+  - knew `Consul`
+  - deploy scripts attractive
+    - nomad `exec` driver
+- smaller places
+  - smaller tools often better fit
 
 
 ---
@@ -56,6 +96,8 @@ TV Architect<br>
 - Consul - network
 - Vault - secrets
 
+bit.ly/2BQ8eb4
+
 
 ---
 ## Hashsistack
@@ -63,13 +105,14 @@ TV Architect<br>
 - Consul - network (svc discovery, communication, config)
 - Vault - secrets
 
+bit.ly/2BQ8eb4
+
 
 ---
 <section data-background-image="overview.drawio.svg" data-background-size="contain"></section>
 
 ---
 <section data-background-image="overview2.drawio.svg" data-background-size="contain"></section>
-
 
 
 ---
@@ -89,12 +132,14 @@ TV Architect<br>
 
 ---
 ## tl;dr 🥱
-[.gitlab-ci.yml](https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml)
-```yaml
+```yml
 include:
   - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
 ```
-add this to your GitLab repository
+add 👆 to your GitLab repository :
+- top-level file:
+- `.gitlab-ci.yml`
+
 
 ---
 ## tl;dr 🥱
@@ -103,9 +148,12 @@ add this to your GitLab repository
 `NOMAD_ADDR` `https://pod.archive.org:4646`<br>
 `NOMAD_TOKEN` `133t-z6rf-1234-1243bcd35199187`<br>
 
+
 ---
 ## .gitlab-ci.yml
-```yml
+
+---
+<pre class="stretch"><code class="hljs yaml">
 stages:
   - build
   - test
@@ -184,7 +232,8 @@ stop_review:
       when: never
     - if: '$CI_COMMIT_TAG || $CI_COMMIT_BRANCH'
       when: manual
-```
+</code></pre>
+
 
 
 ---
@@ -214,7 +263,10 @@ job SOMETHING {
 
 ---
 ## [minimal project](https://gitlab.com/internetarchive/nomad/-/blob/master/etc/simple.hcl) can use with GitLab
-```
+
+
+---
+<pre class="stretch"><code class="hljs yaml">
 # Minimal basic project using only GitLab CI/CD std. variables
 job "[[.CI_PROJECT_PATH_SLUG]]-[[.CI_COMMIT_REF_SLUG]]" {
   group "[[.CI_PROJECT_PATH_SLUG]]-[[.CI_COMMIT_REF_SLUG]]" {
@@ -255,7 +307,7 @@ job "[[.CI_PROJECT_PATH_SLUG]]-[[.CI_COMMIT_REF_SLUG]]" {
     } # end task
   } # end group
 } # end job
-```
+</code></pre>
 
 
 ---
@@ -313,7 +365,9 @@ x-thumb                         service  50        running  2020-07-04T04:34:54-
 [https://gitlab.com/internetarchive/nomad/project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
 
 
-```
+
+---
+<pre class="stretch"><code class="hljs yaml">
 job "[[.NOMAD__SLUG]]" {
   datacenters = ["dc1"]
 
@@ -621,7 +675,7 @@ job "[[.NOMAD__SLUG]]" {
 
       vault { policies = [ "read-[[.NOMAD__SLUG]]" ] }
       template {
-        data = &lt;&lt;EOH
+        data = &amp;lt;&amp;lt;EOH
 MARIADB_PASSWORD={{with secret "kv/data/[[.NOMAD__SLUG]]"}}{{.Data.data.DB_PW | toJSON}}{{end}}
 WORDPRESS_DATABASE_PASSWORD={{with secret "kv/data/[[.NOMAD__SLUG]]"}}{{.Data.data.DB_PW | toJSON}}{{end}}
 EOH
@@ -700,7 +754,8 @@ EOH
     set_contains = "worker"
   }
 } # end job
-```
+</code></pre>
+
 
 ---
 ## Other factors
@@ -719,6 +774,21 @@ EOH
 - UI for Nomad, Consul, Vault, Fabio
   - easiest https://nomad-host:4646
     - then enter `NOMAD_TOKEN`
+
+
+---
+<section data-background-image="nomad-ui1.jpg" data-background-size="contain"></section>
+
+---
+<section data-background-image="nomad-ui2.jpg" data-background-size="contain"></section>
+
+---
+<section data-background-image="nomad-ui3.jpg" data-background-size="contain"></section>
+
+
+
+---
+## Monitoring & Usage 🕵️
 - [aliases](https://gitlab.com/internetarchive/nomad/-/blob/master/aliases)
   - based on CWD & git branch and info
   - `nom-ssh` - ssh into container
@@ -788,6 +858,7 @@ git checkout -f $CHECKOUT
 ---
 <img src="detached-head.jpg">
 
+
 ---
 ## Helfpul scripts
 - [setup a nomad cluster](https://gitlab.com/internetarchive/nomad/-/blob/master/setup.sh)
@@ -795,4 +866,20 @@ git checkout -f $CHECKOUT
 
 
 ---
+#### vs. kubernetes
+| kubernetes | hashistack |
+| ---------- | :--------- |
+| the many pound gorilla | smaller, lighter, single binaries per tool |
+| used almost everywhere | less known 'also ran' |
+| networking footprint | minimal network needs |
+| great deploy to cloud | simpler for deploying on-premise |
+| great for 2-3+ fulltime devops | 1 parttime devops OK |
+| great for large amounts of teams and devs | good for trusted 50 devs/contractors |
+| builtin namespaces & superior RBAC company security | optional namespaces & ACL user security |
+
+
+---
 ## xxxx end slide
+
+slides: bit.ly/2BQ8eb4<br>
+repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
