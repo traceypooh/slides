@@ -1,18 +1,16 @@
 <!doctype html><head><meta charset="utf-8"/><script src="../eveal.js/eveal.js"></script></head><body>
 <style>
 pre.stretch code { max-height: 100% !important; }
-.slide-background-xxx {
-  background-position: top left; background-size: contain !important; background-image: url("bg.svg");
-}
 .slide-background {
   background-image: url("bg.svg");
 }
 </style>
 
 <!-- .slide: data-background="intro.svg" -->
-<div style="color: #ddd; margin-top:20%">
+<div style="color: #ddd; margin-top:30%">
 Simple CI/CD with GitLab + Nomad<br>
-Tracey Jaquith
+Tracey Jaquith<br><br>
+bit.ly/2BQ8eb4
 </div>
 
 ---
@@ -30,7 +28,7 @@ repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 </div>
 
 ---
-<img src="containers-and-tracey.jpg"/><br/>
+<img src="containers-and-tracey.jpg"/><br>
 bit.ly/2BQ8eb4
 
 
@@ -83,7 +81,7 @@ bit.ly/2BQ8eb4
 
 
 ---
-<img src="sw-sanity.jpg"/><br/>
+<img src="sw-sanity.jpg"/><br>
 bit.ly/2BQ8eb4
 
 
@@ -157,7 +155,7 @@ add 👆 to your GitLab repository :
 
 
 ---
-## .gitlab-ci.yml
+## [.gitlab-ci.yml](https://gitlab.com/internetarchive/nomad/-/blob/master/.gitlab-ci.yml)
 
 ---
 <pre class="stretch"><code class="hljs yaml">
@@ -872,7 +870,7 @@ git checkout -f $CHECKOUT
 
 
 ---
-## Helfpul scripts
+## Helpful scripts
 - [setup a nomad cluster](https://gitlab.com/internetarchive/nomad/-/blob/master/setup.sh)
 - [create domain https certs](https://gitlab.com/internetarchive/nomad/-/blob/master/create-https-certs.sh)
 
