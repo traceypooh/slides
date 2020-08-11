@@ -1,0 +1,57 @@
+<!doctype html><head><meta charset="utf-8"/><script src="../eveal.js/eveal.js"></script></head><body>
+
+---
+## k3s
+- Lightweight Kubernetes. Production ready, easy to install, half the memory, all in a binary less than 100 MB.
+- Fully conformant production-ready Kubernetes distribution
+
+```Situations where a PhD in k8s clusterology is infeasible```
+
+---
+## k3s
+- `CRI` - not docker
+- no `kubelet`
+- `traefik`
+- `CoreDNS`
+- RBAC & namespaces
+
+
+---
+## install
+`curl -sfL https://get.k3s.io | sh -`
+
+
+---
+## CRI-O
+CRI-O is an implementation of the Kubernetes CRI (Container Runtime Interface) to enable using OCI (Open Container Initiative) compatible runtimes.
+`crictl`
+  - `crictl ps`
+  - `crictl images`
+  - `crictl exec -i -t [CONTAINERID] bash`
+
+
+---
+## binaries
+### cute symlinks!
+```
+/usr/local/bin/k3s
+/usr/local/bin/crictl	->	k3s
+/usr/local/bin/ctr	->	k3s
+/usr/local/bin/kubectl	->	k3s
+/usr/local/bin/k3s-killall.sh
+/usr/local/bin/k3s-uninstall.sh
+```
+
+
+---
+## launched
+- launched March 2019
+  - https://rancher.com/blog/2019/k3s-diary-one-week-later
+- submitted to [CNCF](https://www.cncf.io/) Sandbox May 2020
+  - https://nativecloud.dev/cnn-2020-20/
+
+
+--
+## demo if time
+- show cluster build on `kube-dev2`
+- www/ci pipeline
