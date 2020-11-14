@@ -1,7 +1,7 @@
-<!doctype html><head><script src="../eveal.js/eveal.js"></script></head><body>
+<!doctype html><head><title>Aaron Swartz Day 2020 - Tracey Jaquith</title><script src="../eveal.js/eveal.js"></script></head><body>
 
 # Internet Archive
-# Processing Hype Project
+# Processing Hype Project 🚀
 ## (It's not PHP ;-)
 ### Aaron Swartz Day, 2020
 
@@ -20,22 +20,22 @@ https://archive.org/~tracey/slides
 
 
 <a href="https://archive.org">
-  <img src="i/glogo.png" style="position:fixed; bottom:0.5%; left:10%;"/>
+  <div style="position:fixed; bottom:0; left:10%; font-size:200%">🏛️</div>
 </a>
 <a href="https://tracey.dev.archive.org">
-  <img src="i/k8.png" style="position:fixed; bottom:0; left:80%;"/>
+  <div style="position:fixed; bottom:3%; left:80%; font-size:200%">🐳☕</div>
 </a>
 
 
 ---
-# noon saturday
-
-# Tracey Jaquith, TV Architect
+# Tracey Jaquith
+## TV Architect
 
 https://www.aaronswartzday.org/tracey-jaquith/
 https://www.aaronswartzday.org/invitation/
 
 ---
+# Overview 😴
 Tracey will discuss the Internet Archive's ultra-modern javascript and docker/containerization.
 
 Tracey is transitioning IA’s TV and A/V processing (back-end) to javascript and will show
@@ -43,5 +43,158 @@ new and interesting ways to setup modern JS with a “light touch” and get goi
 
 On the container side, she setup a new way to allow people to do arbitrary archive item processing in any coding language repo, auto-building a docker image.
 
-For examples, Merlijn is replacing IA’s OCR tools with a python3 based repo and toolset;
+For examples, Merlijn is replacing OCR tools with a python3 based repo and toolset;
 Tracey & Jake moved a new audio segment tagger (“is this part of the audio speech or is it music?”) to python3.
+
+
+
+---
+# JavaScript
+## ES6 / ECMAScript 2015 🚀
+  - classes & static functions
+  - arrow functions / lexical `this`
+  - default param values
+  - rest & spread operators
+    - `[..."hey"]  // == ['h', 'e', 'y']`
+  - Promises
+  - destructuring
+```js
+const list = [ 1, 2, 3 ]
+let [ a, , b ] = list  // b == 3
+[ b, a ] = [ a, b ]    // swap vals, b == 1
+```
+
+---
+# JavaScript
+## ES6 / ECMAScript 2015 🚀
+Template Strings
+
+**O M G**
+
+```javascript
+const relative = favorites?.relative ?? 'sister'
+console.log(`
+<div>
+  did you remember to call your ${relative},
+  today?
+  <i>you really should</i>
+  i good at maths: ${Math.round(1.5 * location.href.length)}
+</div>
+`)
+```
+
+(👋 bai, react + JSX)
+
+
+---
+# JavaScript
+## ES2020
+`?.` and `??`
+```javascript
+const ttl = archive?.item?.metadata?.title ?? 'no title'
+```
+
+dynamic import
+```javascript
+if (something) {
+  const module = await import('./adder.js')
+  module.add(1, 2, 3, 5, 8, 13)
+}
+```
+
+---
+# ES Modules ✨
+- shareable & reusable front and back end code 💃
+- dynamic loading across the web, or in command-line scripts
+- use http2 ideally for serving JS files
+- can _finally_ drop: webpack, babel, transpiling
+
+https://poohbot.com/2019/09/techo-tuesday-javascript-es6-and-es-modules/
+
+---
+# Use ES Modules
+- Find tools that can natively use `import`
+  - use `node` with `package.json` line:
+```json
+{ "type": "module" }
+```
+  - `mocha` for testing
+  - `c8` for coverage
+
+[Full ES Modules + mocha + c8 repo](https://github.com/traceypooh/js-es-modules-coverage-testing)
+
+
+---
+# Deriving 👩‍🏭
+'Original' file => 'Derivative' file
+
+Examples:
+- wav => mp3, m4a
+- mov => mp4
+- images zip => pdf
+
+
+---
+# Serverless Deriving
+Similar to docker-in-docker, we can now run an _arbitrary container_ to make file1 => file2
+
+- docker image / container can use:
+  - any OS
+  - any coding langauge
+  - arbitrary dependencies
+  - [archive.org APIs](https://archive.org/services/docs/api/)
+- archive.org strongly prefers Python v3 now
+
+---
+# Serverless Flow
+
+
+---
+# Simplest Example
+
+Internet Archive deriver sets you up with a read/write copy of a _live item_
+with `/item` and `/task` dirs.
+
+It volume mounts the dirs into your container upon startup.
+
+We'll simulate that _first_
+
+...
+
+and _then_ put tracey out of a job
+
+with _10 lines of code_
+
+---
+### setup
+```bash
+mkdir /task /item
+wget -qO /item/stairs.avi  https://archive.org/download/stairs/stairs.avi
+
+echo '{"sourceFile": "/item/stairs.avi", "targetFile": "/item/thumb.jpg"}' \
+  > /task/task.json
+```
+
+### package.json
+```json
+{ "type": "module" }
+```
+
+### Dockerfile
+```bash
+FROM node:alpine
+
+COPY . /app
+RUN apk add ffmpeg
+CMD node /app/derive.js
+```
+
+### derive.js
+```javascript
+import { readFileSync } from 'fs'
+import { spawnSync } from 'child_process'
+
+const task = JSON.parse(readFileSync('/task/task.json').toString())
+
+spawnSync('ffmpeg', ['-i', task.sourceFile, task.targetFile])
+```
