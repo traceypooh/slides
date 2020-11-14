@@ -1,8 +1,8 @@
 <!doctype html><head><title>Aaron Swartz Day 2020 - Tracey Jaquith</title><script src="../eveal.js/eveal.js"></script></head><body>
 
-# Internet Archive
 # Processing Hype Project 🚀
 ## (It's not PHP ;-)
+### Internet Archive
 ### Aaron Swartz Day, 2020
 
 <small>
@@ -37,7 +37,7 @@ https://tracey.dev.archive.org
 
 
 ---
-# Overview 😴
+### Overview 😴
 Tracey will discuss the Internet Archive's ultra-modern javascript and docker/containerization.
 
 Tracey is transitioning IA’s TV and A/V processing (back-end) to javascript and will show
@@ -47,8 +47,6 @@ On the container side, she and Hank setup a new way to allow people to do arbitr
 
 For examples, Merlijn & Derek are replacing OCR tools and making new microfilm code with python3;
 Tracey & Jake moved a new audio segment tagger (“is this part of the audio speech or is it music?”) to python3.
-
-https://tracey.dev.archive.org
 
 
 ---
@@ -176,7 +174,7 @@ and _then_ put tracey out of a job
 with _10 lines of code_
 
 ---
-### setup
+#### setup
 ```bash
 mkdir /task /item
 wget -qO /item/stairs.avi  https://archive.org/download/stairs/stairs.avi
@@ -185,27 +183,25 @@ echo '{"sourceFile": "/item/stairs.avi", "targetFile": "/item/thumb.jpg"}' \
   > /task/task.json
 ```
 
-### package.json
+#### package.json
 ```json
 { "type": "module" }
 ```
 
-### Dockerfile
+#### Dockerfile
 ```bash
 FROM node:alpine
-
 COPY . /app
 RUN apk add ffmpeg
 CMD node /app/derive.js
 ```
 
-### derive.js
+#### derive.js
 ```javascript
 import { readFileSync } from 'fs'
 import { spawnSync } from 'child_process'
 
 const task = JSON.parse(readFileSync('/task/task.json').toString())
-
 spawnSync('ffmpeg', ['-i', task.sourceFile, task.targetFile])
 ```
 
