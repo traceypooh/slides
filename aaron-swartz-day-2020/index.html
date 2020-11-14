@@ -150,18 +150,22 @@ Similar to docker-in-docker, we can now run an _arbitrary container_ to make fil
 
 
 ---
+# Serverless Overview
+
+Internet Archive deriver sets you up with a read/write copy of a _live item_
+in `/item/` dir, with `/task/` dir info.
+
+It volume mounts the dirs into your container upon startup.
+
+
+---
 <section data-background-image="serverless.drawio.svg" data-background-size="contain"></section>
 
 
 ---
 # Simplest Example
 
-Internet Archive deriver sets you up with a read/write copy of a _live item_
-with `/item` and `/task` dirs.
-
-It volume mounts the dirs into your container upon startup.
-
-We'll simulate that _first_
+We'll simulate minimal setup _first_
 
 ...
 
@@ -202,3 +206,19 @@ const task = JSON.parse(readFileSync('/task/task.json').toString())
 
 spawnSync('ffmpeg', ['-i', task.sourceFile, task.targetFile])
 ```
+
+---
+# How's it Going? 😎
+
+We already have 3 developers rapidly writing Serverless modules.
+
+We think it allows anyone to contribute.
+
+We think it's the future.
+
+☀️
+
+
+---
+<!-- .slide: data-background="https://media.giphy.com/media/q4ICE9wYvOwBG/giphy.gif" -->
+# La Fin
