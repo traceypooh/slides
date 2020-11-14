@@ -43,7 +43,7 @@ Tracey will discuss the Internet Archive's ultra-modern javascript and docker/co
 Tracey is transitioning IA’s TV and A/V processing (back-end) to javascript and will show
 new and interesting ways to setup modern JS with a “light touch” and get going really quickly.
 
-On the container side, she setup a new way to allow people to do arbitrary archive item processing in any coding language repo, auto-building a docker image.
+On the container side, she and Hank setup a new way to allow people to do arbitrary archive item processing in any coding language repo, auto-building a docker image.
 
 For examples, Merlijn is replacing OCR tools with a python3 based repo and toolset;
 Tracey & Jake moved a new audio segment tagger (“is this part of the audio speech or is it music?”) to python3.
@@ -107,6 +107,7 @@ if (something) {
 
 ---
 # ES Modules ✨
+- `import` - not `require`
 - shareable & reusable front and back end code 💃
 - dynamic loading across the web, or in command-line scripts
 - use http2 ideally for serving JS files
@@ -132,7 +133,8 @@ https://poohbot.com/2019/09/techo-tuesday-javascript-es6-and-es-modules/
 'Original' file ➡ 'Derivative' file
 
 Examples:
-- wav ➡ mp3, m4a
+- wav ➡ mp3
+- wav ➡ m4a
 - mov ➡ mp4
 - images zip ➡ pdf
 
