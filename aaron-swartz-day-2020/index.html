@@ -15,8 +15,7 @@
 <small>
   _?_ for key shortcuts
 </small><br/>
-https://archive.org/~tracey/slides
-
+https://tracey.dev.archive.org
 
 
 <a href="https://archive.org">
@@ -34,6 +33,9 @@ https://archive.org/~tracey/slides
 https://www.aaronswartzday.org/tracey-jaquith/
 https://www.aaronswartzday.org/invitation/
 
+https://tracey.dev.archive.org
+
+
 ---
 # Overview 😴
 Tracey will discuss the Internet Archive's ultra-modern javascript and docker/containerization.
@@ -46,6 +48,7 @@ On the container side, she setup a new way to allow people to do arbitrary archi
 For examples, Merlijn is replacing OCR tools with a python3 based repo and toolset;
 Tracey & Jake moved a new audio segment tagger (“is this part of the audio speech or is it music?”) to python3.
 
+https://tracey.dev.archive.org
 
 
 ---
@@ -113,7 +116,7 @@ https://poohbot.com/2019/09/techo-tuesday-javascript-es6-and-es-modules/
 
 ---
 # Use ES Modules
-- Find tools that can natively use `import`
+- Use tools that can natively use `import`
   - use `node` with `package.json` line:
 ```json
 { "type": "module" }
@@ -126,17 +129,17 @@ https://poohbot.com/2019/09/techo-tuesday-javascript-es6-and-es-modules/
 
 ---
 # Deriving 👩‍🏭
-'Original' file => 'Derivative' file
+'Original' file ➡ 'Derivative' file
 
 Examples:
-- wav => mp3, m4a
-- mov => mp4
-- images zip => pdf
+- wav ➡ mp3, m4a
+- mov ➡ mp4
+- images zip ➡ pdf
 
 
 ---
-# Serverless Deriving
-Similar to docker-in-docker, we can now run an _arbitrary container_ to make file1 => file2
+# Serverless Deriving ⏩
+Similar to docker-in-docker, we can now run an _arbitrary container_ to make file1 ➡ file2
 
 - docker image / container can use:
   - any OS
@@ -145,8 +148,9 @@ Similar to docker-in-docker, we can now run an _arbitrary container_ to make fil
   - [archive.org APIs](https://archive.org/services/docs/api/)
 - archive.org strongly prefers Python v3 now
 
+
 ---
-# Serverless Flow
+<section data-background-image="serverless.drawio.svg" data-background-size="contain"></section>
 
 
 ---
