@@ -24,7 +24,7 @@ Internet Archive 🏛️<br>
 TV Architect<br>
 · video/audio · devops · javascript ·<br><br>
 
-slides: bit.ly/3ara7cD<br>
+slides: http://bit.ly/3ara7cD<br>
 repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 </div>
 
@@ -110,7 +110,7 @@ bit.ly/3ara7cD
 ---
 ## Hashsistack
 - Nomad - deployment (container rollouts, restarts)
-- Consul - network (svc discovery, communication, config)
+- Consul - network (service discovery, healthchecking)
 - Vault - secrets
 
 bit.ly/3ara7cD
@@ -118,9 +118,11 @@ bit.ly/3ara7cD
 
 ---
 <section data-background-image="i/overview.drawio.svg" data-background-size="contain"></section>
+xxx invert
 
 ---
 <section data-background-image="i/overview2.drawio.svg" data-background-size="contain"></section>
+xxx invert
 
 
 ---
@@ -133,8 +135,7 @@ bit.ly/3ara7cD
 - Custom [deploy] phase
   - create `project.hcl` dynamically
     - use merged CI/CD vars & env. vars
-    - leverages [hcl](https://github.com/hashicorp/hcl)
-                [v2](https://www.nomadproject.io/docs/job-specification/hcl2)
+    - leverages [hcl](https://github.com/hashicorp/hcl) - [v2](https://www.nomadproject.io/docs/job-specification/hcl2)
   - auto-update review apps every `git push`
 
 
@@ -146,7 +147,7 @@ include:
 ```
 add 👆 to your GitLab repository :
 - top-level file:
-- `.gitlab-ci.yml`
+- [.gitlab-ci.yml](https://gitlab.com/internetarchive/nomad/-/blob/master/.gitlab-ci.yml)
 
 
 ---
@@ -162,7 +163,7 @@ add 👆 to your GitLab repository :
 
 ---
 <pre class="stretch"><code class="hljs yaml">
-image: registry.gitlab.com/internetarchive/nomad/master:latest
+image: registry.gitlab.com/internetarchive/nomad/master
 
 
 stages:
@@ -298,17 +299,12 @@ variables {
   CI_REGISTRY_PASSWORD = ""                                 # .. allows pull from private registry
   KUBE_INGRESS_BASE_DOMAIN = "x.archive.org"
 }
-</code></pre>
 
----
-<pre class="stretch"><code class="hljs yaml">
-# NOTE: "hello-world" should really be "${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}"
-#       but `job ".." {` can't interpolate vars/locals yet in HCL v2.
 locals {
+  # prefer uncommented version below but job cant interpolate vars/locals yet in HCL v2
   job_names = [ "hello-world" ]
  #job_names = [ "${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}" ]
 }
-
 </code></pre>
 
 ---
@@ -346,13 +342,7 @@ job "hello-world" {
               server_address = "${var.CI_REGISTRY}"
               username = "${var.CI_REGISTRY_USER}"
               password = "${var.CI_REGISTRY_PASSWORD}"
-            }
-          }
-        }
-      }
-    }
-  }
-}
+      }}}}}}}
 </code></pre>
 
 
@@ -485,7 +475,7 @@ NOMAD_VAR_PV_DB
 ---
 ## 🚨 Other factors - monorepos 🚨
 - avoid `docker-in-docker`
-- uses `docker.sock`
+  - use `docker.sock`
 - allows docker image/layer cache reuse
   - esp. nice when CI/CD-ing 4-10GB (!) images
 
