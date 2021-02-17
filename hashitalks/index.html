@@ -953,15 +953,36 @@ NOMAD_VAR_PV_DB
 
 
 ---
-## 🚨 Other factors - monorepos 🚨
+## 🚨 Monorepos 🚨
 - avoid `docker-in-docker`
   - use `docker.sock`
 - allows docker image/layer cache reuse
   - esp. nice when CI/CD-ing 4-10GB (!) images
 
----
-xxx gitlab runner caching
 
+---
+## 🚨 Monorepos - GitLab Runner caching 🚨
+<pre class="stretch"><code class="hljs yaml">
+[[runners]]
+  [runners.custom_build_dir]
+    enabled = true
+  builds_dir = "/srv/gitlab-runner/builds"
+  cache_dir  = "/srv/gitlab-runner/cache"
+  environment = [
+    "GIT_DEPTH=10",
+    "GIT_CLONE_PATH=$CI_BUILDS_DIR/$CI_CONCURRENT_ID/$CI_PROJECT_NAME"
+  ]
+
+  [runners.docker]
+    image = "docker"
+    volumes = [
+      "/var/run/docker.sock:/var/run/docker.sock",
+      "/srv/gitlab-runner/builds:/builds",
+      "/srv/gitlab-runner/cache:/cache"
+    ]
+</pre></code>
+
+https://docs.gitlab.com/ee/ci/large_repositories
 
 
 ---
