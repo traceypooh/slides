@@ -13,7 +13,7 @@ pre.stretch code { max-height: 100% !important; }
 <div style="color: #ddd; margin-top:30%">
 GitLab + Nomad: a GitOps Dream Come True<br>
 Tracey Jaquith<br><br>
-bit.ly/2BQ8eb4
+bit.ly/3ara7cD
 </div>
 
 ---
@@ -24,7 +24,7 @@ Internet Archive 🏛️<br>
 TV Architect<br>
 · video/audio · devops · javascript ·<br><br>
 
-slides: bit.ly/2BQ8eb4<br>
+slides: bit.ly/3ara7cD<br>
 repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 </div>
 
@@ -32,7 +32,7 @@ repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 
 ---
 <img src="i/containers-and-tracey.jpg"/><br>
-bit.ly/2BQ8eb4
+bit.ly/3ara7cD
 
 
 ---
@@ -58,7 +58,7 @@ bit.ly/2BQ8eb4
   - Kubernetes is a lot - something smaller?
   - simpler deployments
 
-bit.ly/2BQ8eb4
+bit.ly/3ara7cD
 
 
 ---
@@ -67,7 +67,7 @@ bit.ly/2BQ8eb4
 - Use GitLab's [build] phase
 - Custom [deploy] phase
 
-bit.ly/2BQ8eb4
+bit.ly/3ara7cD
 
 
 ---
@@ -85,7 +85,7 @@ bit.ly/2BQ8eb4
 
 ---
 <img src="i/sw-sanity.jpg"/><br>
-bit.ly/2BQ8eb4
+bit.ly/3ara7cD
 
 
 ---
@@ -104,7 +104,7 @@ bit.ly/2BQ8eb4
 - Consul - network
 - Vault - secrets
 
-bit.ly/2BQ8eb4
+bit.ly/3ara7cD
 
 
 ---
@@ -113,7 +113,7 @@ bit.ly/2BQ8eb4
 - Consul - network (svc discovery, communication, config)
 - Vault - secrets
 
-bit.ly/2BQ8eb4
+bit.ly/3ara7cD
 
 
 ---
@@ -184,14 +184,11 @@ include:
     #   services-timemachine.x.archive.org
     #   ia-petabox-webdev-3939-fix-things.x.archive.org
     # and a unique slug that factors in group, project, and branch (when not master)
-    - |
-      BRANCH_PART=""
-      [ "$CI_COMMIT_REF_SLUG" != "master" ]  &&  BRANCH_PART="-${CI_COMMIT_REF_SLUG}"
-
-      export NOMAD_VAR_SLUG=$(echo "${CI_PROJECT_PATH_SLUG}${BRANCH_PART}" |cut -b1-63)
-      export NOMAD_VAR_HOSTNAME="${NOMAD_VAR_SLUG}.${KUBE_INGRESS_BASE_DOMAIN}"
-
-      [ "$NOMAD_VAR_HOSTNAMES" = "" ]  &&  export NOMAD_VAR_HOSTNAMES='["'$NOMAD_VAR_HOSTNAME'"]'
+    - export BRANCH_PART=""
+    - if [ "$CI_COMMIT_REF_SLUG" != "master" ]; then export BRANCH_PART="-${CI_COMMIT_REF_SLUG}"; fi
+    - export NOMAD_VAR_SLUG=$(echo "${CI_PROJECT_PATH_SLUG}${BRANCH_PART}" |cut -b1-63)
+    - export NOMAD_VAR_HOSTNAME="${NOMAD_VAR_SLUG}.${KUBE_INGRESS_BASE_DOMAIN}"
+    - if [ "$NOMAD_VAR_HOSTNAMES" = "" ]; then export NOMAD_VAR_HOSTNAMES='["'$NOMAD_VAR_HOSTNAME'"]'; fi
 
 
 deploy:
@@ -208,7 +205,7 @@ deploy:
     - cp project.nomad project.hcl
     # Do the one current substitution nomad v1.0.3 can't do now (apparently a bug)
     - sed -i "s/NOMAD_VAR_SLUG/$NOMAD_VAR_SLUG/" project.hcl
-    # write an current env vars starting with "CI_" to a JSON env var file
+    # write current env vars starting with "CI_" to a JSON env var file
     - node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("CI_")))))' >| /tmp/env.json
 
     - nomad validate -var-file=/tmp/env.json project.hcl
@@ -449,6 +446,8 @@ xxx
 ---
 <section data-background-image="i/nomad-ui3.jpg" data-background-size="contain"></section>
 
+---
+xxx topology
 
 
 ---
@@ -481,10 +480,6 @@ NOMAD_VAR_PORTS
 NOMAD_VAR_PV
 NOMAD_VAR_PV_DB
 ```
-
-
----
-<section data-background-image="i/architecture.drawio.svg" data-background-size="contain"></section>
 
 
 ---
@@ -524,9 +519,9 @@ xxx gitlab runner caching
 
 
 ---
-<!-- .slide: data-background="end.svg" -->
+<!-- .slide: data-background="thanks.jpg" -->
 <div style="color: #ddd; margin-top:20%">
 Thank You!<br>
-slides: bit.ly/2BQ8eb4<br>
+slides: bit.ly/3ara7cD<br>
 repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 </div>
