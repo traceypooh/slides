@@ -1,0 +1,532 @@
+<!doctype html><head><meta charset="utf-8"/><script src="../eveal.js/eveal.js"></script></head><body>
+<style>
+pre.stretch code { max-height: 100% !important; }
+.slide-background {
+  background-image: url("bg.jpg");
+}
+</style>
+
+<section data-background-image="welcome.png" data-background-size="contain" data-background-color="black"></section>
+
+---
+<!-- .slide: data-background="nomad.jpg" -->
+<div style="color: #ddd; margin-top:60%">
+GitLab + Nomad: a GitOps Dream Come True<br>
+Tracey Jaquith<br><br>
+bit.ly/2BQ8eb4
+</div>
+
+---
+<!-- .slide: data-background="bg.jpg" -->
+<div style="color: #ddd">
+@tracey_pooh 🧸<br>
+Internet Archive 🏛️<br>
+TV Architect<br>
+· video/audio · devops · javascript ·<br><br>
+
+slides: bit.ly/2BQ8eb4<br>
+repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
+</div>
+
+</div>
+
+---
+<img src="i/containers-and-tracey.jpg"/><br>
+bit.ly/2BQ8eb4
+
+
+---
+<!-- .slide: data-background="i/container-ship-sink.jpg" -->
+
+
+
+---
+### vs. Kubernetes GitLab integrations
+| kubernetes | hashistack |
+| ---------- | :--------- |
+| ingress | fabio |
+| certmanager | domain-based letsencrypt certs script - certs put in fabio; manual renew every 90d |
+| runner | runner on one node |
+| review apps | review apps |
+
+
+---
+## Who talk is for
+- Some of:
+  - GitLab CI/CD users
+  - on-premise / maintain own cluster
+  - Kubernetes is a lot - something smaller?
+  - simpler deployments
+
+bit.ly/2BQ8eb4
+
+
+---
+## Approach & Goals
+- Make `nomad` an easy swap with `kubernetes`
+- Use GitLab's [build] phase
+- Custom [deploy] phase
+
+bit.ly/2BQ8eb4
+
+
+---
+## Why Nomad?
+#### a bad month ..
+- k8s v1.18 issues
+  - VM networking / certmanager / no https
+- `kubeadm` cert 1y expiry
+  - v1.14 no auto-renew
+- persistent volume rook/ceph corruptionS
+- GitLab workarounds for k8s v1.16+
+  - `extensions/v1beta` -v- `apps/v1`
+  - hacks until GitLab v13
+
+
+---
+<img src="i/sw-sanity.jpg"/><br>
+bit.ly/2BQ8eb4
+
+
+---
+## Why Nomad?
+- archive.org Ops preference
+  - knew `Consul`
+  - deploy scripts attractive
+    - nomad `exec` driver
+- smaller places
+  - smaller tools often better fit
+
+
+---
+## Hashsistack
+- Nomad - deployment
+- Consul - network
+- Vault - secrets
+
+bit.ly/2BQ8eb4
+
+
+---
+## Hashsistack
+- Nomad - deployment (container rollouts, restarts)
+- Consul - network (svc discovery, communication, config)
+- Vault - secrets
+
+bit.ly/2BQ8eb4
+
+
+---
+<section data-background-image="overview.drawio.svg" data-background-size="contain"></section>
+
+---
+<section data-background-image="overview2.drawio.svg" data-background-size="contain"></section>
+
+
+---
+## Approach & Goals
+- Make `nomad` an easy swap with `kubernetes`
+- Use GitLab's [build] phase
+  - works great as is
+  - builds and `docker push` to registry
+
+- Custom [deploy] phase
+  - create `project.hcl` dynamically
+    - use merged CI/CD vars & env. vars
+    - leverages [hcl](https://github.com/hashicorp/hcl)
+                [v2](https://www.nomadproject.io/docs/job-specification/hcl2)
+  - auto-update review apps every `git push`
+
+
+---
+## tl;dr 🥱
+```yml
+include:
+  - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
+```
+add 👆 to your GitLab repository :
+- top-level file:
+- `.gitlab-ci.yml`
+
+
+---
+## tl;dr 🥱
+{GitLab repository}<br>
+[Settings] [CI/CD] [Variables]<br>
+`NOMAD_ADDR` `https://pod.archive.org:4646`<br>
+`NOMAD_TOKEN` `133t-z6rf-1234-1243bcd35199187`<br>
+
+
+---
+## [.gitlab-ci.yml](https://gitlab.com/internetarchive/nomad/-/blob/master/.gitlab-ci.yml)
+
+---
+<pre class="stretch"><code class="hljs yaml">
+image: registry.gitlab.com/internetarchive/nomad/master:latest
+
+
+stages:
+  - build
+  - test
+  - deploy
+  - cleanup
+
+
+include:
+  # GitLab Auto DevOps' stock CI/CD [build] phase:
+  - remote: 'https://gitlab.com/gitlab-org/gitlab-foss/-/raw/master/lib/gitlab/ci/templates/Jobs/Build.gitlab-ci.yml'
+  # @see https://gitlab.com/gitlab-org/cluster-integration/auto-build-image/blob/master/src/build.sh
+
+
+.nomad-vars:
+  before_script:
+    # make nice hostname, eg:
+    #   services-timemachine.x.archive.org
+    #   ia-petabox-webdev-3939-fix-things.x.archive.org
+    # and a unique slug that factors in group, project, and branch (when not master)
+    - |
+      BRANCH_PART=""
+      [ "$CI_COMMIT_REF_SLUG" != "master" ]  &&  BRANCH_PART="-${CI_COMMIT_REF_SLUG}"
+
+      export NOMAD_VAR_SLUG=$(echo "${CI_PROJECT_PATH_SLUG}${BRANCH_PART}" |cut -b1-63)
+      export NOMAD_VAR_HOSTNAME="${NOMAD_VAR_SLUG}.${KUBE_INGRESS_BASE_DOMAIN}"
+
+      [ "$NOMAD_VAR_HOSTNAMES" = "" ]  &&  export NOMAD_VAR_HOSTNAMES='["'$NOMAD_VAR_HOSTNAME'"]'
+
+
+deploy:
+  extends: .nomad-vars
+  stage: deploy
+  script:
+    - echo using nomad cluster $NOMAD_ADDR
+    - echo deploying to https://$NOMAD_VAR_HOSTNAME
+
+    # You can have your own/custom `project.nomad` in the top of your repo - or we'll just use
+    # this fully parameterized nice generic 'house style' project
+    - if [ ! -e project.nomad ];then wget -q https://gitlab.com/internetarchive/nomad/-/raw/master/project.nomad; fi
+
+    - cp project.nomad project.hcl
+    # Do the one current substitution nomad v1.0.3 can't do now (apparently a bug)
+    - sed -i "s/NOMAD_VAR_SLUG/$NOMAD_VAR_SLUG/" project.hcl
+    # write an current env vars starting with "CI_" to a JSON env var file
+    - node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("CI_")))))' >| /tmp/env.json
+
+    - nomad validate -var-file=/tmp/env.json project.hcl
+    - nomad plan     -var-file=/tmp/env.json project.hcl 2>&1 |sed 's/\(password[^ \t]*[ \t]*\).*/\1 ... /' || echo
+    - nomad run      -var-file=/tmp/env.json project.hcl
+
+    - rm /tmp/env.json
+
+    - echo deployed to https://$NOMAD_VAR_HOSTNAME
+
+  environment:
+    name: $CI_COMMIT_REF_SLUG
+    url: https://$NOMAD_VAR_HOSTNAME
+    on_stop: stop_review
+  rules:
+    - if: '$NOMAD_VAR_NO_DEPLOY'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_TAG || $CI_COMMIT_BRANCH'
+
+
+stop_review:
+  # See:
+  # https://gitlab.com/gitlab-org/gitlab-foss/blob/master/lib/gitlab/ci/templates/Jobs/Deploy.gitlab-ci.yml
+  extends: .nomad-vars
+  stage: cleanup
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - nomad stop $NOMAD_VAR_SLUG
+  environment:
+    name: $CI_COMMIT_REF_SLUG
+    action: stop
+  dependencies: []
+  allow_failure: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: '$NOMAD_VAR_NO_DEPLOY'
+      when: never
+    - if: '$CI_COMMIT_TAG || $CI_COMMIT_BRANCH'
+      when: manual
+</code></pre>
+
+
+
+---
+## nomad project
+- generic template: [project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
+- leverages: [v2](https://www.nomadproject.io/docs/job-specification/hcl2)
+- example using template vars + GitLab CI/CD Auto DevOps variables:
+```
+job SOMETHING {
+    group SOMETHING {
+      task SOMETHING {
+        driver = "docker"
+        config {
+          image = "${var.CI_REGISTRY_IMAGE}/${var.CI_COMMIT_REF_SLUG}:${var.CI_COMMIT_SHA}"
+        }
+        ...
+      }
+      # if ${var.PG} === {} (empty map), this next block is skipped
+      dynamic "task" {
+        for_each = var.PG
+        labels = ["${var.SLUG}-db"]
+        content { .. }
+      }
+    }
+}
+```
+
+
+---
+## [minimal project](https://gitlab.com/internetarchive/nomad/-/blob/master/etc/hello-world.hcl) can use with GitLab
+
+
+---
+<pre class="stretch"><code class="hljs yaml">
+# Variables used below and their defaults if not set externally
+variables {
+  # These all pass through from GitLab [build] phase.
+  # Some defaults filled in w/ example repo "bai" in group "internetarchive".
+  CI_REGISTRY = "registry.gitlab.com"                       # registry hostname
+  CI_REGISTRY_IMAGE = "registry.gitlab.com/internetarchive/bai"  # registry image location
+  CI_COMMIT_REF_SLUG = "master"                             # branch name, slugged
+  CI_COMMIT_SHA = "latest"                                  # repo's commit for current pipline
+  CI_PROJECT_PATH_SLUG = "internetarchive-bai"              # repo and group it is part of, slugged
+  CI_REGISTRY_USER = ""                                     # set for each pipeline and ..
+  CI_REGISTRY_PASSWORD = ""                                 # .. allows pull from private registry
+  KUBE_INGRESS_BASE_DOMAIN = "x.archive.org"
+}
+</code></pre>
+
+---
+<pre class="stretch"><code class="hljs yaml">
+# NOTE: "hello-world" should really be "${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}"
+#       but `job ".." {` can't interpolate vars/locals yet in HCL v2.
+locals {
+  job_names = [ "hello-world" ]
+ #job_names = [ "${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}" ]
+}
+
+</code></pre>
+
+---
+<pre class="stretch"><code class="hljs yaml">
+job "hello-world" {
+  datacenters = ["dc1"]
+  dynamic "group" {
+    for_each = local.job_names
+    labels = ["${group.value}"]
+    content {
+      network {
+        port "http" { to = 5000 }
+      }
+      service {
+        name = local.job_names[0]
+        tags = ["urlprefix-${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}.${var.KUBE_INGRESS_BASE_DOMAIN}:443/"]
+        port = "http"
+        check {
+          type     = "http"
+          port     = "http"
+          path     = "/"
+          interval = "10s"
+          timeout  = "2s"
+        }
+      }
+      dynamic "task" {
+        for_each = local.job_names
+        labels = ["${task.value}"]
+        content {
+          driver = "docker"
+          config {
+            image = "${var.CI_REGISTRY_IMAGE}/${var.CI_COMMIT_REF_SLUG}:${var.CI_COMMIT_SHA}"
+            ports = [ "http" ]
+            auth {
+              server_address = "${var.CI_REGISTRY}"
+              username = "${var.CI_REGISTRY_USER}"
+              password = "${var.CI_REGISTRY_PASSWORD}"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+</code></pre>
+
+
+---
+## NOMAD__SLUG 🐌
+
+- [GROUP] - [PROJECT] - [BRANCH]
+- [services] - [timemachine]
+- [ia] - [petabox] - [webdev-3939-fix-things]
+
+- services-timemachine
+- ia-petabox-webdev-3939-fix-things
+
+
+---
+## system overview
+```bash
+nomad status
+ID                              Type     Priority  Status   Submit Date
+fabio                           system   50        running  2020-07-04T12:14:32-07:00
+internetarchive-bai             service  50        running  2020-07-04T04:31:30-07:00
+internetarchive-word-salad      service  50        running  2020-07-04T04:24:31-07:00
+internetarchive-www             service  50        running  2020-07-04T04:36:02-07:00
+internetarchive-www-ia-topnav   service  50        running  2020-07-04T13:58:37-07:00
+internetarchive-www-mobile-nav  service  50        running  2020-07-04T13:59:16-07:00
+services-bwhogs                 service  50        running  2020-07-04T13:54:01-07:00
+services-clusters               service  50        running  2020-07-04T05:13:46-07:00
+services-iiif                   service  50        running  2020-07-04T13:52:42-07:00
+services-pyhi                   service  50        running  2020-07-04T13:50:21-07:00
+services-timemachine            service  50        running  2020-07-04T14:00:05-07:00
+services-warctozip              service  50        running  2020-07-04T13:53:33-07:00
+www-av                          service  50        running  2020-07-04T05:12:12-07:00
+www-ci                          service  50        running  2020-07-11T19:22:44-07:00
+www-dwebcamp1                   service  50        running  2020-07-04T14:29:48-07:00
+www-nomad                       service  50        running  2020-07-09T20:07:27-07:00
+www-pod                         service  50        running  2020-07-04T13:40:54-07:00
+www-politicaladarchive          service  50        running  2020-07-09T20:19:33-07:00
+www-serverless                  service  50        running  2020-07-11T17:40:00-07:00
+www-www                         service  50        running  2020-07-04T13:43:17-07:00
+x-devo                          service  50        running  2020-07-04T13:41:51-07:00
+x-flask                         service  50        running  2020-07-04T13:41:51-07:00
+x-hello-world                   service  50        running  2020-07-04T13:44:07-07:00
+x-ie-wc                         service  50        running  2020-07-04T04:30:20-07:00
+x-js-hi                         service  50        running  2020-07-04T04:27:09-07:00
+x-js-modules                    service  50        running  2020-07-04T04:50:44-07:00
+x-lit                           service  50        running  2020-07-04T13:46:52-07:00
+x-node                          service  50        running  2020-07-04T13:47:35-07:00
+x-php                           service  50        running  2020-07-04T04:50:25-07:00
+x-ram-piggy                     service  50        running  2020-07-04T04:50:21-07:00
+x-thumb                         service  50        running  2020-07-04T04:34:54-07:00
+```
+
+
+---
+## Full project.nomad
+https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad
+
+
+
+---
+<pre class="stretch"><code class="hljs yaml">
+xxx
+</code></pre>
+
+
+---
+## Other factors
+- can be run **without** CNI (Container Network Interface) available add-ons
+- `docker login` can be flakey
+  - Setup: Group [Settings] [Repository] [Deploy Tokens]
+    - create with
+     `read_registry` scope
+  - Add to: Group [Settings] [CI/CD] [Variables]
+    - `CI_R2_USER`
+    - `CI_R2_PASS`
+
+
+---
+## Monitoring & Usage 🕵️
+- UI for Nomad, Consul, Vault, Fabio
+  - easiest https://nomad-host:4646
+    - then enter `NOMAD_TOKEN`
+
+
+---
+<section data-background-image="i/nomad-ui1.jpg" data-background-size="contain"></section>
+
+---
+<section data-background-image="i/nomad-ui2.jpg" data-background-size="contain"></section>
+
+---
+<section data-background-image="i/nomad-ui3.jpg" data-background-size="contain"></section>
+
+
+
+---
+## Monitoring & Usage 🕵️
+- [aliases](https://gitlab.com/internetarchive/nomad/-/blob/master/aliases)
+  - based on CWD & git branch and info
+  - `nom-ssh` - ssh into container
+  - `nom-app` - open url for webapp
+  - `nom-cp` - "hot copy" a file from laptop into container
+  - `nom-status` - detailed info on your project
+
+
+---
+## Customizing
+Various CI/CD variables to customize
+the `project.nomad` and `.gitlab-ci.yml` files, keys:
+```
+NOMAD_VAR_BIND_MOUNTS
+NOMAD_VAR_CHECK_PROTOCOL
+NOMAD_VAR_COUNT
+NOMAD_VAR_CPU
+NOMAD_VAR_HEALTH_TIMEOUT
+NOMAD_VAR_HOME
+NOMAD_VAR_HOSTNAMES
+NOMAD_VAR_MEMORY
+NOMAD_VAR_MYSQL
+NOMAD_VAR_NO_DEPLOY
+NOMAD_VAR_PG
+NOMAD_VAR_PORTS
+NOMAD_VAR_PV
+NOMAD_VAR_PV_DB
+```
+
+
+---
+<section data-background-image="architecture.drawio.svg" data-background-size="contain"></section>
+
+
+---
+## 🚨 Other factors - monorepos 🚨
+- avoid `docker-in-docker`
+- uses `docker.sock`
+- allows docker image/layer cache reuse
+  - esp. nice when CI/CD-ing 4-10GB (!) images
+
+---
+xxx gitlab runner caching
+
+
+
+---
+## Helpful scripts
+- [setup a nomad cluster](https://gitlab.com/internetarchive/nomad/-/blob/master/setup.sh)
+- [create domain https certs](https://gitlab.com/internetarchive/nomad/-/blob/master/create-https-certs.sh)
+
+
+---
+#### vs. kubernetes
+| kubernetes | hashistack |
+| ---------- | :--------- |
+| the many pound gorilla | smaller, lighter, single binaries per tool |
+| used almost everywhere | less known |
+| networking footprint | minimal network needs |
+| great deploy to cloud | simpler for deploying on-premise |
+| great for 2-3+ fulltime devops | 1 parttime devops OK |
+| great for large amounts of teams and devs | good for trusted 50 devs/contractors |
+| builtin namespaces & superior RBAC company security | optional namespaces & ACL user security |
+
+
+---
+<!-- .slide: data-background="https://media.giphy.com/media/q4ICE9wYvOwBG/giphy.gif" -->
+# The End
+
+
+---
+<!-- .slide: data-background="end.svg" -->
+<div style="color: #ddd; margin-top:20%">
+Thank You!<br>
+slides: bit.ly/2BQ8eb4<br>
+repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
+</div>
