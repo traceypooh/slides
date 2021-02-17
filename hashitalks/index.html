@@ -36,38 +36,22 @@ bit.ly/3ara7cD
 
 
 ---
-<!-- .slide: data-background="i/container-ship-sink.jpg" -->
-
-
-
----
-### vs. Kubernetes GitLab integrations
-| kubernetes | hashistack |
-| ---------- | :--------- |
-| ingress | fabio |
-| certmanager | domain-based letsencrypt certs script - certs put in fabio; manual renew every 90d |
-| runner | runner on one node |
-| review apps | review apps |
-
-
----
-## Who talk is for
-- Some of:
-  - GitLab CI/CD users
-  - on-premise / maintain own cluster
-  - Kubernetes is a lot - something smaller?
-  - simpler deployments
-
-bit.ly/3ara7cD
-
-
----
 ## Approach & Goals
 - Make `nomad` an easy swap with `kubernetes`
 - Use GitLab's [build] phase
 - Custom [deploy] phase
 
 bit.ly/3ara7cD
+
+
+---
+### GitLab integrations
+| kubernetes | hashistack |
+| ---------- | :--------- |
+| ingress | fabio |
+| certmanager | domain-based letsencrypt certs script - certs put in fabio; manual renew every 90d |
+| runner | runner on one node |
+| review apps | review apps |
 
 
 ---
@@ -255,7 +239,7 @@ stop_review:
 ---
 ## nomad project
 - generic template: [project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
-- leverages: [v2](https://www.nomadproject.io/docs/job-specification/hcl2)
+- leverages: [HCL v2](https://www.nomadproject.io/docs/job-specification/hcl2)
 - example using template vars + GitLab CI/CD Auto DevOps variables:
 ```
 job SOMETHING {
