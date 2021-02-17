@@ -48,7 +48,7 @@ require(BASE + 'lib/js/head.min.js', function() {
   // get the styles and theme in place
   var loads = [
     BASE + 'css/reveal.css',       // main CSS
-    BASE + '../sky.css',           // desired theme
+    BASE + (window.NIGHT ? '../night.css' : '../sky.css'), // desired theme
     BASE + 'lib/css/zenburn.css',  // for syntax highlighting of code
     (window.location.search.match( /print-pdf/gi ) ? // printing and PDF exports
       BASE + 'css/print/pdf.css' :
