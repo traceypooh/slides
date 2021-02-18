@@ -115,14 +115,16 @@ bit.ly/3ara7cD
 ## Approach & Goals
 - Make `nomad` an easy swap with `kubernetes`
 - Use GitLab's [build] phase
-  - works great as is
-  - builds and `docker push` to registry
+  - great as is
+  - build and `docker push` to registry
 
+---
+## Approach & Goals
 - Custom [deploy] phase
   - create `project.hcl` dynamically
     - use merged CI/CD vars & env. vars
     - leverages [hcl](https://github.com/hashicorp/hcl) - [v2](https://www.nomadproject.io/docs/job-specification/hcl2)
-  - auto-update review apps every `git push`
+  - auto-update web apps every `git push`
 
 
 ---
@@ -267,7 +269,7 @@ job SOMETHING {
 
 
 ---
-## [minimal project](https://gitlab.com/internetarchive/nomad/-/blob/master/etc/hello-world.hcl) can use with GitLab
+## [minimal project](https://gitlab.com/internetarchive/nomad/-/blob/master/etc/hello-world.hcl)  usable with GitLab
 
 
 ---
@@ -346,7 +348,7 @@ job "hello-world" {
 
 
 ---
-## system overview
+## cluster overview
 ```bash
 nomad status
 ID                              Type     Priority  Status   Submit Date
@@ -915,13 +917,13 @@ job "NOMAD_VAR_SLUG" {
   - `nom-ssh` - ssh into container
   - `nom-app` - open url for webapp
   - `nom-cp` - "hot copy" a file from laptop into container
-  - `nom-status` - detailed info on your project
+  - `nom-status` - detailed info on your deployment
 
 
 ---
 ## Customizing
-Various CI/CD variables to customize
-the `project.nomad` and `.gitlab-ci.yml` files, keys:
+Optional CI/CD variables to customize the `project.nomad`.
+Add one or more key/values to your `.gitlab-ci.yml`.
 ```
 NOMAD_VAR_BIND_MOUNTS
 NOMAD_VAR_CHECK_PROTOCOL
@@ -937,6 +939,17 @@ NOMAD_VAR_PG
 NOMAD_VAR_PORTS
 NOMAD_VAR_PV
 NOMAD_VAR_PV_DB
+```
+
+---
+## Customizing - Example
+`.gitlab-ci.yml`
+```
+variables:
+  NOMAD_VAR_HOME: 'rw'
+
+include:
+  - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
 ```
 
 
@@ -977,19 +990,6 @@ https://docs.gitlab.com/ee/ci/large_repositories
 ## Helpful scripts
 - [setup a nomad cluster](https://gitlab.com/internetarchive/nomad/-/blob/master/setup.sh)
 - [create domain https certs](https://gitlab.com/internetarchive/nomad/-/blob/master/create-https-certs.sh)
-
-
----
-#### vs. kubernetes
-| kubernetes | hashistack |
-| ---------- | :--------- |
-| the many pound gorilla | smaller, lighter, single binaries per tool |
-| used almost everywhere | less known |
-| networking footprint | minimal network needs |
-| great deploy to cloud | simpler for deploying on-premise |
-| great for 2-3+ fulltime devops | 1 parttime devops OK |
-| great for large amounts of teams and devs | good for trusted 50 devs/contractors |
-| builtin namespaces & superior RBAC company security | optional namespaces & ACL user security |
 
 
 ---
