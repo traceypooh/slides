@@ -24,7 +24,7 @@ Internet Archive 🏛️<br>
 TV Architect<br>
 · video/audio · devops · javascript ·<br><br>
 
-slides: https://bit.ly/3ara7cD<br>
+<span class="fragment highlight-red">slides</span>: https://bit.ly/3ara7cD<br>
 repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 </div>
 
@@ -47,6 +47,9 @@ bit.ly/3ara7cD
 ---
 <section data-background-image="how.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
 
+---
+<section data-background-image="how2.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+
 
 ---
 ### GitLab integrations
@@ -60,16 +63,21 @@ bit.ly/3ara7cD
 
 ---
 ## Why Nomad?
-#### a bad month ..
+#### a bad 2020 month ..
 - k8s v1.18 issues
+  <p class="fragment fade-up">
   - VM networking / certmanager / no https
+  </p>
 - `kubeadm` cert 1y expiry
+  <p class="fragment fade-up">
   - v1.14 no auto-renew
-- persistent volume rook/ceph corruptionS
+  </p>
 - GitLab workarounds for k8s v1.16+
-  - `extensions/v1beta` -v- `apps/v1`
+  <p class="fragment fade-up">
+  - `extensions/v1beta` -v- `apps/v1` <br>
   - hacks until GitLab v13
-
+  </p>
+- persistent volume rook/ceph corruptionS
 
 ---
 <img src="i/sw-sanity.jpg"/><br>
@@ -85,23 +93,23 @@ bit.ly/3ara7cD
 - smaller places
   - smaller tools often better fit
 
+bit.ly/3ara7cD
+
 
 ---
 ## Hashsistack
 - Nomad - deployment
+  <p class="fragment fade-up">
+  - container rollouts <br>
+  - restarts
+  </p>
 - Consul - network
+  <p class="fragment fade-up">
+  - service discovery <br>
+  - healthecking
+  </p>
 - Vault - secrets
 
-bit.ly/3ara7cD
-
-
----
-## Hashsistack
-- Nomad - deployment (container rollouts, restarts)
-- Consul - network (service discovery, healthchecking)
-- Vault - secrets
-
-bit.ly/3ara7cD
 
 
 ---
@@ -333,6 +341,52 @@ job "hello-world" {
               username = "${var.CI_REGISTRY_USER}"
               password = "${var.CI_REGISTRY_PASSWORD}"
       }}}}}}}
+</code></pre>
+
+
+---
+### has nomad cluster?  try this now! 😊
+```
+NOMAD_ADDR=...
+NOMAD_TOKEN=...
+wget https://gitlab.com/internetarchive/nomad/-/raw/master/etc/hello-world.hcl
+nomad run hello-world.hcl
+```
+
+---
+<pre class="stretch"><code class="hljs yaml">
+job "hello-world" {
+  datacenters = ["dc1"]
+  group "hello-world" {
+    network {
+      port "http" { to = 5000 }
+    }
+    service {
+      name = "hello-world"
+      tags = ["urlprefix-internetarchive-bai-master.x.archive.org:443/"]
+      port = "http"
+      check {
+        type     = "http"
+        port     = "http"
+        path     = "/"
+        interval = "10s"
+        timeout  = "2s"
+      }
+    }
+    task "hello-world" {
+      driver = "docker"
+      config {
+        image = "registry.gitlab.com/internetarchive/bai/master:latest"
+        ports = [ "http" ]
+        auth {
+          server_address = "registry.gitlab.com"
+          username = ""
+          password = ""
+        }
+      }
+    }
+  }
+}
 </code></pre>
 
 
@@ -880,9 +934,13 @@ job "NOMAD_VAR_SLUG" {
 
 
 ---
-## Other factors
+## Other Factors
 - can be run **without** CNI (Container Network Interface) available add-ons
-- `docker login` can be flakey
+- `docker login` can be flakey ...
+
+
+---
+### `docker login`  issues?  Try:
   - Setup: Group [Settings] [Repository] [Deploy Tokens]
     - create with
      `read_registry` scope
@@ -915,8 +973,8 @@ job "NOMAD_VAR_SLUG" {
 - [aliases](https://gitlab.com/internetarchive/nomad/-/blob/master/aliases)
   - based on CWD & git branch and info
   - `nom-ssh` - ssh into container
+  - `nom-cp` - "hot copy" file from laptop to container
   - `nom-app` - open url for webapp
-  - `nom-cp` - "hot copy" a file from laptop into container
   - `nom-status` - detailed info on your deployment
 
 
@@ -957,9 +1015,11 @@ include:
 ## 🚨 Monorepos 🚨
 - avoid `docker-in-docker`
   - use `docker.sock`
-- allows docker image/layer cache reuse
-  - esp. nice when CI/CD-ing 4-10GB (!) images
 
+<p class="fragment fade-up">
+  - allows docker image/layer cache reuse <br>
+  - esp. nice when CI/CD-ing 4-10GB (!) images
+</p>
 
 ---
 ## 🚨 Monorepos - GitLab Runner caching 🚨
@@ -987,10 +1047,18 @@ https://docs.gitlab.com/ee/ci/large_repositories
 
 
 ---
-## Helpful scripts
-- [setup a nomad cluster](https://gitlab.com/internetarchive/nomad/-/blob/master/setup.sh)
+## Additional Help
+- [create a nomad cluster](https://gitlab.com/internetarchive/nomad/-/blob/master/setup.sh)
 - [create domain https certs](https://gitlab.com/internetarchive/nomad/-/blob/master/create-https-certs.sh)
+- [gitlab pipeline examples](https://gitlab.com/internetarchive/word-salad/-/pipelines)
 
+
+---
+## Results: 🏛️  move to Nomad
+- 70 repos/webapps deployed
+- 200+ review apps deployed
+- deploys 2x+ faster
+- all main development uses gitlab + nomad review apps
 
 ---
 <!-- .slide: data-background="https://media.giphy.com/media/q4ICE9wYvOwBG/giphy.gif" -->
