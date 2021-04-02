@@ -1,0 +1,361 @@
+<!doctype html><head><meta charset="utf-8"/><script>window.NIGHT=1</script><script src="../eveal.js/eveal.js"></script></head><body>
+<style>.slide-background { background-image: url("bg.jpg"); }</style>
+
+
+# Kubernetes to Nomad
+### Apr 2, 2021
+
+
+---
+## Coders solve Puzzles all day & make Gifts
+- they just want to put 🎁 in boxes
+  - for others to see and use
+
+---
+## OK, so copy files to a box 📦
+- point all browsers to box
+- great!  winning! 😺
+
+---
+## oh, but what if box crashes? 🤔
+
+---
+## OK, copy files to _two_ boxes
+- winning! 😺
+
+---
+## but wait, now you need to split traffic
+## 🥺
+
+---
+## load balancer ⚖️
+- you add a load balancer
+- 50% traffic to each
+- winning! 😺
+
+---
+## uho, small bug 🐞 on android 🤖
+- fix ready
+- just push to box, right?
+
+---
+## uho, what if some files change before others? 🐮
+- what if requests fail mid-copy?
+
+- you want versioning
+
+---
+## Versioning
+- cut traffic to box 1
+- update 🎁 in box 1
+- resume traffic to box 1
+
+...
+
+- cut traffic to box 2
+- update 🎁 in box 2
+- resume traffic to box 2
+
+---
+## Monitoring? 🕵🏽‍♀️
+- what if you pushed something with a _worse_ bug?
+
+---
+## auto Rollback
+- you want automatic healthchecking
+- if issues, you want automatic _rollback_ to prior version
+
+---
+## 3rd party updates 📬
+- what if a package changes out from under you?
+
+<p class="fragment fade-up">
+- how do you keep all your web servers in the same state?
+</p>
+
+<p class="fragment fade-up">
+- how do you keep staging identical to production?
+</p>
+
+---
+## ... and more
+- what collects & proceses web logs?
+- https & certs
+- http/2
+
+---
+## can't we just focus on _code_ ? 🤦‍♀️
+
+
+---
+## now imagine... 💊
+- you have 100 projects you want deployed
+- you have 10 teams & 50 developers
+- each with differing levels of expertise
+- preferences & skills
+  - operating system
+  - coding language
+  - package version preferences
+
+
+---
+## Containerize!  🧑‍🔧
+- put your code+ in a _container_ 🐳
+- has all your requirements:
+  - OS & version
+  - 3rd party packages (ffmpeg, pdf compressors)
+  - coding language setup
+  - web server
+  - files & data
+
+
+---
+## Orchestration!  🧑‍🍳
+- deploys containers
+- load balancer
+- monitoring
+- auto versioning
+- auto rollback
+- https & certs, http/2
+- logging
+
+---
+## Orchestration!  🧑‍🍳
+- "service discovery"
+- automatically knows about
+  - new deploys
+  - removed deploys
+  - unhealthy containers
+    - dont send traffic
+
+---
+## Orchestration!  🧑‍🍳
+- review apps
+  - branches
+  - full website with code/system changes
+
+---
+## Orchestration!  🧑‍🍳
+- cattle: website container can go up/down or move
+- pets: databases, backends can retain "state"
+
+
+---
+## Timey Wimey
+
+| Year | Milestone
+|:--- | ---
+| 2014 | docker audio fingerprints |
+| 2016 | deriver => docker |
+| 2018 | GitLab + Kubernetes<br> full pipelines (build, test, deploy)<br> review apps |
+| 2018 | DWeb => GitLab + Kubernetes |
+| 2019 | over 50 code repos & deployments<br> 100+ review apps |
+| 2020 | Kubernetes => Nomad |
+| 2020 | deriver modules move to containers |
+
+
+---
+<section data-background-image="deploys.jpg" data-background-size="contain" data-background-color="white"></section>
+
+---
+<section data-background-image="deploys2.jpg" data-background-size="contain" data-background-color="white"></section>
+
+
+---
+## Why Nomad?
+#### a bad 2020 month ..
+- kubernetes v1.18 issues
+  <p class="fragment fade-up">
+  - VM networking / certmanager / no https
+  </p>
+- `kubeadm` cert 1y expiry
+  <p class="fragment fade-up">
+  - v1.14 no auto-renew
+  </p>
+- GitLab hacks for kubernetes v1.16+
+  <p class="fragment fade-up">
+  - hacks until GitLab v13
+  </p>
+- persistent volume rook/ceph corruptionS
+
+
+---
+## Why Nomad?
+- archive.org Ops preference
+  - knew `Consul`
+  - deploy scripts attractive
+    - nomad `exec` driver
+
+---
+## Why Nomad?
+- smaller places ..
+- smaller tools often better fit
+
+
+---
+## but a road less travelled
+### 🚗
+
+---
+<section data-background-image="i/overview.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+
+---
+<section data-background-image="i/overview2.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+
+
+---
+## Approach & Goals
+- Make `nomad` an easy swap with `kubernetes`
+- Use GitLab's [build] phase
+  - great as is
+  - build and `docker push` to registry
+
+---
+## GitLab Auto DevOps Pipelines
+<img src="i/pipeline.png"/>
+
+
+---
+## Hashsistack
+- Nomad - deployment
+  <p class="fragment fade-up">
+  - container rollouts <br>
+  - restarts
+  </p>
+- Consul - network
+  <p class="fragment fade-up">
+  - service discovery <br>
+  - healtchecking
+  </p>
+- Fabio
+  <p class="fragment fade-up">
+  - load balancer <br>
+  </p>
+
+
+---
+## make GitLab deploy to Nomad
+
+---
+## tl;dr 🥱
+```yml
+include:
+  - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
+```
+add 👆 to your GitLab repository :
+- top-level file:
+- [.gitlab-ci.yml](https://gitlab.com/internetarchive/nomad/-/blob/master/.gitlab-ci.yml)
+
+
+---
+## tl;dr 🥱
+{GitLab repository}<br>
+[Settings] [CI/CD] [Variables]<br>
+
+|  | |
+|:--- | ---
+| `NOMAD_ADDR`  | `https://pod.archive.org:4646` |
+| `NOMAD_TOKEN` | `133t-z6rf-1234-1243bcd35199187` |
+
+
+---
+<pre class="stretch"><code class="hljs yaml">
+job "hello-world" {
+  datacenters = ["dc1"]
+  dynamic "group" {
+    for_each = local.job_names
+    labels = ["${group.value}"]
+    content {
+      network {
+        port "http" { to = 5000 }
+      }
+      service {
+        name = local.job_names[0]
+        tags = ["urlprefix-${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}.${var.KUBE_INGRESS_BASE_DOMAIN}:443/"]
+        port = "http"
+        check {
+          type     = "http"
+          port     = "http"
+          path     = "/"
+          interval = "10s"
+          timeout  = "2s"
+        }
+      }
+      dynamic "task" {
+        for_each = local.job_names
+        labels = ["${task.value}"]
+        content {
+          driver = "docker"
+          config {
+            image = "${var.CI_REGISTRY_IMAGE}/${var.CI_COMMIT_REF_SLUG}:${var.CI_COMMIT_SHA}"
+            ports = [ "http" ]
+            auth {
+              server_address = "${var.CI_REGISTRY}"
+              username = "${var.CI_REGISTRY_USER}"
+              password = "${var.CI_REGISTRY_PASSWORD}"
+      }}}}}}}
+</code></pre>
+
+
+---
+<pre class="stretch"><code class="hljs yaml">
+job "hello-world" {
+  datacenters = ["dc1"]
+  group "hello-world" {
+    network {
+      port "http" { to = 5000 }
+    }
+    service {
+      name = "hello-world"
+      tags = ["urlprefix-internetarchive-bai-master.x.archive.org:443/"]
+      port = "http"
+      check {
+        type     = "http"
+        port     = "http"
+        path     = "/"
+        interval = "10s"
+        timeout  = "2s"
+      }
+    }
+    task "hello-world" {
+      driver = "docker"
+      config {
+        image = "registry.gitlab.com/internetarchive/bai/master:latest"
+        ports = [ "http" ]
+        auth {
+          server_address = "registry.gitlab.com"
+          username = ""
+          password = ""
+        }
+      }
+    }
+  }
+}
+</code></pre>
+
+
+---
+## Results: 🏛️  move to Nomad
+- archive.org dev uses gitlab + nomad review apps
+- 70+ repos/webapps deployed
+- 200+ review apps deployed
+- [deploy] 2x+ faster
+- [build] 2x+ faster
+  <p class="fragment fade-up">
+  - advanced docker/gitlab runner caching
+  </p>
+
+
+---
+## Thanks! 🙏
+· merlijn · mitra · mek · arthur · derek · jake · jude · corentin · charles · jasonB · ximm
+· kenji · bryan · drini · christian · arkiver · sawood · brenton · matt · clau · isa ·
+· hank · jim · dvd · dwalu ·
+
+<img src="rock.jpg">
+
+
+
+---
+<!-- .slide: data-background="https://media.giphy.com/media/q4ICE9wYvOwBG/giphy.gif" -->
+# The End
