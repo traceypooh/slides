@@ -7,7 +7,7 @@
 ### Internet Archive 🏛️
 #### Apr 2, 2021
 
-<small>tracey.dev.archive.org</small>
+<small>[tracey.dev.archive.org](https://tracey.dev.archive.org)</small>
 
 ---
 ## Coders solve Puzzles all day & make Gifts
@@ -336,6 +336,36 @@ job "hello-world" {
 }
 </code></pre>
 
+---
+## Hello my World
+`Dockerfile`
+```bash
+FROM node
+COPY . /app
+CMD node /app/clock.js
+```
+
+`clock.js`
+```bash
+import http from 'http'
+http.createServer((req, res) => {
+  res.end(`the time is: ${new Date()}`)
+}).listen(5000)
+```
+
+`.gitlab-ci-yml`
+```bash
+include:
+  - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
+```
+
+---
+## .. so then
+changes to code<br>
+automatically build, test, deploy<br>
+on a `git` push & commit
+## 🎉
+
 
 ---
 ## Results: 🏛️  move to Nomad
@@ -348,6 +378,13 @@ job "hello-world" {
   - advanced docker/gitlab runner caching
   </p>
 
+
+---
+## Results: 🏛️  move to Nomad
+- HashiCorp & GitLab are interested :)
+- [GitLab Commit 2020](https://www.youtube.com/watch?v=6mAmH_-HCxg)
+- [HashiTalks 2021](https://www.hashicorp.com/resources/gitlab-nomad-gitops-internet-archive-migrated-from-kubernetes-nomad-consul)
+- submitted to HashiConf 2021 Europe
 
 ---
 ## Thanks! 🙏
