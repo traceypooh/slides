@@ -1,0 +1,80 @@
+<!doctype html><head><script src="../eveal.js/eveal.js"></script></head><body>
+
+# Word Salad
+## 📖 🥗
+## Tracey Jaquith
+### Internet Archive 🏛️
+#### Apr 2, 2021
+
+
+---
+## https://word-salad.archive.org/
+
+
+---
+## whut? why? 🌻
+- 9 year old niece texted me NY Times Spelling Bee game
+- was so fun! 💃
+- months later, they semi-paywalled it 🙍‍♀️
+
+https://www.nytimes.com/puzzles/spelling-bee
+
+
+---
+## how hard could it be?
+### what's a pangram?
+
+- small nodeJS app
+- pangram "the quick frown box jumps over.."
+- hardest part was finding a good word list
+
+
+---
+## words words words
+| | |
+| ---: | --- |
+| 123,195 | ["SCOWL"](http://app.aspell.net/create) word list |
+|  38,963 | words (4 letter+ words without `S`) |
+|   7,954 | pangrams (words with 7 different letters) |
+
+
+---
+## tactics
+- pick letters randomly 🎲
+  - until combo makes word with _all 7_ letters
+  - use letter frequency when picking
+- ban `S`, no `Q` without `U`
+- `Q` `J` `Z` not allowed as center letter
+
+
+---
+## OK, just One line of Code
+```bash
+egrep '^[${letters.join('')}]+$' words.txt
+```
+find all words with the game's 7 letters 😌
+
+
+---
+## deploy
+- webapp is deployed to 🏛️ nomad cluster
+- consul healthchecking becomes a "cheap cron"
+  - remake game ~4am healthcheck
+- everything in one repo/container
+  - repeatable "recipe"
+
+
+---
+## opensource
+- https://gitlab.com/internetarchive/word-salad
+
+
+---
+## are you getting fired?
+- 1 day for basic game setup
+- another 2-3 days for finesse
+
+
+---
+## Less talk, more Play
+[Enjoy!](https://word-salad.archive.org/)
