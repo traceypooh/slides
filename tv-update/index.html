@@ -6,31 +6,30 @@
 
 
 ---
-# TV 24x7
+## TV 24x7
 ~35-100 channels
 
-Mix of:
 - cable coax
+- satellite (eg: Galaxy 19 over the Americas)
 - over-the-air HD signals
-- satellite (eg: Galaxy 19 over Americas)
 - online feeds
 
 
 ---
-# Recording
+## Recording
 ~2013 moved from Windows laptops
 
 to single unix/ubuntu supermicro rack node
 
 
 ---
-# TV 'nix
+## TV 'nix
 <img src="https://archive.org/images/nixtv.png"><br>
 Recording many TV channels on one UNIX box
 
 
 ---
-# Hardware
+## Hardware
 <img style="width:40%" src="homerun.jpg">
 <img style="width:40%" src="novra.png">
 - Tuners
@@ -40,12 +39,12 @@ Recording many TV channels on one UNIX box
 
 
 ---
-# Software
+## Software
 
 | | |
 | ---------- | ---------- |
-| 201xxx | sharing up to 3 minute clips |
-| 201xxx | clip tagging (eg: subjects, political ad, free-form) |
+| ~2010 | sharing up to 3 minute clips |
+| ~2015 | clip tagging (eg: subjects, political ad, free-form) |
 | 2020 | create `.mp4` with 1 pass (was 2) (~2x faster) |
 | 2020 | moved processing from PHP to Javascipt |
 | 2021 | `GPU` - 100x faster .mp4 creation |
@@ -53,12 +52,22 @@ Recording many TV channels on one UNIX box
 
 
 ---
-# As we process faster
-- can have 1h show available in search for researchers ~45m after show finishes
-- could get that to ~10m (h.264 reuse)
-- can get to 1-2m behind live for researchers
+## As we process faster
+- show avail for researcher search **~45m** after show finishes
+- can get that to **~10m** (h.264 reuse)
+- can get to **1-2m** behind live (HLS)
 
 
 ---
-# Chyron scanning
-xxx
+## Chyron scanning <img src="https://archive.org/images/thirdEye.png" style="margin-bottom:-15px; width:15%">
+
+OCR the "lower third" region
+
+<img src="https://archive.org/download/third-eye/xmsn-full.png" style="width:45%"><br>
+👇
+```
+AFTER WH MEETING, SCHUMER DISHES
+WHEN HE THOUGHT NIC WAS OFF
+```
+
+https://archive.org/services/third-eye.php
