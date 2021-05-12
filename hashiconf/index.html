@@ -11,21 +11,34 @@ pre.stretch code { max-height: 100% !important; }
 ---
 <!-- .slide: data-background="nomad.jpg" -->
 <div style="color: #ddd; margin-top:30%">
-GitLab + Nomad: a GitOps Dream Come True<br>
+GitLab + Nomad = A Dream Come True<br>
 Tracey Jaquith<br><br>
 bit.ly/3ara7cD
 </div>
 
 
+
+
+
 ---
-xxx update title, title slide, bitly, re-copy snippets
-xxx consul for secrets?
-build action arrow as proceed
-hello-world sections appear as sections are talking about (magic show/arrive)
-axe nomad basics & gui
-bring back the hashistack during demo build
-to show how traffic will go w/ url
-semantic hostaname & services
+## xxx quickies?
+- high level diagram of talk/traffic?
+- k8s bad month?
+- consul secrets
+- make your own cluster on digi ocean for $20..
+- full range of options with NOMAD_VAR_..
+
+
+---
+- presskit should have slide advancer
+- xxx update title, title slide, bitly, re-copy snippets
+- xxx consul for secrets?
+- build action arrow as proceed
+- hello-world sections appear as sections are talking about (magic show/arrive)
+- axe nomad basics & gui
+- bring back the hashistack during demo build
+  to show how traffic will go w/ url
+- semantic hostaname & services
   - build actions
   - color code each
   - [group]-[project]-[branch]-[domain]
@@ -196,32 +209,40 @@ stop_review:
 
 
 ---
-<pre class="stretch"><code class="hljs yaml">
-job "hello-world" {
+<pre><code class="hljs yaml"
+>job "hello-world" {
   datacenters = ["dc1"]
   group "hello-world" {
     network { port "http" { to = 5000 } }
-    task "hello-world" {
+</code></pre>
+<pre class="fragment fade-up"><code class="hljs yaml"
+>    task "hello-world" {
       driver = "docker"
       config {
         image = "${var.CI_REGISTRY_IMAGE}/${var.CI_COMMIT_REF_SLUG}:${var.CI_COMMIT_SHA}"
         ports = [ "http" ]
-        auth {
+</code></pre>
+<pre class="fragment fade-up"><code class="hljs yaml"
+>        auth {
           server_address = "${var.CI_REGISTRY}"
           username = "${var.CI_REGISTRY_USER}"
           password = "${var.CI_REGISTRY_PASSWORD}"
     }}}
-    service {
+</code></pre>
+<pre class="fragment fade-up"><code class="hljs yaml"
+>    service {
       name = "hello-world"
       tags = ["urlprefix-${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}.${var.KUBE_INGRESS_BASE_DOMAIN}:443/"]
       port = "http"
-      check {
+</code></pre>
+<pre class="fragment fade-up"><code class="hljs yaml"
+>      check {
         type     = "http"
         port     = "http"
         path     = "/"
         interval = "10s"
         timeout  = "2s"
-    }}}}
+}}}}
 </code></pre>
 
 
