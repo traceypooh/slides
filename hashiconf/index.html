@@ -109,22 +109,20 @@ add 👆 to your GitLab repository :
   script:
 </code></pre>
 <pre class="fragment fade-up"><code class="hljs yaml"
->    — wget gitlab.com/internetarchive/nomad/-/raw/master/project.nomad
-    — mv project.nomad project.hcl
+>    — wget  gitlab.com/internetarchive/nomad/-/raw/master/project.nomad
+    — mv  project.nomad  project.hcl
     — sed -i "s/NOMAD_VAR_SLUG/$NOMAD_VAR_SLUG/" project.hcl
 </code></pre>
 <pre class="fragment fade-up"><code class="hljs yaml"
->    # write GitLab env vars starting with "CI_" to env var file
+>    # write GitLab env vars starting with "CI＿" to env var file
     — node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("CI_")))))' >| /tmp/env.json
 </code></pre>
 <pre class="fragment fade-up"><code class="hljs yaml"
->    # write env vars starting w/ "NOMAD_SECRET_" to env var file
+>    # write env vars starting w/ "NOMAD＿SECRET＿" to env var file
     — echo NOMAD_SECRETS=$(node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("NOMAD_SECRET_")).map(([k ,v]) => [k.replace(/^NOMAD_SECRET_/,""), v]))))' | sed 's/":"/"="/g') >| /tmp/env.env
 </code></pre>
 <pre class="fragment fade-up"><code class="hljs yaml"
->    — nomad validate -var-file=/tmp/env.json -var-file=/tmp/env.env project.hcl
-    — nomad plan     -var-file=/tmp/env.json -var-file=/tmp/env.env project.hcl
-    — nomad run      -var-file=/tmp/env.json -var-file=/tmp/env.env project.hcl
+>    — nomad run  -var-file=/tmp/env.json  -var-file=/tmp/env.env  project.hcl
 </code></pre>
 <p class="fragment fade-up">
 see
@@ -220,10 +218,10 @@ Semantic hostnames 🙌
 https://services-timemachine
          ╰──┬──╯  ╰───┬───╯
           group    project
-
+</pre><pre class="fragment fade-up">
 https://frontend-website-123-ticket-3939-fix-things
-         ╰──┬──╯  ╰───┬───╯  ╰────────┬─────────╯
-          group    project        branch
+         ╰──┬──╯  ╰───┬───╯   ╰────────┬─────────╯
+          group    project          branch
 </pre>
 
 ---
@@ -238,6 +236,44 @@ internetarchive-www-mobile-nav  service  50        running  2020-07-04T13:59:16-
 services-timemachine            service  50        running  2020-07-04T14:00:05-07:00
 x-thumb                         service  50        running  2020-07-04T04:34:54-07:00
 ```
+
+
+---
+### DEMO TIME
+## 🚀
+
+
+---
+## Hello my World
+### 3 files, 10 lines
+</code></pre>
+<pre class="fragment fade-up">
+clock.js
+
+<code class="hljs js"
+>var http = require('http')
+http.createServer((req, res) => {
+  res.end(`the time is: ${new Date()}`)
+}).listen(5000)
+</code></pre>
+
+<pre class="fragment fade-up">
+Dockerfile
+
+<code class="hljs bash"
+>FROM node:alpine
+COPY . /app
+CMD node /app/clock.js
+</code></pre>
+
+<pre class="fragment fade-up">
+.gitlab-ci-yml
+
+<code class="hljs yml"
+>include:
+  - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
+</code></pre>
+
 
 
 ---
@@ -731,46 +767,6 @@ job "NOMAD_VAR_SLUG" {
   }
 } # end job
 </code></pre>
-
-
----
-### DEMO TIME
-## 🚀
-
-
-
-
----
-## Hello my World
-### 3 files, 10 lines
-</code></pre>
-<pre class="fragment fade-up">
-clock.js
-
-<code class="hljs js"
->var http = require('http')
-http.createServer((req, res) => {
-  res.end(`the time is: ${new Date()}`)
-}).listen(5000)
-</code></pre>
-
-<pre class="fragment fade-up">
-Dockerfile
-
-<code class="hljs bash"
->FROM node:alpine
-COPY . /app
-CMD node /app/clock.js
-</code></pre>
-
-<pre class="fragment fade-up">
-.gitlab-ci-yml
-
-<code class="hljs yml"
->include:
-  - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
-</code></pre>
-
 
 
 ---
