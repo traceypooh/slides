@@ -30,15 +30,15 @@ bit.ly/3ara7cD
 
 
 ---
+- apltv try green BG loop
 - presskit should have slide advancer
 - xxx update title, title slide, bitly, re-copy snippets
-- xxx consul for secrets?
 - build action arrow as proceed
-- hello-world sections appear as sections are talking about (magic show/arrive)
+x- hello-world sections appear as sections are talking about (magic show/arrive)
 - axe nomad basics & gui
 - bring back the hashistack during demo build
   to show how traffic will go w/ url
-- semantic hostaname & services
+- semantic hostname & services
   - build actions
   - color code each
   - [group]-[project]-[branch]-[domain]
@@ -59,8 +59,6 @@ TV Architect<br>
 repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 </div>
 
-</div>
-
 ---
 <img src="i/containers-and-tracey.jpg"/><br>
 bit.ly/3ara7cD
@@ -68,12 +66,14 @@ bit.ly/3ara7cD
 
 ---
 ## Approach & Goals
+<div style="color: #ddd"></div>
 - Make `nomad` an easy swap with `kubernetes`
 - Use GitLab's [build] phase
   - build and `docker push` to registry
-- Custom [deploy] phase
+- <span class="fragment highlight-red">Custom [deploy] phase</span>
 
 bit.ly/3ara7cD
+</div>
 
 
 ---
@@ -807,12 +807,13 @@ job "NOMAD_VAR_SLUG" {
 ---
 ## Hello my World
 `clock.js`
-```bash
+```js
 var http = require('http')
 http.createServer((req, res) => {
   res.end(`the time is: ${new Date()}`)
 }).listen(5000)
 ```
+
 
 `Dockerfile`
 ```bash
@@ -821,12 +822,12 @@ COPY . /app
 CMD node /app/clock.js
 ```
 
+
 `.gitlab-ci-yml`
-```bash
+```yml
 include:
   - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
 ```
-
 
 
 ---
