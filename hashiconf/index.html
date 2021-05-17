@@ -1,6 +1,5 @@
 <!doctype html><head><meta charset="utf-8"/><script>window.NIGHT=1</script><script src="../eveal.js/eveal.js"></script></head><body>
 <style>
-pre.stretch code { max-height: 100% !important; }
 .slide-background {
   background-image: url("bg.jpg");
 }
@@ -10,15 +9,27 @@ pre.stretch code { max-height: 100% !important; }
 
 ---
 <!-- .slide: data-background="nomad.jpg" -->
-GitLab + Nomad = A Dream Come True<br>
-Tracey Jaquith<br><br>
-bit.ly/3ara7cD
+GitLab + Nomad = A Dream Come True
 
+Tracey Jaquith
+
+slides: tracey.dev.archive.org
 
 
 
 ---
-## xxx quickies?
+@tracey_pooh 🧸<br>
+Internet Archive 🏛️<br><br>
+TV Architect<br>
+· video/audio · devops · javascript ·<br><br>
+
+<span class="fragment highlight-red">slides</span>: https://tracey.dev.archive.org<br>
+repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
+
+
+
+---
+## xxx
 - finish tracey.dev.archive.org train links
 - nomad README.md -- move "monitoring GUI urls" further "up" and add
   easiest https://nomad-host:4646
@@ -27,36 +38,26 @@ bit.ly/3ara7cD
 - presskit should have slide advancer
 
 ---
+## xxx
 - high level diagram of talk/traffic?
 - k8s bad month?
 - consul secrets
-- make your own cluster on digi ocean for $20 links & talk links
+- make your own digi ocean cluster for $20 links & talk links
 - link to setup.sh
 
 ---
-- xxx update title, title slide, bitly, re-copy snippets
-- build action arrow as proceed
-x- hello-world sections appear as sections are talking about (magic show/arrive)
+## xxx
+- gists of few lines of code w/ title linked to where full part is
+- add [title], re-copy snippets
 - bring back the hashistack during demo build
   to show how traffic will go w/ url
 twitter jacquie faster
 
-gist of a few lines of code w/ title linked to where the full part is
-
-
----
-@tracey_pooh 🧸<br>
-Internet Archive 🏛️<br>
-TV Architect<br>
-· video/audio · devops · javascript ·<br><br>
-
-<span class="fragment highlight-red">slides</span>: https://bit.ly/3ara7cD<br>
-repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 
 
 ---
 <img src="i/containers-and-tracey.jpg"/><br>
-bit.ly/3ara7cD
+tracey.dev.archive.org
 
 
 ---
@@ -66,7 +67,7 @@ bit.ly/3ara7cD
   - build and `docker push` to registry
 - <span class="fragment highlight-red">Custom [deploy] phase</span>
 
-bit.ly/3ara7cD
+tracey.dev.archive.org
 
 
 ---
@@ -74,17 +75,6 @@ bit.ly/3ara7cD
 
 ---
 <section data-background-image="how2.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
-
-
----
-## tl;dr 🥱
-```yml
-include:
-  - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
-```
-add 👆 to your GitLab repository :
-- top-level file:
-- [.gitlab-ci.yml](https://gitlab.com/internetarchive/nomad/-/blob/master/.gitlab-ci.yml)
 
 
 ---
@@ -99,25 +89,36 @@ add 👆 to your GitLab repository :
 
 
 ---
-## .gitlab-ci.yml
-## GitLab ⏩  Nomad
+## tl;dr 🥱
+```yml
+include:
+  - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
+```
+add 👆 to your GitLab repository :
+- top-level file:
+- [.gitlab-ci.yml](https://gitlab.com/internetarchive/nomad/-/blob/master/.gitlab-ci.yml)
+
+
+---
+## The Included .gitlab-ci.yml
 <pre><code class="hljs yaml"
 >deploy:
   stage: deploy
   script:
 </code></pre>
 <pre class="fragment fade-up"><code class="hljs yaml"
->    — wget  gitlab.com/internetarchive/nomad/-/raw/master/project.nomad
+>    # get templated  project.nomad
+    — wget  gitlab.com/internetarchive/nomad/-/raw/master/project.nomad
     — mv  project.nomad  project.hcl
     — sed -i "s/NOMAD_VAR_SLUG/$NOMAD_VAR_SLUG/" project.hcl
 </code></pre>
 <pre class="fragment fade-up"><code class="hljs yaml"
 >    # write GitLab env vars starting with "CI＿" to env var file
-    — node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("CI_")))))' >| /tmp/env.json
+    — node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("CI＿")))))' >| /tmp/env.json
 </code></pre>
 <pre class="fragment fade-up"><code class="hljs yaml"
 >    # write env vars starting w/ "NOMAD＿SECRET＿" to env var file
-    — echo NOMAD_SECRETS=$(node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("NOMAD_SECRET_")).map(([k ,v]) => [k.replace(/^NOMAD_SECRET_/,""), v]))))' | sed 's/":"/"="/g') >| /tmp/env.env
+    — echo NOMAD_SECRETS=$(node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("NOMAD＿SECRET＿")).map(([k ,v]) => [k.replace(/^NOMAD＿SECRET＿/,""), v]))))' | sed 's/":"/"="/g') >| /tmp/env.env
 </code></pre>
 <pre class="fragment fade-up"><code class="hljs yaml"
 >    — nomad run  -var-file=/tmp/env.json  -var-file=/tmp/env.env  project.hcl
@@ -202,6 +203,7 @@ $NOMAD_SECRET_DATABASE_URL
 ```
 NOMAD_ADDR=...
 NOMAD_TOKEN=...
+
 wget https://gitlab.com/internetarchive/nomad/-/raw/master/etc/hello-world.hcl
 nomad run hello-world.hcl
 ```
@@ -223,7 +225,8 @@ https://frontend-website-123-ticket-3939-fix-things
 </pre>
 
 ---
-### ... same semantic slug for nomad jobs names
+## Nomad Jobs Names
+### get same Semantic Slug
 ```bash
 nomad status
 ID                              Type     Priority  Status   Submit Date
@@ -351,6 +354,6 @@ Add any ☝🏽 to your `.gitlab-ci.yml`.<br>
 <!-- .slide: data-background="thanks.jpg" -->
 <div style="color: #ddd; margin-top:20%">
 Thank You!<br>
-slides: bit.ly/3ara7cD<br>
+slides: tracey.dev.archive.org<br>
 repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 </div>
