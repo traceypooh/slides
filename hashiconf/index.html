@@ -1,9 +1,6 @@
-<!doctype html><head><meta charset="utf-8"/><script>window.NIGHT=1</script><script src="../eveal.js/eveal.js"></script></head><body>
-<style>
-.slide-background {
-  background-image: url("bg.jpg");
-}
-</style>
+<!doctype html><head><meta charset="utf-8"/><script>window.NIGHT=1</script><script src="../eveal.js/eveal.js"></script><style> .slide-background { background-image: url("bg.jpg"); }</style>
+<meta property="title" content="GitLab + Nomad = A Dream Come True: HashiConf Europe: Tracey Jaquith">
+</head><body>
 
 <section data-background-image="welcome.jpg" data-background-size="contain" data-background-color="black"></section>
 
@@ -11,10 +8,10 @@
 <!-- .slide: data-background="nomad.jpg" -->
 GitLab + Nomad = A Dream Come True
 
+HashiConf Europe 2021<br>
 Tracey Jaquith
 
 slides: tracey.dev.archive.org
-
 
 
 ---
@@ -27,32 +24,23 @@ TV Architect<br>
 repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 
 
-
 ---
-## xxx
-- finish tracey.dev.archive.org train links
+## xxx prep notes
+- tracey.dev.archive.org finish train links
 - nomad README.md -- move "monitoring GUI urls" further "up" and add
   easiest https://nomad-host:4646
     then enter NOMAD_TOKEN
 - apltv try green BG loop
-- presskit should have slide advancer
+- get slide advancer working
+- twitter jacquie faster
+- tracey.dev.archive.org add hashiconf
 
 ---
-## xxx
+## fixxxme
 - high level diagram of talk/traffic?
-- k8s bad month?
 - consul secrets
-- make your own digi ocean cluster for $20 links & talk links
-- link to setup.sh
-
----
-## xxx
-- gists of few lines of code w/ title linked to where full part is
-- add [title], re-copy snippets
-- bring back the hashistack during demo build
-  to show how traffic will go w/ url
-twitter jacquie faster
-
+- make your own digi ocean cluster for $5 links & talk links
+- k8s bad month?
 
 
 ---
@@ -62,25 +50,27 @@ tracey.dev.archive.org
 
 ---
 ## Approach & Goals
-- Make `nomad` an easy swap with `kubernetes`
-- Use GitLab's [build] phase
-  - build and `docker push` to registry
+- `nomad` replace `kubernetes`
+- Use GitLab [build] phase
+  - build & `docker push` to registry
 - <span class="fragment highlight-red">Custom [deploy] phase</span>
 
+<br>
 tracey.dev.archive.org
 
 
 ---
-<section data-background-image="how.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+<section data-background-image="i/how.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
 
 ---
-<section data-background-image="how2.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+<section data-background-image="i/how2.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+
 
 
 ---
 ## tl;dr 🥱
-{GitLab repository}<br>
-[Settings] [CI/CD] [Variables]<br>
+GitLab repository's<br>
+⚙️ Settings > CI/CD > Variables<br>
 
 | | |
 | -- | --
@@ -219,13 +209,13 @@ https://services-timemachine
          ╰──┬──╯  ╰───┬───╯
           group    project
 </pre><pre class="fragment fade-up">
-https://frontend-website-123-ticket-3939-fix-things
-         ╰──┬──╯  ╰───┬───╯   ╰────────┬─────────╯
+https://frontend-website-123-ticket-3939-fix-boom
+         ╰──┬──╯  ╰───┬───╯   ╰────────┬───────╯
           group    project          branch
 </pre>
 
 ---
-## Nomad Jobs Names
+## Nomad Job Names
 ### get same Semantic Slug
 ```bash
 nomad status
@@ -240,9 +230,9 @@ x-thumb                         service  50        running  2020-07-04T04:34:54-
 
 
 ---
-### DEMO TIME
-## 🚀
-
+## DEMO TIME 🚀
+- Create new gitlab repo
+- Deploy to nomad
 
 ---
 ## Hello my World
@@ -278,6 +268,17 @@ CMD node /app/clock.js
 
 
 ---
+<section data-background-image="i/overview.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+
+---
+<section data-background-image="overview2.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+
+
+---
+https://gitlab.com/internetarchive/demo
+
+
+---
 ## Full project.nomad
 https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad
 
@@ -285,7 +286,7 @@ https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad
 
 ---
 ## Customize
-Optional CI/CD variables customize
+Optional CI/CD vars for
 [project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
 
 ```
@@ -310,40 +311,43 @@ Add any ☝🏽 to your `.gitlab-ci.yml`.<br>
 
 ---
 ### `docker login`  issues?  Try:
-  - Setup: Group [Settings] [Repository] [Deploy Tokens]
-    - create with
-     `read_registry` scope
-  - Add to: Group [Settings] [CI/CD] [Variables]
-    - `CI_R2_USER`
-    - `CI_R2_PASS`
+- [Create Group `read_registry` deploy token](https://docs.gitlab.com/ee/user/project/deploy_tokens/#read-container-registry-images)
+- Add to Group: ⚙️ Settings > CI/CD > Variables
+  - `CI_R2_USER`
+  - `CI_R2_PASS`
 
 
 ---
 ## Monitoring & Usage 🕵️
-- [aliases](https://gitlab.com/internetarchive/nomad/-/blob/master/aliases)
-  - based on CWD & git branch and info
-  - `nom-ssh` - ssh into container
-  - `nom-cp` - "hot copy" file from laptop to container
-  - `nom-app` - open url for webapp
-  - `nom-status` - detailed info on your deployment
+[aliases](https://gitlab.com/internetarchive/nomad/-/blob/master/aliases)
+based on CWD & git info
+
+| | |
+| -- | -- |
+| `nom-ssh` | ssh into container
+| `nom-cp` | "hot copy" file laptop ➝ container
+| `nom-app` | open url for webapp
+| `nom-status` | detailed deployment info
+
+
+---
+## 🚨 Halp 🥺 - [build] Caching 🚨
+- `docker.sock` not `docker-in-docker`
+- [gitlab runners & monorepos](https://docs.gitlab.com/ee/ci/large_repositories/#store-custom-clone-options-in-configtoml)
 
 
 ---
 ## Additional Help
-- caching: `docker.sock` not `docker-in-docker`
-- [create a nomad cluster](https://gitlab.com/internetarchive/nomad/-/blob/master/setup.sh)
+- [create nomad cluster](https://gitlab.com/internetarchive/nomad/-/blob/master/setup.sh)
 - [create domain https certs](https://gitlab.com/internetarchive/nomad/-/blob/master/create-https-certs.sh)
 - [gitlab pipeline examples](https://gitlab.com/internetarchive/word-salad/-/pipelines)
-- [gitlab runners & monorepos](https://docs.gitlab.com/ee/ci/large_repositories)
-
-
 
 ---
 ## Results: 🏛️  move to Nomad
 - 70 repos/webapps deployed
-- 200+ review apps deployed
-- deploys 2x+ faster
-- all main development uses gitlab + nomad review apps
+- 400+ review apps deployed
+- 2x+ faster deploys
+- all main dev using gitlab + nomad review apps
 
 ---
 <!-- .slide: data-background="https://media.giphy.com/media/q4ICE9wYvOwBG/giphy.gif" -->
