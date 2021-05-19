@@ -25,25 +25,6 @@ repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 
 
 ---
-## xxx prep notes
-- tracey.dev.archive.org finish train links
-- nomad README.md -- move "monitoring GUI urls" further "up" and add
-  easiest https://nomad-host:4646
-    then enter NOMAD_TOKEN
-- apltv try green BG loop
-- get slide advancer working
-- twitter jacquie faster
-- tracey.dev.archive.org add hashiconf
-
----
-## fixxxme
-- high level diagram of talk/traffic?
-- consul secrets
-- make your own digi ocean cluster for $5 links & talk links
-- k8s bad month?
-
-
----
 <img src="i/containers-and-tracey.jpg" style="margin-top:-10%"/>
 tracey.dev.archive.org
 
@@ -51,13 +32,20 @@ tracey.dev.archive.org
 ---
 ## Approach & Goals
 - `nomad` replace `kubernetes`
-- Use GitLab [build] phase
-  <div class="fragment">- build & `docker push` to registry</div>
-- <span class="fragment highlight-red">Custom [deploy] phase</span>
 
+- <div class="fragment">
+Use GitLab [build] phase<br>
+  - build & `docker push` to registry
+</div>
+- <div class="fragment">
+<span class="fragment highlight-red">Custom [deploy] phase</span>
+</div>
+
+<div class="fragment">
+<br>
 <br>
 tracey.dev.archive.org
-
+</div>
 
 ---
 <section data-background-image="i/how0.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
@@ -343,7 +331,7 @@ Add any ☝🏽 to your `.gitlab-ci.yml`.<br>
 ([more info](https://gitlab.com/internetarchive/nomad/-/blob/master/README.md))
 
 ---
-### `docker login`  issues?  Try:
+### `docker login` - Issues?  Try:
 - [Create Group `read_registry` deploy token](https://docs.gitlab.com/ee/user/project/deploy_tokens/#read-container-registry-images)
 - Add to Group: ⚙️ Settings > CI/CD > Variables
   - `CI_R2_USER`
