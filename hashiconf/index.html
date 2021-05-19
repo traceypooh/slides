@@ -30,6 +30,13 @@ tracey.dev.archive.org
 
 
 ---
+## Why are We Here?
+<div class="fragment">
+Use GitLab with Nomad clusters
+</div>
+
+
+---
 ## Approach & Goals
 - `nomad` replace `kubernetes`
 
@@ -331,7 +338,7 @@ Add any ☝🏽 to your `.gitlab-ci.yml`.<br>
 ([more info](https://gitlab.com/internetarchive/nomad/-/blob/master/README.md))
 
 ---
-### `docker login` - Issues?  Try:
+## Issues with: `docker login?`
 - [Create Group `read_registry` deploy token](https://docs.gitlab.com/ee/user/project/deploy_tokens/#read-container-registry-images)
 - Add to Group: ⚙️ Settings > CI/CD > Variables
   - `CI_R2_USER`
@@ -358,17 +365,65 @@ based on CWD & git info
 
 
 ---
+## Create Nomad Clusters
+- [general setup.sh](https://gitlab.com/internetarchive/nomad/-/blob/master/setup.sh)
+  - linux, digital ocean ($5), mac laptop
+
+<section>
+"down arrow" 👇🏽 for more
+</section>
+<section>
+<ul>
+  <li>have DNS domain you can point to a VM?
+  <li>nomad/consul with $5/mo VM (or on-prem)
+    <ul>
+      <li>[[1/2] Setup GitLab, Nomad, Consul & Fabio](https://archive.org/~tracey/slides/devops/2021-03-31)
+      <li>[[2/2] Add GitLab Runner & Setup full CI/CD pipelines](https://archive.org/~tracey/slides/devops/2021-04-07)
+    </ul>
+</ul>
+</section>
+<section>
+<ul>
+  <li>have DNS domain and want on-prem GitLab?
+  <li>nomad/consul/gitlab/runners with $20/mo VM (or on-prem)
+    <ul>
+    <li>[[1/2] Setup GitLab, Nomad, Consul & Fabio](https://archive.org/~tracey/slides/devops/2021-03-31)
+    <li>[[2/2] Add GitLab Runner & Setup full CI/CD pipelines](https://archive.org/~tracey/slides/devops/2021-04-07)
+    </ul>
+</ul>
+</section>
+<section>
+<ul>
+  <li>no DNS - run on mac/linux laptop?
+    <ul>
+      <li>[[1/3] setup GitLab & GitLab Runner on your Mac](https://archive.org/~tracey/slides/devops/2021-02-17)
+      <li>[[2/3] setup Nomad & Consul on your Mac](https://archive.org/~tracey/slides/devops/2021-02-24)
+      <li>[[3/3] connect: GitLab, GitLab Runner, Nomad & Consul](https://archive.org/~tracey/slides/devops/2021-03-10)
+    </ul>
+</ul>
+</section>
+
+
+---
 ## Additional Help
-- [create nomad cluster](https://gitlab.com/internetarchive/nomad/-/blob/master/setup.sh)
 - [create domain https certs](https://gitlab.com/internetarchive/nomad/-/blob/master/create-https-certs.sh)
 - [gitlab pipeline examples](https://gitlab.com/internetarchive/word-salad/-/pipelines)
 
+
 ---
 ## Results: 🏛️  move to Nomad
-- 70 repos/webapps deployed
-- 400+ review apps deployed
-- 2x+ faster deploys
-- all main dev using gitlab + nomad review apps
+<div class="fragment">
+70 repos/webapps deployed
+</div>
+<div class="fragment">
+400+ review apps deployed
+</div>
+<div class="fragment">
+2x+ faster deploys
+</div>
+<div class="fragment">
+all main dev using gitlab + nomad review apps
+</div>
 
 ---
 <!-- .slide: data-background="https://media.giphy.com/media/q4ICE9wYvOwBG/giphy.gif" -->
