@@ -44,7 +44,7 @@ repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 
 
 ---
-<img src="i/containers-and-tracey.jpg"/><br>
+<img src="i/containers-and-tracey.jpg" style="margin-top:-10%"/>
 tracey.dev.archive.org
 
 
@@ -52,7 +52,7 @@ tracey.dev.archive.org
 ## Approach & Goals
 - `nomad` replace `kubernetes`
 - Use GitLab [build] phase
-  - build & `docker push` to registry
+  <div class="fragment">- build & `docker push` to registry</div>
 - <span class="fragment highlight-red">Custom [deploy] phase</span>
 
 <br>
@@ -63,7 +63,13 @@ tracey.dev.archive.org
 <section data-background-image="i/how.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
 
 ---
-<section data-background-image="i/how2.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+<section data-background-image="i/howA.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+
+---
+<section data-background-image="i/howB.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+
+---
+<section data-background-image="i/howC.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
 
 
 
@@ -97,21 +103,22 @@ add 👆 to your GitLab repository :
   script:
 </code></pre>
 <pre class="fragment fade-up"><code class="hljs yaml"
->    # get templated  project.nomad
+>    # ---- get templated  project.nomad ----
     — wget  gitlab.com/internetarchive/nomad/-/raw/master/project.nomad
     — mv  project.nomad  project.hcl
     — sed -i "s/NOMAD_VAR_SLUG/$NOMAD_VAR_SLUG/" project.hcl
 </code></pre>
 <pre class="fragment fade-up"><code class="hljs yaml"
->    # write GitLab env vars starting with "CI＿" to env var file
+>    # ---- write GitLab env vars starting with "CI＿" to env var file ----
     — node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("CI＿")))))' >| /tmp/env.json
 </code></pre>
 <pre class="fragment fade-up"><code class="hljs yaml"
->    # write env vars starting w/ "NOMAD＿SECRET＿" to env var file
+>    # ---- write env vars starting w/ "NOMAD＿SECRET＿" to env var file ----
     — echo NOMAD_SECRETS=$(node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("NOMAD＿SECRET＿")).map(([k ,v]) => [k.replace(/^NOMAD＿SECRET＿/,""), v]))))' | sed 's/":"/"="/g') >| /tmp/env.env
 </code></pre>
 <pre class="fragment fade-up"><code class="hljs yaml"
->    — nomad run  -var-file=/tmp/env.json  -var-file=/tmp/env.env  project.hcl
+>    # ---- deploy job to nomad ----
+    — nomad run  -var-file=/tmp/env.json  -var-file=/tmp/env.env  project.hcl
 </code></pre>
 <p class="fragment fade-up">
 see
@@ -121,7 +128,8 @@ for more
 
 ---
 ## nomad project
-- generic template: [project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
+- generic template:
+  [project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
 
 - uses template vars + GitLab CI/CD Auto DevOps variables
 <pre class="fragment fade-up"><code class="hljs bash"
@@ -207,7 +215,7 @@ Semantic hostnames 🙌
 <pre>
 https://services-timemachine
          ╰──┬──╯  ╰───┬───╯
-          group    project
+   <span class="fragment">GitLab</span> group    project
 </pre><pre class="fragment fade-up">
 https://frontend-website-123-ticket-3939-fix-boom
          ╰──┬──╯  ╰───┬───╯   ╰────────┬───────╯
@@ -218,7 +226,8 @@ https://frontend-website-123-ticket-3939-fix-boom
 ## Nomad Job Names
 ### get same Semantic Slug
 ```bash
-nomad status
+$ nomad status
+
 ID                              Type     Priority  Status   Submit Date
 fabio                           system   50        running  2020-07-04T12:14:32-07:00
 internetarchive-word-salad      service  50        running  2020-07-04T04:24:31-07:00
@@ -228,6 +237,10 @@ services-timemachine            service  50        running  2020-07-04T14:00:05-
 x-thumb                         service  50        running  2020-07-04T04:34:54-07:00
 ```
 
+<pre class="fragment">
+ ╰─────────┬─────────╯
+       job name
+</pre>
 
 ---
 ## DEMO TIME 🚀
@@ -239,8 +252,9 @@ x-thumb                         service  50        running  2020-07-04T04:34:54-
 ### 3 files, 10 lines
 </code></pre>
 <pre class="fragment fade-up">
-clock.js
 
+
+ ╭─── clock.js ───╮
 <code class="hljs js"
 >var http = require('http')
 http.createServer((req, res) => {
@@ -249,8 +263,9 @@ http.createServer((req, res) => {
 </code></pre>
 
 <pre class="fragment fade-up">
-Dockerfile
 
+
+ ╭─── Dockerfile ───╮
 <code class="hljs bash"
 >FROM node:alpine
 COPY . /app
@@ -258,8 +273,9 @@ CMD node /app/clock.js
 </code></pre>
 
 <pre class="fragment fade-up">
-.gitlab-ci-yml
 
+
+ ╭─── .gitlab-ci-yml ───╮
 <code class="hljs yml"
 >include:
   - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
@@ -269,18 +285,28 @@ CMD node /app/clock.js
 
 ---
 <section data-background-image="i/overview.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="overviewA.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="overviewB.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="overviewC.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="overviewD.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="overviewE.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="overviewF.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+
+
 
 ---
-<section data-background-image="overview2.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
-
-
----
-https://gitlab.com/internetarchive/demo
+https://gitlab.com/internetarchive/hashiconf-demo
 
 
 ---
 ## Full project.nomad
-https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad
+[https://gitlab.com/internetarchive/nomad/project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
 
 
 
