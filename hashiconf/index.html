@@ -37,15 +37,33 @@ Use GitLab with Nomad clusters
 
 
 ---
-## Approach & Goals
-- `nomad` replace `kubernetes`
-
-- <div class="fragment">
-Use GitLab [build] phase<br>
-  - build & `docker push` to registry
+## GitLab + Nomad
+<div class="fragment">
+<hr>
+2 line `.gitlab-ci.yml`
 </div>
-- <div class="fragment">
-<span class="fragment highlight-red">Custom [deploy] phase</span>
+<div class="fragment">
+<hr>
+2 CI/CD variables
+</div>
+
+---
+## Approach & Goals
+<div class="fragment">
+`nomad` replace `kubernetes`
+</div>
+<div class="fragment">
+<hr>
+Use GitLab [build] phase<br>
+( build & `docker push` to registry )
+</div>
+<div class="fragment">
+<hr>
+Custom
+<span class="fragment highlight-red">
+[deploy]
+</span>
+phase
 </div>
 
 <div class="fragment">
@@ -354,8 +372,8 @@ based on CWD & git info
 | -- | -- |
 | `nom-ssh` | ssh into container
 | `nom-cp` | "hot copy" file laptop ➝ container
-| `nom-app` | open url for webapp
-| `nom-status` | detailed deployment info
+| `nom-app` | open webapp url
+| `nom-status` | deploy info
 
 
 ---
@@ -424,6 +442,13 @@ based on CWD & git info
 <div class="fragment">
 all main dev using gitlab + nomad review apps
 </div>
+
+---
+## Deploy with GitLab + Nomad
+- 2 line `.gitlab-ci.yml`
+- 2 CI/CD vars
+
+<h1 class="fragment">🚀</h1>
 
 ---
 <!-- .slide: data-background="https://media.giphy.com/media/q4ICE9wYvOwBG/giphy.gif" -->
