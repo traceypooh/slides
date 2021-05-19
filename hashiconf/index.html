@@ -16,13 +16,16 @@ slides: tracey.dev.archive.org
 
 ---
 @tracey_pooh 🧸<br>
-Internet Archive 🏛️<br><br>
+Internet Archive 🏛️
+<div class="fragment"><br>
 TV Architect<br>
-· video/audio · devops · javascript ·<br><br>
+· video/audio · devops · javascript ·<br>
+</div>
 
+<div class="fragment"><br><br>
 <span class="fragment highlight-red">slides</span>: https://tracey.dev.archive.org<br>
 repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
-
+</div>
 
 ---
 <img src="i/containers-and-tracey.jpg" style="margin-top:-10%"/>
@@ -344,23 +347,27 @@ NOMAD_VAR_HEALTH_TIMEOUT
 NOMAD_VAR_HOME
 NOMAD_VAR_HOSTNAMES
 NOMAD_VAR_MEMORY
-NOMAD_VAR_MYSQL
 NOMAD_VAR_NO_DEPLOY
 NOMAD_VAR_PG
 NOMAD_VAR_PORTS
 NOMAD_VAR_PV
 NOMAD_VAR_PV_DB
 ```
-
+<div class="fragment">
 Add any ☝🏽 to your `.gitlab-ci.yml`<br>
 ([more info](https://gitlab.com/internetarchive/nomad/-/blob/master/README.md))
+</div>
 
 ---
 ## Issues with: `docker login?`
-- [Create Group `read_registry` deploy token](https://docs.gitlab.com/ee/user/project/deploy_tokens/#read-container-registry-images)
-- Add to Group: ⚙️ Settings > CI/CD > Variables
-  - `CI_R2_USER`
-  - `CI_R2_PASS`
+- [Create group `read_registry` Deploy Token](https://docs.gitlab.com/ee/user/project/deploy_tokens/#read-container-registry-images)
+<ul class="fragment">
+  <li> Add to Group: ⚙️ Settings > CI/CD > Variables
+    <ul>
+      <li>`CI_R2_USER`
+      <li>`CI_R2_PASS`
+    </ul>
+</ul>
 
 
 ---
@@ -384,11 +391,14 @@ based on CWD & git info
 
 ---
 ## Create Nomad Clusters
-- [general setup.sh](https://gitlab.com/internetarchive/nomad/-/blob/master/setup.sh)
-  - linux, digital ocean ($5), mac laptop
-
 <section>
-"down arrow" 👇🏽 for more
+<ul>
+  <li>[general setup.sh](https://gitlab.com/internetarchive/nomad/-/blob/master/setup.sh)
+  <ul>
+    <li>linux, digital ocean ($5), mac laptop
+  </ul>
+  <li>"down arrow" 👇🏽 for more
+</ul>
 </section>
 <section>
 <ul>
