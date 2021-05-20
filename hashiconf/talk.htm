@@ -1,0 +1,436 @@
+<!doctype html><head><meta charset="utf-8"/><script>window.NIGHT=1</script><script src="../eveal.js/eveal.js"></script><style> .slide-background { background-image: url("bg.jpg"); }</style>
+<meta property="title" content="GitLab + Nomad = A Dream Come True: HashiConf Europe: Tracey Jaquith">
+</head><body>
+
+<section data-background-image="welcome.jpg" data-background-size="contain" data-background-color="black"></section>
+
+---
+<!-- .slide: data-background="nomad.jpg" -->
+GitLab + Nomad = A Dream Come True
+
+HashiConf Europe 2021<br>
+Tracey Jaquith
+
+slides: tracey.dev.archive.org
+
+
+---
+@tracey_pooh 🧸<br>
+Internet Archive 🏛️
+<div class="fragment"><br>
+TV Architect<br>
+· video/audio · devops · javascript ·<br>
+</div>
+
+<div class="fragment"><br><br>
+<span class="fragment highlight-red">slides</span>: https://tracey.dev.archive.org<br>
+repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
+</div>
+
+---
+<img src="i/containers-and-tracey.jpg" style="margin-top:-10%"/>
+tracey.dev.archive.org
+
+
+---
+## Why are We Here?
+<div class="fragment">
+Use GitLab with Nomad clusters
+</div>
+
+
+---
+## GitLab + Nomad
+<div class="fragment">
+<hr>
+2 line `.gitlab-ci.yml`
+</div>
+<div class="fragment">
+<hr>
+2 CI/CD variables
+</div>
+
+---
+## Approach & Goals
+<div class="fragment">
+`nomad` replace `kubernetes`
+</div>
+<div class="fragment">
+<hr>
+Use GitLab [build] phase<br>
+( build & `docker push` to registry )
+</div>
+<div class="fragment">
+<hr>
+Custom
+<span class="fragment highlight-red">
+[deploy]
+</span>
+phase
+</div>
+
+<div class="fragment">
+<br>
+<br>
+tracey.dev.archive.org
+</div>
+
+---
+<section data-background-image="i/how0.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="i/howA.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="i/howB.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="i/howC.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="i/howD.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="i/howE.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="i/howF.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="i/howG.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="i/howH.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+
+
+
+---
+## tl;dr 🥱
+GitLab repository's<br>
+⚙️ Settings > CI/CD > Variables<br>
+
+| | |
+| -- | --
+| `NOMAD_ADDR`  | `https://pod.archive.org:4646`
+| `NOMAD_TOKEN` | `133t-z6rf-1234-1243bcd35199187`
+
+
+---
+## tl;dr 🥱
+```yml
+include:
+  - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
+```
+add 👆 to your GitLab repository :
+- top-level file:
+- [.gitlab-ci.yml](https://gitlab.com/internetarchive/nomad/-/blob/master/.gitlab-ci.yml)
+
+
+---
+## The Included .gitlab-ci.yml
+<pre><code class="hljs yaml"
+>deploy:
+  stage: deploy
+  script:
+</code></pre>
+<pre class="fragment fade-up"><code class="hljs yaml"
+>    # ---- get templated  project.nomad ----
+    — wget  gitlab.com/internetarchive/nomad/-/raw/master/project.nomad
+    — mv  project.nomad  project.hcl
+    — sed -i "s/NOMAD_VAR_SLUG/$NOMAD_VAR_SLUG/" project.hcl
+</code></pre>
+<pre class="fragment fade-up"><code class="hljs yaml"
+>    # ---- write GitLab env vars starting with "CI＿" to env var file ----
+    — node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("CI＿")))))' >| /tmp/env.json
+</code></pre>
+<pre class="fragment fade-up"><code class="hljs yaml"
+>    # ---- write env vars starting w/ "NOMAD＿SECRET＿" to env var file ----
+    — echo NOMAD_SECRETS=$(node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("NOMAD＿SECRET＿")).map(([k ,v]) => [k.replace(/^NOMAD＿SECRET＿/,""), v]))))' | sed 's/":"/"="/g') >| /tmp/env.env
+</code></pre>
+<pre class="fragment fade-up"><code class="hljs yaml"
+>    # ---- deploy job to nomad ----
+    — nomad run  -var-file=/tmp/env.json  -var-file=/tmp/env.env  project.hcl
+</code></pre>
+<p class="fragment fade-up">
+see
+[full .gitlab-ci.yml](https://gitlab.com/internetarchive/nomad/-/blob/master/.gitlab-ci.yml)
+for more
+</p>
+
+---
+## nomad project
+- generic template:
+  [project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
+
+- uses template vars + GitLab CI/CD Auto DevOps variables
+<pre class="fragment fade-up"><code class="hljs bash"
+>$CI_COMMIT_REF_SLUG
+$CI_REGISTRY_IMAGE
+..
+$NOMAD_VAR_MEMORY
+$NOMAD_SECRET_DATABASE_URL
+</pre></code>
+
+- leverages: [HCL v2](https://www.nomadproject.io/docs/job-specification/hcl2)
+<pre class="fragment fade-up"><code class="hljs yaml"
+>network {
+    dynamic "port" {
+      #  port.key == portnumber   port.value == portname
+      for_each = merge(var.PORTS, var.PG, {})
+      labels = [ "${port.value}" ]
+      content {
+        to = port.key
+      }}}
+</pre></code>
+
+
+
+---
+## [minimal project](https://gitlab.com/internetarchive/nomad/-/blob/master/etc/hello-world.hcl)  usable with GitLab
+
+
+---
+<pre><code class="hljs yaml"
+>job "hello-world" {
+  datacenters = ["dc1"]
+  group "hello-world" {
+    network { port "http" { to = 5000 } }
+</code></pre>
+<pre class="fragment fade-up"><code class="hljs yaml"
+>    task "hello-world" {
+      driver = "docker"
+      config {
+        image = "${var.CI_REGISTRY_IMAGE}/${var.CI_COMMIT_REF_SLUG}:${var.CI_COMMIT_SHA}"
+        ports = [ "http" ]
+</code></pre>
+<pre class="fragment fade-up"><code class="hljs yaml"
+>        auth {
+          server_address = "${var.CI_REGISTRY}"
+          username = "${var.CI_REGISTRY_USER}"
+          password = "${var.CI_REGISTRY_PASSWORD}"
+    }}}
+</code></pre>
+<pre class="fragment fade-up"><code class="hljs yaml"
+>    service {
+      name = "hello-world"
+      tags = ["urlprefix-${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}.${var.KUBE_INGRESS_BASE_DOMAIN}:443/"]
+      port = "http"
+</code></pre>
+<pre class="fragment fade-up"><code class="hljs yaml"
+>      check {
+        type     = "http"
+        port     = "http"
+        path     = "/"
+        interval = "10s"
+        timeout  = "2s"
+}}}}
+</code></pre>
+
+
+---
+### has nomad cluster?  try this now! 😊
+```
+NOMAD_ADDR=...
+NOMAD_TOKEN=...
+
+wget https://gitlab.com/internetarchive/nomad/-/raw/master/etc/hello-world.hcl
+nomad run hello-world.hcl
+```
+
+
+---
+## NOMAD_VAR_SLUG 🐌
+
+Semantic hostnames 🙌
+
+<pre>
+https://services-timemachine
+         ╰──┬──╯  ╰───┬───╯
+ <span class="fragment">(GitLab)</span> group    project
+</pre><pre class="fragment fade-up">
+https://frontend-website-123-ticket-3939-fix-boom
+         ╰──┬──╯  ╰───┬───╯   ╰────────┬───────╯
+          group    project          branch
+</pre>
+
+---
+## Nomad Job Names
+### get same Semantic Slug
+```bash
+$ nomad status
+
+ID                              Type     Priority  Status   Submit Date
+fabio                           system   50        running  2020-07-04T12:14:32-07:00
+internetarchive-word-salad      service  50        running  2020-07-04T04:24:31-07:00
+internetarchive-www             service  50        running  2020-07-04T04:36:02-07:00
+internetarchive-www-mobile-nav  service  50        running  2020-07-04T13:59:16-07:00
+services-timemachine            service  50        running  2020-07-04T14:00:05-07:00
+x-thumb                         service  50        running  2020-07-04T04:34:54-07:00
+```
+
+<pre class="fragment">
+ ╰─────────┬─────────╯
+       job name
+</pre>
+
+---
+## DEMO TIME 🚀
+- Create new gitlab repo
+- Deploy to nomad
+
+---
+## Hello my World
+### 3 files, 10 lines
+</code></pre>
+<pre class="fragment fade-up">
+
+
+ ╭─── clock.js ───╮
+<code class="hljs js"
+>var http = require('http')
+http.createServer((req, res) => {
+  res.end(`the time is: ${new Date()}`)
+}).listen(5000)
+</code></pre>
+
+<pre class="fragment fade-up">
+
+
+ ╭─── Dockerfile ───╮
+<code class="hljs bash"
+>FROM node:alpine
+COPY . /app
+CMD node /app/clock.js
+</code></pre>
+
+<pre class="fragment fade-up">
+
+
+ ╭─── .gitlab-ci.yml ───╮
+<code class="hljs yml"
+>include:
+  - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
+</code></pre>
+
+
+
+---
+<section data-background-image="i/overview.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="overviewA.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="overviewB.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="overviewC.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="overviewD.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="overviewE.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+---
+<section data-background-image="overviewF.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
+
+
+
+---
+https://gitlab.com/internetarchive/hashiconf-demo
+
+
+---
+## Full project.nomad
+[https://gitlab.com/internetarchive/nomad/project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
+
+
+
+---
+## Customize
+Optional CI/CD vars for
+[project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
+
+```
+NOMAD_VAR_BIND_MOUNTS
+NOMAD_VAR_CHECK_PROTOCOL
+NOMAD_VAR_COUNT
+NOMAD_VAR_CPU
+NOMAD_VAR_HEALTH_TIMEOUT
+NOMAD_VAR_HOME
+NOMAD_VAR_HOSTNAMES
+NOMAD_VAR_MEMORY
+NOMAD_VAR_NO_DEPLOY
+NOMAD_VAR_PG
+NOMAD_VAR_PORTS
+NOMAD_VAR_PV
+NOMAD_VAR_PV_DB
+```
+<div class="fragment">
+Add any ☝🏽 to your `.gitlab-ci.yml`<br>
+([more info](https://gitlab.com/internetarchive/nomad/-/blob/master/README.md))
+</div>
+
+---
+## Issues with: `docker login?`
+- [Create group `read_registry` Deploy Token](https://docs.gitlab.com/ee/user/project/deploy_tokens/#read-container-registry-images)
+<ul class="fragment">
+  <li> Add to Group: ⚙️ Settings > CI/CD > Variables
+    <ul>
+      <li>`CI_R2_USER`
+      <li>`CI_R2_PASS`
+    </ul>
+</ul>
+
+
+---
+## Monitoring & Usage 🕵️
+[aliases](https://gitlab.com/internetarchive/nomad/-/blob/master/aliases)
+based on CWD & git info
+
+| | |
+| -- | -- |
+| `nom-ssh` | ssh into container
+| `nom-cp` | "hot copy" file laptop ➝ container
+| `nom-app` | open webapp url
+| `nom-status` | deploy info
+
+
+---
+## 🚨 Halp 🥺 - [build] Caching 🚨
+- `docker.sock` not `docker-in-docker`
+- [gitlab runners & monorepos](https://docs.gitlab.com/ee/ci/large_repositories/#store-custom-clone-options-in-configtoml)
+
+
+---
+## Additional Help
+[Create Nomad cluster](https://gitlab.com/internetarchive/nomad/-/blob/master/README.md#setup-a-nomad-cluster)<br>
+linux, digital ocean ($5), mac/laptop
+<div class="fragment">
+[create domain https certs](https://gitlab.com/internetarchive/nomad/-/blob/master/create-https-certs.sh)
+</div>
+<div class="fragment">
+[gitlab pipeline examples](https://gitlab.com/internetarchive/word-salad/-/pipelines)
+</div>
+
+---
+## Results: 🏛️  move to Nomad
+<div class="fragment">
+70 repos/webapps deployed
+</div>
+<div class="fragment">
+400+ review apps deployed
+</div>
+<div class="fragment">
+2x+ faster deploys
+</div>
+<div class="fragment">
+all main dev using gitlab + nomad review apps
+</div>
+
+---
+## Deploy with GitLab + Nomad
+- 2 line [.gitlab-ci.yml](https://gitlab.com/internetarchive/nomad/-/blob/master/.gitlab-ci.yml)
+- 2 CI/CD vars
+
+<h1 class="fragment">🚀</h1>
+
+---
+<!-- .slide: data-background="https://media.giphy.com/media/q4ICE9wYvOwBG/giphy.gif" -->
+# The End
+
+
+---
+<!-- .slide: data-background="thanks.jpg" -->
+<div style="color: #ddd; margin-top:20%">
+Thank You!<br>
+slides: tracey.dev.archive.org<br>
+repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
+</div>
