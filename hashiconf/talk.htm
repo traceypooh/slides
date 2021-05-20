@@ -17,15 +17,41 @@ slides: tracey.dev.archive.org
 ---
 @tracey_pooh 🧸<br>
 Internet Archive 🏛️
-<div class="fragment"><br>
+
+---
+@tracey_pooh 🧸<br>
+Internet Archive 🏛️
+<div><br>
 TV Architect<br>
 · video/audio · devops · javascript ·<br>
 </div>
 
-<div class="fragment"><br><br>
-<span class="fragment highlight-red">slides</span>: https://tracey.dev.archive.org<br>
+---
+@tracey_pooh 🧸<br>
+Internet Archive 🏛️
+<div><br>
+TV Architect<br>
+· video/audio · devops · javascript ·<br>
+</div>
+
+<div><br><br>
+slides: https://tracey.dev.archive.org<br>
 repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 </div>
+
+---
+@tracey_pooh 🧸<br>
+Internet Archive 🏛️
+<div><br>
+TV Architect<br>
+· video/audio · devops · javascript ·<br>
+</div>
+
+<div><br><br>
+<span style="color:red">slides</span>: https://tracey.dev.archive.org<br>
+repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
+</div>
+
 
 ---
 <img src="i/containers-and-tracey.jpg" style="margin-top:-10%"/>
@@ -34,42 +60,154 @@ tracey.dev.archive.org
 
 ---
 ## Why are We Here?
-<div class="fragment">
+
+---
+## Why are We Here?
 Use GitLab with Nomad clusters
-</div>
 
 
 ---
 ## GitLab + Nomad
-<div class="fragment">
+
+---
+## GitLab + Nomad
+<div>
 <hr>
 2 line `.gitlab-ci.yml`
 </div>
-<div class="fragment">
+
+---
+## GitLab + Nomad
+<div>
+<hr>
+2 line `.gitlab-ci.yml`
+</div>
+<div>
 <hr>
 2 CI/CD variables
 </div>
 
+
 ---
 ## Approach & Goals
-<div class="fragment">
+<div>
+</div>
+<div>
+</div>
+<div>
+
+</div>
+
+<div>
+<br>
+<br>
+
+</div>
+
+---
+## Approach & Goals
+<div>
 `nomad` replace `kubernetes`
 </div>
-<div class="fragment">
+<div>
+
+</div>
+<div>
+
+</div>
+
+<div>
+<br>
+<br>
+
+</div>
+
+---
+## Approach & Goals
+<div>
+`nomad` replace `kubernetes`
+</div>
+<div>
 <hr>
 Use GitLab [build] phase<br>
 ( build & `docker push` to registry )
 </div>
-<div class="fragment">
+<div>
+
+</div>
+
+<div>
+<br>
+<br>
+
+</div>
+
+---
+## Approach & Goals
+<div>
+`nomad` replace `kubernetes`
+</div>
+<div>
+<hr>
+Use GitLab [build] phase<br>
+( build & `docker push` to registry )
+</div>
+<div>
 <hr>
 Custom
-<span class="fragment highlight-red">
+[deploy]
+phase
+</div>
+
+<div>
+<br>
+<br>
+</div>
+
+---
+## Approach & Goals
+<div>
+`nomad` replace `kubernetes`
+</div>
+<div>
+<hr>
+Use GitLab [build] phase<br>
+( build & `docker push` to registry )
+</div>
+<div>
+<hr>
+Custom
+<span style="color:red">
 [deploy]
 </span>
 phase
 </div>
 
-<div class="fragment">
+<div>
+<br>
+<br>
+</div>
+
+---
+## Approach & Goals
+<div>
+`nomad` replace `kubernetes`
+</div>
+<div>
+<hr>
+Use GitLab [build] phase<br>
+( build & `docker push` to registry )
+</div>
+<div>
+<hr>
+Custom
+<span style="color:red">
+[deploy]
+</span>
+phase
+</div>
+
+<div>
 <br>
 <br>
 tracey.dev.archive.org
@@ -118,6 +256,24 @@ add 👆 to your GitLab repository :
 - [.gitlab-ci.yml](https://gitlab.com/internetarchive/nomad/-/blob/master/.gitlab-ci.yml)
 
 
+
+
+---
+## The Included .gitlab-ci.yml
+<pre><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<p class="">
+</p>
+
+
 ---
 ## The Included .gitlab-ci.yml
 <pre><code class="hljs yaml"
@@ -125,25 +281,144 @@ add 👆 to your GitLab repository :
   stage: deploy
   script:
 </code></pre>
-<pre class="fragment fade-up"><code class="hljs yaml"
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<p class="">
+</p>
+
+---
+## The Included .gitlab-ci.yml
+<pre><code class="hljs yaml"
+>deploy:
+  stage: deploy
+  script:
+</code></pre>
+<pre class=""><code class="hljs yaml"
 >    # ---- get templated  project.nomad ----
     — wget  gitlab.com/internetarchive/nomad/-/raw/master/project.nomad
     — mv  project.nomad  project.hcl
     — sed -i "s/NOMAD_VAR_SLUG/$NOMAD_VAR_SLUG/" project.hcl
 </code></pre>
-<pre class="fragment fade-up"><code class="hljs yaml"
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<p class="">
+</p>
+
+---
+## The Included .gitlab-ci.yml
+<pre><code class="hljs yaml"
+>deploy:
+  stage: deploy
+  script:
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>    # ---- get templated  project.nomad ----
+    — wget  gitlab.com/internetarchive/nomad/-/raw/master/project.nomad
+    — mv  project.nomad  project.hcl
+    — sed -i "s/NOMAD_VAR_SLUG/$NOMAD_VAR_SLUG/" project.hcl
+</code></pre>
+<pre class=""><code class="hljs yaml"
 >    # ---- write GitLab env vars starting with "CI＿" to env var file ----
     — node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("CI＿")))))' >| /tmp/env.json
 </code></pre>
-<pre class="fragment fade-up"><code class="hljs yaml"
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<p class="">
+</p>
+
+---
+## The Included .gitlab-ci.yml
+<pre><code class="hljs yaml"
+>deploy:
+  stage: deploy
+  script:
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>    # ---- get templated  project.nomad ----
+    — wget  gitlab.com/internetarchive/nomad/-/raw/master/project.nomad
+    — mv  project.nomad  project.hcl
+    — sed -i "s/NOMAD_VAR_SLUG/$NOMAD_VAR_SLUG/" project.hcl
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>    # ---- write GitLab env vars starting with "CI＿" to env var file ----
+    — node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("CI＿")))))' >| /tmp/env.json
+</code></pre>
+<pre class=""><code class="hljs yaml"
 >    # ---- write env vars starting w/ "NOMAD＿SECRET＿" to env var file ----
     — echo NOMAD_SECRETS=$(node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("NOMAD＿SECRET＿")).map(([k ,v]) => [k.replace(/^NOMAD＿SECRET＿/,""), v]))))' | sed 's/":"/"="/g') >| /tmp/env.env
 </code></pre>
-<pre class="fragment fade-up"><code class="hljs yaml"
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<p class="">
+</p>
+
+---
+## The Included .gitlab-ci.yml
+<pre><code class="hljs yaml"
+>deploy:
+  stage: deploy
+  script:
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>    # ---- get templated  project.nomad ----
+    — wget  gitlab.com/internetarchive/nomad/-/raw/master/project.nomad
+    — mv  project.nomad  project.hcl
+    — sed -i "s/NOMAD_VAR_SLUG/$NOMAD_VAR_SLUG/" project.hcl
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>    # ---- write GitLab env vars starting with "CI＿" to env var file ----
+    — node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("CI＿")))))' >| /tmp/env.json
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>    # ---- write env vars starting w/ "NOMAD＿SECRET＿" to env var file ----
+    — echo NOMAD_SECRETS=$(node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("NOMAD＿SECRET＿")).map(([k ,v]) => [k.replace(/^NOMAD＿SECRET＿/,""), v]))))' | sed 's/":"/"="/g') >| /tmp/env.env
+</code></pre>
+<pre class=""><code class="hljs yaml"
 >    # ---- deploy job to nomad ----
     — nomad run  -var-file=/tmp/env.json  -var-file=/tmp/env.env  project.hcl
 </code></pre>
-<p class="fragment fade-up">
+<p class="">
+</p>
+
+
+---
+## The Included .gitlab-ci.yml
+<pre><code class="hljs yaml"
+>deploy:
+  stage: deploy
+  script:
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>    # ---- get templated  project.nomad ----
+    — wget  gitlab.com/internetarchive/nomad/-/raw/master/project.nomad
+    — mv  project.nomad  project.hcl
+    — sed -i "s/NOMAD_VAR_SLUG/$NOMAD_VAR_SLUG/" project.hcl
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>    # ---- write GitLab env vars starting with "CI＿" to env var file ----
+    — node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("CI＿")))))' >| /tmp/env.json
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>    # ---- write env vars starting w/ "NOMAD＿SECRET＿" to env var file ----
+    — echo NOMAD_SECRETS=$(node -e 'console.log(JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k, v]) => k.startsWith("NOMAD＿SECRET＿")).map(([k ,v]) => [k.replace(/^NOMAD＿SECRET＿/,""), v]))))' | sed 's/":"/"="/g') >| /tmp/env.env
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>    # ---- deploy job to nomad ----
+    — nomad run  -var-file=/tmp/env.json  -var-file=/tmp/env.env  project.hcl
+</code></pre>
+<p class="">
 see
 [full .gitlab-ci.yml](https://gitlab.com/internetarchive/nomad/-/blob/master/.gitlab-ci.yml)
 for more
