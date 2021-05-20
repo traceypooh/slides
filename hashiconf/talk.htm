@@ -508,13 +508,34 @@ $NOMAD_SECRET_DATABASE_URL
     network { port "http" { to = 5000 } }
 </code></pre>
 <pre class=""><code class="hljs yaml"
-></code></pre>
+>
+
+
+
+
+</code></pre>
 <pre class=""><code class="hljs yaml"
-></code></pre>
+>
+
+
+
+
+</code></pre>
 <pre class=""><code class="hljs yaml"
-></code></pre>
+>
+
+
+
+</code></pre>
 <pre class=""><code class="hljs yaml"
-></code></pre>
+>
+
+
+
+
+
+
+</code></pre>
 
 ---
 <pre><code class="hljs yaml"
@@ -531,11 +552,27 @@ $NOMAD_SECRET_DATABASE_URL
         ports = [ "http" ]
 </code></pre>
 <pre class=""><code class="hljs yaml"
-></code></pre>
+>
+
+
+
+
+</code></pre>
 <pre class=""><code class="hljs yaml"
-></code></pre>
+>
+
+
+
+</code></pre>
 <pre class=""><code class="hljs yaml"
-></code></pre>
+>
+
+
+
+
+
+
+</code></pre>
 
 ---
 <pre><code class="hljs yaml"
@@ -559,9 +596,20 @@ $NOMAD_SECRET_DATABASE_URL
     }}}
 </code></pre>
 <pre class=""><code class="hljs yaml"
-></code></pre>
+>
+
+
+
+</code></pre>
 <pre class=""><code class="hljs yaml"
-></code></pre>
+>
+
+
+
+
+
+
+</code></pre>
 
 ---
 <pre><code class="hljs yaml"
@@ -591,7 +639,14 @@ $NOMAD_SECRET_DATABASE_URL
       port = "http"
 </code></pre>
 <pre class=""><code class="hljs yaml"
-></code></pre>
+>
+
+
+
+
+
+
+</code></pre>
 
 ---
 <pre><code class="hljs yaml"
@@ -731,7 +786,40 @@ x-thumb                         service  50        running  2020-07-04T04:34:54-
 ## Hello my World
 ### 3 files, 10 lines
 </code></pre>
-<pre class="fragment fade-up">
+<pre class="">
+
+
+
+<code class="hljs js"
+>
+
+
+
+</code></pre>
+
+<pre class="">
+
+
+
+<code class="hljs bash"
+>
+
+
+</code></pre>
+
+<pre class="">
+
+
+
+<code class="hljs yml"
+>
+
+</code></pre>
+---
+## Hello my World
+### 3 files, 10 lines
+</code></pre>
+<pre class="">
 
 
  ╭─── clock.js ───╮
@@ -742,7 +830,42 @@ http.createServer((req, res) => {
 }).listen(5000)
 </code></pre>
 
-<pre class="fragment fade-up">
+<pre class="">
+
+
+
+<code class="hljs bash"
+>
+
+
+</code></pre>
+
+<pre class="">
+
+
+
+<code class="hljs yml"
+>
+
+</code></pre>
+
+
+---
+## Hello my World
+### 3 files, 10 lines
+</code></pre>
+<pre class="">
+
+
+ ╭─── clock.js ───╮
+<code class="hljs js"
+>var http = require('http')
+http.createServer((req, res) => {
+  res.end(`the time is: ${new Date()}`)
+}).listen(5000)
+</code></pre>
+
+<pre class="">
 
 
  ╭─── Dockerfile ───╮
@@ -752,7 +875,42 @@ COPY . /app
 CMD node /app/clock.js
 </code></pre>
 
-<pre class="fragment fade-up">
+<pre class="">
+
+
+
+<code class="hljs yml"
+>
+
+</code></pre>
+
+
+---
+## Hello my World
+### 3 files, 10 lines
+</code></pre>
+<pre class="">
+
+
+ ╭─── clock.js ───╮
+<code class="hljs js"
+>var http = require('http')
+http.createServer((req, res) => {
+  res.end(`the time is: ${new Date()}`)
+}).listen(5000)
+</code></pre>
+
+<pre class="">
+
+
+ ╭─── Dockerfile ───╮
+<code class="hljs bash"
+>FROM node:alpine
+COPY . /app
+CMD node /app/clock.js
+</code></pre>
+
+<pre class="">
 
 
  ╭─── .gitlab-ci.yml ───╮
@@ -810,7 +968,33 @@ NOMAD_VAR_PORTS
 NOMAD_VAR_PV
 NOMAD_VAR_PV_DB
 ```
-<div class="fragment">
+<pre>
+
+
+
+</pre>
+
+---
+## Customize
+Optional CI/CD vars for
+[project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
+
+```
+NOMAD_VAR_BIND_MOUNTS
+NOMAD_VAR_CHECK_PROTOCOL
+NOMAD_VAR_COUNT
+NOMAD_VAR_CPU
+NOMAD_VAR_HEALTH_TIMEOUT
+NOMAD_VAR_HOME
+NOMAD_VAR_HOSTNAMES
+NOMAD_VAR_MEMORY
+NOMAD_VAR_NO_DEPLOY
+NOMAD_VAR_PG
+NOMAD_VAR_PORTS
+NOMAD_VAR_PV
+NOMAD_VAR_PV_DB
+```
+<div class="">
 Add any ☝🏽 to your `.gitlab-ci.yml`<br>
 ([more info](https://gitlab.com/internetarchive/nomad/-/blob/master/README.md))
 </div>
