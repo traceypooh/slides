@@ -424,13 +424,41 @@ see
 for more
 </p>
 
+
+---
+## nomad project
+- generic template:
+  [project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
+
 ---
 ## nomad project
 - generic template:
   [project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
 
 - uses template vars + GitLab CI/CD Auto DevOps variables
-<pre class="fragment fade-up"><code class="hljs bash"
+
+---
+## nomad project
+- generic template:
+  [project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
+
+- uses template vars + GitLab CI/CD Auto DevOps variables
+<pre class=""><code class="hljs bash"
+>$CI_COMMIT_REF_SLUG
+$CI_REGISTRY_IMAGE
+..
+$NOMAD_VAR_MEMORY
+$NOMAD_SECRET_DATABASE_URL
+</pre></code>
+
+
+---
+## nomad project
+- generic template:
+  [project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
+
+- uses template vars + GitLab CI/CD Auto DevOps variables
+<pre class=""><code class="hljs bash"
 >$CI_COMMIT_REF_SLUG
 $CI_REGISTRY_IMAGE
 ..
@@ -439,7 +467,23 @@ $NOMAD_SECRET_DATABASE_URL
 </pre></code>
 
 - leverages: [HCL v2](https://www.nomadproject.io/docs/job-specification/hcl2)
-<pre class="fragment fade-up"><code class="hljs yaml"
+
+---
+## nomad project
+- generic template:
+  [project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
+
+- uses template vars + GitLab CI/CD Auto DevOps variables
+<pre class=""><code class="hljs bash"
+>$CI_COMMIT_REF_SLUG
+$CI_REGISTRY_IMAGE
+..
+$NOMAD_VAR_MEMORY
+$NOMAD_SECRET_DATABASE_URL
+</pre></code>
+
+- leverages: [HCL v2](https://www.nomadproject.io/docs/job-specification/hcl2)
+<pre class=""><code class="hljs yaml"
 >network {
     dynamic "port" {
       #  port.key == portnumber   port.value == portname
@@ -463,27 +507,120 @@ $NOMAD_SECRET_DATABASE_URL
   group "hello-world" {
     network { port "http" { to = 5000 } }
 </code></pre>
-<pre class="fragment fade-up"><code class="hljs yaml"
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+
+---
+<pre><code class="hljs yaml"
+>job "hello-world" {
+  datacenters = ["dc1"]
+  group "hello-world" {
+    network { port "http" { to = 5000 } }
+</code></pre>
+<pre class=""><code class="hljs yaml"
 >    task "hello-world" {
       driver = "docker"
       config {
         image = "${var.CI_REGISTRY_IMAGE}/${var.CI_COMMIT_REF_SLUG}:${var.CI_COMMIT_SHA}"
         ports = [ "http" ]
 </code></pre>
-<pre class="fragment fade-up"><code class="hljs yaml"
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+
+---
+<pre><code class="hljs yaml"
+>job "hello-world" {
+  datacenters = ["dc1"]
+  group "hello-world" {
+    network { port "http" { to = 5000 } }
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>    task "hello-world" {
+      driver = "docker"
+      config {
+        image = "${var.CI_REGISTRY_IMAGE}/${var.CI_COMMIT_REF_SLUG}:${var.CI_COMMIT_SHA}"
+        ports = [ "http" ]
+</code></pre>
+<pre class=""><code class="hljs yaml"
 >        auth {
           server_address = "${var.CI_REGISTRY}"
           username = "${var.CI_REGISTRY_USER}"
           password = "${var.CI_REGISTRY_PASSWORD}"
     }}}
 </code></pre>
-<pre class="fragment fade-up"><code class="hljs yaml"
+<pre class=""><code class="hljs yaml"
+></code></pre>
+<pre class=""><code class="hljs yaml"
+></code></pre>
+
+---
+<pre><code class="hljs yaml"
+>job "hello-world" {
+  datacenters = ["dc1"]
+  group "hello-world" {
+    network { port "http" { to = 5000 } }
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>    task "hello-world" {
+      driver = "docker"
+      config {
+        image = "${var.CI_REGISTRY_IMAGE}/${var.CI_COMMIT_REF_SLUG}:${var.CI_COMMIT_SHA}"
+        ports = [ "http" ]
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>        auth {
+          server_address = "${var.CI_REGISTRY}"
+          username = "${var.CI_REGISTRY_USER}"
+          password = "${var.CI_REGISTRY_PASSWORD}"
+    }}}
+</code></pre>
+<pre class=""><code class="hljs yaml"
 >    service {
       name = "hello-world"
       tags = ["urlprefix-${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}.${var.KUBE_INGRESS_BASE_DOMAIN}:443/"]
       port = "http"
 </code></pre>
-<pre class="fragment fade-up"><code class="hljs yaml"
+<pre class=""><code class="hljs yaml"
+></code></pre>
+
+---
+<pre><code class="hljs yaml"
+>job "hello-world" {
+  datacenters = ["dc1"]
+  group "hello-world" {
+    network { port "http" { to = 5000 } }
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>    task "hello-world" {
+      driver = "docker"
+      config {
+        image = "${var.CI_REGISTRY_IMAGE}/${var.CI_COMMIT_REF_SLUG}:${var.CI_COMMIT_SHA}"
+        ports = [ "http" ]
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>        auth {
+          server_address = "${var.CI_REGISTRY}"
+          username = "${var.CI_REGISTRY_USER}"
+          password = "${var.CI_REGISTRY_PASSWORD}"
+    }}}
+</code></pre>
+<pre class=""><code class="hljs yaml"
+>    service {
+      name = "hello-world"
+      tags = ["urlprefix-${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}.${var.KUBE_INGRESS_BASE_DOMAIN}:443/"]
+      port = "http"
+</code></pre>
+<pre class=""><code class="hljs yaml"
 >      check {
         type     = "http"
         port     = "http"
@@ -504,6 +641,17 @@ wget https://gitlab.com/internetarchive/nomad/-/raw/master/etc/hello-world.hcl
 nomad run hello-world.hcl
 ```
 
+---
+## NOMAD_VAR_SLUG 🐌
+
+Semantic hostnames 🙌
+
+<pre>
+https://services-timemachine
+         ╰──┬──╯  ╰───┬───╯
+          group    project
+</pre><pre class="">
+</pre>
 
 ---
 ## NOMAD_VAR_SLUG 🐌
@@ -513,11 +661,44 @@ Semantic hostnames 🙌
 <pre>
 https://services-timemachine
          ╰──┬──╯  ╰───┬───╯
- <span class="fragment">(GitLab)</span> group    project
-</pre><pre class="fragment fade-up">
+ <span class="">(GitLab)</span> group    project
+</pre><pre class="">
+</pre>
+
+---
+## NOMAD_VAR_SLUG 🐌
+
+Semantic hostnames 🙌
+
+<pre>
+https://services-timemachine
+         ╰──┬──╯  ╰───┬───╯
+ <span class="">(GitLab)</span> group    project
+</pre><pre class="">
 https://frontend-website-123-ticket-3939-fix-boom
          ╰──┬──╯  ╰───┬───╯   ╰────────┬───────╯
           group    project          branch
+</pre>
+
+
+---
+## Nomad Job Names
+### get same Semantic Slug
+```bash
+$ nomad status
+
+ID                              Type     Priority  Status   Submit Date
+fabio                           system   50        running  2020-07-04T12:14:32-07:00
+internetarchive-word-salad      service  50        running  2020-07-04T04:24:31-07:00
+internetarchive-www             service  50        running  2020-07-04T04:36:02-07:00
+internetarchive-www-mobile-nav  service  50        running  2020-07-04T13:59:16-07:00
+services-timemachine            service  50        running  2020-07-04T14:00:05-07:00
+x-thumb                         service  50        running  2020-07-04T04:34:54-07:00
+```
+
+<pre class="">
+
+
 </pre>
 
 ---
@@ -535,10 +716,11 @@ services-timemachine            service  50        running  2020-07-04T14:00:05-
 x-thumb                         service  50        running  2020-07-04T04:34:54-07:00
 ```
 
-<pre class="fragment">
+<pre class="">
  ╰─────────┬─────────╯
        job name
 </pre>
+
 
 ---
 ## DEMO TIME 🚀
