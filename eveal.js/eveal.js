@@ -68,6 +68,7 @@ require(BASE + 'lib/js/head.min.js', function() {
     // - https://github.com/hakimel/reveal.js#configuration
     // - https://github.com/hakimel/reveal.js#dependencies
     Reveal.initialize({controls: true,  progress: false,  history: true,  center: true,  margin: 0.1,
+      // width: 1920, height: 1080, // ?print-pdf => 16:9
       dependencies: [
         { src: BASE + 'plugin/markdown/marked.js' },
         { src: BASE + 'plugin/markdown/markdown.js' },
@@ -78,5 +79,7 @@ require(BASE + 'lib/js/head.min.js', function() {
         } }
       ]
     });
+
+    // Reveal.configure({ pdfSeparateFragments: true });
   });
 });
