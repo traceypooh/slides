@@ -1,0 +1,133 @@
+<!doctype html><head><meta charset="utf-8"/><script>window.NIGHT=1</script><script src="../eveal.js/eveal.js"></script><style> .slide-background { background-image: url("i/bg.jpg"); }</style>
+<meta property="title" content="GitLab + Nomad = A Dream Come True: HashiConf Europe: Tracey Jaquith">
+<!-- 😊 fish: https://sylvan.apple.com/Videos/BO_A014_C008_SDR_20190719_SDR_2K_AVC.mov -->
+</head><body>
+
+---
+# 30,000 fps nginx
+## To Russia with Love
+
+Demuxed 2021<br>
+Tracey Jaquith
+
+slides: tracey.dev.archive.org
+
+
+---
+@tracey_pooh 🧸<br>
+Internet Archive 🏛️
+<div class="fragment"><br>
+TV Architect<br>
+· video/audio · devops · javascript ·<br>
+</div>
+
+<div class="fragment"><br><br>
+<span class="fragment highlight-red">slides</span>: https://tracey.dev.archive.org<br>
+</div>
+
+
+---
+## Why?
+Server-side mp4 lossless precise seeking is hard.
+<div class="fragment">
+Most of the time, you jump between keyframes.
+</div>
+<div class="fragment">
+💡 Idea!  Speedup the FPS of the video frames just before the exact wanted seek point.
+</div>
+
+
+---
+## Why server-side clipping?
+xxx
+
+--
+## Lossless
+Let's hack some (dyslexia unfriendly) STTS and STSS moov atoms...
+
+
+
+http://nginx.org/en/docs/contributing_changes.html
+```text
+The commit message should have a single-line synopsis followed by verbose description after an empty line. It is desirable that the first line is no longer than 67 symbols. The resulting changeset as a patch can be obtained using the hg export command:
+```
+
+
+Getting Sources
+Mercurial is used to store source code. The repository can be cloned with the following command:
+
+hg clone http://hg.nginx.org/nginx
+
+
+---
+# 12y ago
+https://git.archive.org/ia/petabox/-/blob/6614fbaaf77c7718dad1f5ff393029d2b2f4c2db/sw/bin/nginx-README.txt
+nginx v0.8
+mod_h264_streaming-2.1rc2
+if !start && !end -- return .mp4 AS IS (some user .mp4 uploads fail w/ mod_h264..)
+
+#
+natty
+nginx_mod_h264_streaming-2.2.7.tar.gz;
+
+# tracey oct2013
+I've added a new "&exact=1" optional arg that is used with "&start=X" arg
+that will perceptually skip through any first partial GOP to the exact
+start time.
+- @see https://github.com/traceypooh/mod_h264_streaming--intra-keyframes )
+
+https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mod_h264_exact-start.patch
+
+mod_h264 always started at closest keyframe **at or before** desired start time.
+approach:
+- reset audio samples to wanted start time
+- video samples parsed into PTS
+  - so make all undesired initial first video frames have *just* one PTS value higher than last frame
+
+# 2014
+exact end patch from Péter Vajda, PhD, Stanford
+https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mod_h264_exact-end.patch
+
+# 2015
+"AS IS" patch
+https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/commits/master/nginx-mod_h264_ASIS.patch
+
+# 2017
+chrome duration patch:
+https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mod_h264_chrome-duration.patch
+
+# 9/2020
+nginx rebuild to use `ipscrub` module, ubuntu focal, deployed to all archive.org nodes
+
+
+# 5/11/2021
+nginx `ipscrub` patch improvements (more entry, same salt/crypt as prior `lua` IP hider
+
+# 5/18/2021
+😳 🥺
+🤦‍♀️ 😰
+🥵
+
+```sh
+git commit -m 'workaround (TV) mp4 clips with "&exact=1" having some kind of strange new double free() segfault - WEBDEV-4445'
+```
+🥀
+
+# 6/1/2021
+```sh
+git commit -m '
+Move from long abandoned (tracey as sole maintainer) mod_h264_streaming module
+to nginx "house version" (optional) http_mp4_module.
+
+Like the older, the newer module still needs an "exact=1" precise start time patch
+(though it is a smaller patch/need.  the newer module already uses an "exact end" time feature - which is a nice upgrade).
+
+Will be trying to get the patch refined and "upstream" to nginx proper
+'
+```
+https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mp4.patch
+
+
+---
+<!-- .slide: data-background="https://media.giphy.com/media/q4ICE9wYvOwBG/giphy.gif" -->
+# The End
