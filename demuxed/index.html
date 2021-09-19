@@ -1,5 +1,5 @@
 <!doctype html><head><meta charset="utf-8"/><script>window.NIGHT=1</script><script src="../eveal.js/eveal.js"></script><style> .slide-background { background-image: url("i/bg.jpg"); }</style>
-<meta property="title" content="GitLab + Nomad = A Dream Come True: HashiConf Europe: Tracey Jaquith">
+<meta property="title" content="30,000 fps nginx - to Russia with Love : Demuxed 2021 : Tracey Jaquith">
 <!-- 😊 fish: https://sylvan.apple.com/Videos/BO_A014_C008_SDR_20190719_SDR_2K_AVC.mov -->
 </head><body>
 
@@ -24,6 +24,107 @@ TV Architect<br>
 <div class="fragment"><br><br>
 <span class="fragment highlight-red">slides</span>: https://tracey.dev.archive.org<br>
 </div>
+
+---
+## xxx - points to factor in...
+- figure out how to patch & test mp4
+- `hg` mercurial
+- email devl list - `patchbomb`
+- 3500 line single `.c` file
+- best C code I've ever seen
+  - reads top-to-bottom
+  - airtight
+  - intimidating
+  - exciting
+- 1st guy: "why not just use a smart client/browser?"
+  - misses entire point --> "then why would i ever use nginx mp4 module??"
+  - "good point.."
+  - gets me to Roman, the 4th most committer at nginx ; 2nd most committer in mp4 module
+- back & forth, with Roman, who wizardly points out I can use ...
+  - STTS - Time-To-Sample atom
+  - parse STSS - Sync Sample entries - list of keyframs
+    - each STSS entry is a [duration][count] tuple
+    - start with first frame, end once hit desired start
+    - if desired start is keyframe, nothing to do!
+    - otherwise, "save" prior keyframe location
+    - now we know how many frames to move:
+      - from 30fps, duration 1001 (typical)
+      - to duration 1, ~30000fps (typical)
+- my patch: https://raw.githubusercontent.com/traceypooh/mod_h264_streaming--intra-keyframes/master/nginx-mp4.patch: 158 lines
+- 6/15/2021
+- updated patch: `tracey-2021-06-15.patch` (138 lines)
+- `exact_video_adjustment()`
+- revised patch: 234 lines
+- mentioned: "your patch first line exceeds 67 char limit".. :(
+  - http://nginx.org/en/docs/contributing_changes.html
+- changes name / new config setting to: `mp4_seek_key_frame`
+```ini
+location /video/ {
+    mp4;
+    mp4_buffer_size       1m;
+    mp4_max_buffer_size   5m;
+    mp4_limit_rate        on;
+    mp4_limit_rate_after  30s;
+    mp4_seek_key_frame    on;
+}
+```
+   https://nginx.org/en/docs/http/ngx_http_mp4_module.html
+- `ngx_http_mp4_rewind_stts_data()`
+- "Based on a patch by Tracey Jaquith."
+- "Can you test this?"
+  - 2 months at 50% time go by..., exercising 1-3h/day, losing 15 pounds ;-)
+  - 9/7/2021 ( https://forum.nginx.org/read.php?29,291866,292368#msg-292368 )
+  - tests heavily on linux and macosx -- looks good!
+- "If I won't end up being a committer, can you credit Internet Archive, too?" :)
+- "Based on a patch by Tracey Jaquith, Internet Archive"
+- "We had a discussion here about enabling this feature by default or maybe making this the only supported behavior. What do you think?" 9/9/2021
+
+---
+## .hg/hgrc
+```ini
+[paths]
+default = http://hg.nginx.org/nginx
+
+[ui]
+username = Tracey Jaquith <tracey@archive.org>
+
+[extensions]
+hgext.patchbomb =
+
+[email]
+to = nginx-devel@nginx.org
+from = Tracey Jaquith <tracey@archive.org>
+method = smtp
+
+[smtp]
+host = mail.archive.org
+tls = starttls
+username = tracey@archive.org
+```
+- hg commit
+- hg log |head # get hash like: 7872:1879d49fe0cf
+- hg email --test 7872:1879d49fe0cf
+- hg email 7872:5da9c62fa610
+
+Add optional "mp4_exact_start" nginx config off/on to show video between keyframes.
+
+archive.org has been using mod_h264_streaming with a similar "exact start" patch from me since 2013.
+We just moved to nginx mp4 module and are using this patch.
+The technique is to find the video keyframe just before the desired "start" time, and send
+that down the wire so video playback can start immediately.
+Next calculate how many video samples are between the keyframe and desired "start" time
+and update the STTS atom where those samples move the duration from (typically) 1001 to 1.
+This way, initial unwanted video frames play at ~1/30,000s -- so visually the
+video & audio start playing immediately.
+
+You can see an example before/after here (nginx binary built with mp4 module + patch):
+
+https://pi.archive.org/0/items/CSPAN_20160425_022500_2011_White_House_Correspondents_Dinner.mp4?start=12&end=30
+https://pi.archive.org/0/items/CSPAN_20160425_022500_2011_White_House_Correspondents_Dinner.mp4?start=12&end=30&exact=1
+
+Tested on linux and macosx.
+
+(this is me: https://github.com/traceypooh )
 
 
 ---
@@ -154,6 +255,10 @@ git commit -m 'workaround (TV) mp4 clips with "&exact=1" having some kind of str
 <div class="fragment">
 🥀
 </div>
+
+---
+... got 98% of segfaults fixed by patching & completely taking over `mod_h264_streaming`'s memory management.  but that 2%...
+
 
 ---
 # 6/1/2021
