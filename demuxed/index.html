@@ -51,17 +51,17 @@ Losslessly serve smaller piece of a video.
 ### Framing the problem
 <pre class="fragment fade-up">
 • IFrame / Keyframe
-  - full image - like a JPEG
+  · full image - like a JPEG
 </pre>
 
 <pre class="fragment fade-up">
 • Predicted Frame
-  - smaller piece(s) referencing other frames earlier in time
+  · smaller piece(s) referencing other frames earlier in time
 </pre>
 
 <pre class="fragment fade-up">
 • Bi-directional frame
-  - can reference prior or later frames
+  · can reference prior or later frames
 </pre>
 
 ---
@@ -94,18 +94,24 @@ Keyframe · Predicted Frame · Bidirectional Frame · Keyframe
 
 
 ---
-- keyframes occur every ~3-5 seconds
-- typical 10s max between keyaframes
-- you might want to seek 9.9s before a keyframe
-- browser needs to start at a keyframe to have all the information it needs
+## Server clipping problems
+• Keyframes occur every ~3-5 seconds
+
+<div class="fragment">
+• Typical 10s max between keyframes
+</div>
+
+<div class="fragment">
+• You might want to seek 9.9s before a keyframe
+</div><br>
+
+
+<div class="fragment">
+• BUT! Browser needs a keyframe to have all the info to start playing 🤦‍♀️
+</div>
 
 ---
-## `mp4` nginx/apache/webserver modules
-Typically either:
-- clip the video to the keyframe _before_ your desired seek point
-- send video without starting with keyframe
-  - video is "frozen" until 1st keyframe seen
-
+## Let's look at a clip
 
 ---
 ## first 3 keyframes (PTS time):
@@ -122,25 +128,23 @@ Typically either:
 
 ---
 ### nginx module: `mod_h264_streaming`
-You ask for clip: `start=8`
+You ask for clip: `start=8`  <small>(* keyframes at 6s and 10.7s)</small>
 
-<small>(keyframes at 6s and 10.7s)</small>
-
-.. so module starts *instead* at keyframe 6s in
+.. module starts *instead* at keyframe 6s in
 
 [<img src="key2.jpg">](https://archive.org/~tracey/ng.mp4?start=6.039&end=13)
 
+<small>(not right start point)</small>
 
 ---
 ### nginx module: `mp4`
-You ask for clip: `start=8`
+You ask for clip: `start=8`  <small>(* keyframes at 6s and 10.7s)</small>
 
-<small>(keyframes at 6s and 10.7s)</small>
-
-.. so module starts at 8s
+.. module starts at 8s
 
 [<img src="key2.jpg">](https://archive.org/~tracey/ng.mp4?start=8&end=13)
 
+<small>(frozen/black until 1st keyframe)</small>
 
 ---
 ## Why you Talky?
@@ -156,13 +160,11 @@ Most of the time, you jump between keyframes.
 
 ---
 ### The Tracey Way 👩‍🚀
-You ask for clip: `start=8`
+You ask for clip: `start=8`  <small>(* keyframes at 6s and 10.7s)</small>
 
-<small>(keyframes at 6s and 10.7s)</small>
+patched module starts at keyframe 6s in
 
-patched module starts at 6s
-
-.. but first 2s of frames at ⚡ 30,000 fps 😃
+.. but first 2s of frames are at ⚡ 30,000 fps 😃
 
 [<img src="key2.jpg">](https://archive.org/~tracey/ng.mp4?start=8&end=13&exact=1)
 
