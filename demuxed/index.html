@@ -1,7 +1,7 @@
 <!doctype html><head><meta charset="utf-8"/><script>window.NIGHT=1</script><script src="../eveal.js/eveal.js"></script><style> .slide-background { background-image: url("i/bg.jpg"); }</style>
 <meta property="title" content="30,000 fps nginx - to Russia with Love : Demuxed 2021 : Tracey Jaquith">
 <!-- 😊 fish: https://sylvan.apple.com/Videos/BO_A014_C008_SDR_20190719_SDR_2K_AVC.mov -->
-<style>pre.stretch code { max-height: 100% !important; } .frm {display:inline-block;width:33%} .frm img {border:0 !important} </style>
+<style>.frm {display:inline-block;width:33%} .frm img {border:0 !important} .fragm {font-size:.8em !important}</style>
 </head><body>
 
 # 30,000 fps Nginx
@@ -28,49 +28,64 @@ TV Architect<br>
 
 ---
 ## WHAT: server-side mp4 clipping?
-Losslessly serve smaller piece of a video.
+Serve smaller piece of a video
+<span class="fragment"><span class="fragment highlight-red">
+losslessly, on-demand
+</span></span>
 
-- Parse & rewrite header (moov atom)
-  - Change table sizes
-  - Update offsets to A/V packets
-
+<pre class="fragment fade-up fragm">
+• Parse & rewrite mp4 header (moov atom)
+</pre>
+<pre class="fragment fade-up fragm">
+  · Change table sizes
+  · Update offsets to A/V packets
+</pre>
+<pre class="fragment fade-up fragm">
+• Send smaller .mp4 to browser
+</pre>
 
 ---
 ## WHY: server-side mp4 clipping?
-- 1hr HD TV show (~2mbps)
-  -  4MB moov atom / header
+<pre class="fragment fade-up fragm">
+• 1hr HD TV show (~2mbps)
+  ·  4MB moov atom / header
+</pre>
 
-- To play 1 frame for 2h show
-  - need to download 8MB of header first
+<pre class="fragment fade-up fragm">
+• To play 1 frame for <u>2h</u> show
+  · need to download 8MB of header <u>first</u>
+</pre>
 
-- 2min clip
-  - 150K header
+<pre class="fragment fade-up fragm">
+• 2min server-side <u>clip</u>
+  · 150K header
+</pre>
 
 
 ---
-### Framing the problem
-<pre class="fragment fade-up">
+## Framing the problem
+<pre class="fragment fade-up fragm">
 • IFrame / Keyframe
   · full image - like a JPEG
 </pre>
 
-<pre class="fragment fade-up">
+<pre class="fragment fade-up fragm">
 • Predicted Frame
   · smaller piece(s) referencing other frames earlier in time
 </pre>
 
-<pre class="fragment fade-up">
+<pre class="fragment fade-up fragm">
 • Bi-directional frame
   · can reference prior or later frames
 </pre>
 
 ---
-### Keyframes
+## Keyframes
 
 <img src="https://www.canon.com.hk/cpx/public/images/tech/article/video/EOS_Movie_Compression_Options_All_I_and_IPB/IPB_Compression_EN_s.jpg">
 
 <pre style="text-align:center">
-   ^             ^             ^              ^
+   ☝🏽             ☝🏽             ☝🏽              ☝🏽&nbsp;&nbsp;&nbsp;
 Keyframe · Predicted Frame · Bidirectional Frame · Keyframe
 </pre>
 
@@ -131,23 +146,18 @@ BUT! 🍑
 
 ---
 ### nginx module: `mod_h264_streaming`
-You ask for clip: `start=8`  <small>(* keyframes at 6s and 10.7s)</small>
+You ask for clip: `?start=8`  <small>(* keyframes at 6s and 10.7s)</small><br>
+.. module starts _instead_ at keyframe 6s in
+<video src="https://archive.org/~tracey/ng.mp4?start=6.039&end=13" controls></video>
+<br><small>(not right start point)</small><br><br>
 
-.. module starts *instead* at keyframe 6s in
-
-[<img src="key2.jpg">](https://archive.org/~tracey/ng.mp4?start=6.039&end=13)
-
-<small>(not right start point)</small>
 
 ---
 ### nginx module: `mp4`
-You ask for clip: `start=8`  <small>(* keyframes at 6s and 10.7s)</small>
-
+You ask for clip: `?start=8`  <small>(* keyframes at 6s and 10.7s)</small><br>
 .. module starts at 8s
-
-[<img src="key2.jpg">](https://archive.org/~tracey/ng.mp4?start=8&end=13)
-
-<small>(frozen/black until 1st keyframe)</small>
+<video src="https://archive.org/~tracey/ng.mp4?start=8&end=13" controls poster="key3.jpg"></video>
+<br><small>(frozen/black until 1st keyframe; audio ok)</small><br><br>
 
 ---
 ## Why you Talky?
@@ -159,24 +169,21 @@ Most of the time, you jump between keyframes.
 ---
 ## 💡 Idea!
 <div class="fragment">
-Begin at keyframe before desired start ..
+Begin at keyframe <u>before</u> desired start and ..
 </div><br>
 
 <div class="fragment">
-_Speedup_ the FPS of the video frames you _dont_ want to see
+<u>Speedup</u> the FPS of the video frames you <u>dont</u>  want to see.
 </div>
 
 
 ---
 ### The Tracey Way 👩‍🚀
-You ask for clip: `start=8`  <small>(* keyframes at 6s and 10.7s)</small>
-
+You ask for clip: `?start=8`  <small>(* keyframes at 6s and 10.7s)</small><br>
 patched module starts at keyframe 6s in
-
-.. but first 2s of frames are at ⚡ 30,000 fps 😃
-
-[<img src="key2.jpg">](https://archive.org/~tracey/ng.mp4?start=8&end=13&exact=1)
-
+<video src="https://archive.org/~tracey/ng.mp4?start=8&end=13&exact=1" controls></video>
+<br><small>⚡ first 2s of frames are at ⚡ 30,000 fps 😃</small>
+<br><br>
 
 ---
 ## xxx - points to factor in...
@@ -189,6 +196,40 @@ patched module starts at keyframe 6s in
   - airtight
   - intimidating
   - exciting
+
+---
+### C examples
+<pre class="fragment fade-up" style="white-space: pre-wrap"><code class="hljs c"
+>// struct definition
+typedef struct { .. } ngx_mp4_stts_atom_t;
+</code></pre>
+
+<pre class="fragment fade-up" style="white-space: pre-wrap"><code class="hljs c"
+>// struct defn right before 👇🏽
+ngx_http_mp4_read_stts_atom(
+  ngx_http_mp4_file_t *mp4,
+  uint64_t atom_data_size) { .. }
+</code></pre>
+
+<pre class="fragment fade-up" style="white-space: pre-wrap"><code class="hljs c"
+>// just after the ☝🏽 reader is the updater 👇🏽
+ngx_http_mp4_update_stts_atom(
+  ngx_http_mp4_file_t *mp4,
+  ngx_http_mp4_trak_t *trak) { .. }
+</code></pre>
+
+<pre class="fragment fade-up" style="white-space: pre-wrap"><code class="hljs c"
+>// finally, ☝🏽 calls cropper 👇🏽
+ngx_http_mp4_crop_stts_data(
+  ngx_http_mp4_file_t *mp4,
+  ngx_http_mp4_trak_t *trak,
+  ngx_uint_t start) { .. }
+</code></pre>
+
+<pre class="fragment fade-up" style="white-space: pre-wrap"><code class="hljs text"
+>               ☝🏽 and there's our start arg
+</code></pre>
+
 ---
 ## xxx - points to factor in...
 - 1st guy: "why not just use a smart client/browser?"
@@ -307,7 +348,8 @@ https://archive.org/~tracey/ng.mp4?start=8&end=30&exact=1
 ## Atoms ⚛️
 - update STTS - Time-To-Sample
 - update stss - Sync Sample
-- List of sample number of each **keyframe**
+  - List of sample number of each **keyframe**
+
 - update ctts - Composition Time to Sample
 - update stsc - Sample-To-Chunk
 - update stsz - Sample Size
@@ -450,6 +492,12 @@ Will be trying to get the patch refined and "upstream" to nginx proper
 https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mp4.patch
 
 
+
+---
+## 9/6/2021
+```text
+We’ll do an internal review of the patch now and then proceed to committing it.
+```
 
 
 ---
