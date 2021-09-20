@@ -99,19 +99,22 @@ Keyframe · Predicted Frame · Bidirectional Frame · Keyframe
 
 <div class="fragment">
 • Typical 10s max between keyframes
-</div>
+</div><br>
 
 <div class="fragment">
-• You might want to seek 9.9s before a keyframe
+• You could seek 9.9s before a keyframe 🥺
 </div><br>
 
 
 <div class="fragment">
-• BUT! Browser needs a keyframe to have all the info to start playing 🤦‍♀️
+BUT! 🍑
+</div>
+<div class="fragment">
+• Browser needs a keyframe to have all the info to start playing 🤦‍♀️
 </div>
 
 ---
-## Let's look at a clip
+## Roll the Clip!
 
 ---
 ## first 3 keyframes (PTS time):
@@ -315,15 +318,16 @@ https://archive.org/~tracey/ng.mp4?start=8&end=30&exact=1
 ## Atoms
 <img src="atoms.png">
 
-- **update STTS - Time-To-Sample**
+- _update STTS - Time-To-Sample_
   - List of samples
-  - Each entry in the table gives the number of consecutive samples with the same time delta, and the delta of those samples. By adding the deltas, a complete time-to-sample map can be built.
   - a table of [8 byte] entries, each entry is:
     - [4B] sample count
     - [4B] sample duration
-  - Often for simple mp4 this is a single entry table:
+  - Often for simple mp4 this is a _single entry_ table:
     - [4B] number of frames/samples in video
-    - [4B] 1001 (US-centric - 29.97 fps == 30,000 / 1001) (30000 = timescale)
+    - [4B] 1001 duration
+
+<small>US TV - 29.97 fps == 30,000 / 1001 (30000 is timescale)</small>
 
 
 ---
@@ -333,13 +337,14 @@ Let's hack some (dyslexia unfriendly) STTS and STSS moov atoms...
 
 ---
 http://nginx.org/en/docs/contributing_changes.html
-```text
-The commit message should have a single-line synopsis followed by verbose description after an empty line. It is desirable that the first line is no longer than 67 symbols. The resulting changeset as a patch can be obtained using the hg export command:
-```
+
+The commit message should have a single-line synopsis followed by verbose description after an empty line. It is desirable that the first line is no longer than 67 symbols. The resulting changeset as a patch can be obtained using the hg export command ..
+
 
 
 ---
 Getting Sources
+
 Mercurial is used to store source code. The repository can be cloned with the following command:
 
 hg clone http://hg.nginx.org/nginx
