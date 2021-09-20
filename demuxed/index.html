@@ -156,8 +156,14 @@ Server-side mp4 lossless *Precise* seeking is hard.
 Most of the time, you jump between keyframes.
 </div><br>
 
+---
+## 💡 Idea!
 <div class="fragment">
-💡 Idea!  Speedup the FPS of the video frames *just before* the exact wanted seek point.
+Begin at keyframe before desired start ..
+</div><br>
+
+<div class="fragment">
+_Speedup_ the FPS of the video frames you _dont_ want to see
 </div>
 
 
@@ -298,7 +304,7 @@ https://archive.org/~tracey/ng.mp4?start=8&end=30&exact=1
 
 
 ---
-## Atoms
+## Atoms ⚛️
 - update STTS - Time-To-Sample
 - update stss - Sync Sample
 - List of sample number of each **keyframe**
@@ -352,7 +358,7 @@ hg clone http://hg.nginx.org/nginx
 
 ---
 # 12y ago
-https://git.archive.org/ia/petabox/-/blob/6614fbaaf77c7718dad1f5ff393029d2b2f4c2db/sw/bin/nginx-README.txt
+https://git.archive.org/ia/petabox/-/blob/6614fbaaf77c7718dad1f5ff393029d2b2f4c2db/sw/bin/nginx-README.txt xxx IA
 ```text
 nginx v0.8
 mod_h264_streaming-2.1rc2
@@ -403,7 +409,9 @@ nginx rebuild to use `ipscrub` module, ubuntu focal, deployed to all archive.org
 
 ---
 # 5/11/2021
-nginx `ipscrub` patch improvements (more entry, same salt/crypt as prior `lua` IP hider
+nginx `ipscrub` patch improvements
+
+(more entropy, same salt/crypt as prior `lua` IP hider)
 
 ---
 ## 5/18/2021
