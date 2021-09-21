@@ -1,7 +1,7 @@
 <!doctype html><head><meta charset="utf-8"/><script>window.NIGHT=1</script><script src="../eveal.js/eveal.js"></script><style> .slide-background { background-image: url("i/bg.jpg"); }</style>
 <meta property="title" content="30,000 fps nginx - to Russia with Love : Demuxed 2021 : Tracey Jaquith">
 <!-- 😊 fish: https://sylvan.apple.com/Videos/BO_A014_C008_SDR_20190719_SDR_2K_AVC.mov -->
-<style>.frm {display:inline-block;width:33%} .frm img {border:0 !important} .fragm {font-size:.8em !important}</style>
+<style>.frm {display:inline-block;width:33%} .frm img {border:0 !important} .fragm {font-size:.8em !important} pre.stretch code {max-height: 100% !important}</style>
 </head><body>
 
 # 30,000 fps Nginx
@@ -230,6 +230,44 @@ Patch approach:
   · so make all undesired initial first video frames have
     *just* one PTS value higher than last frame
 </pre>
+
+---
+# 🤓
+---
+<pre class="" style="white-space: pre-wrap"><code class="hljs c"
+>unsigned int s = 0, i = 0, j = 0, nRewritten = 0;
+for (j = 0; j < stts->entries＿; j++) {
+  for (i = 0; i < stts->table＿[j].sample＿count＿; i++) {
+    // begin time-shifting at "start＿sample" bec. mod＿h264＿streaming finds
+    // the keyframe before the exact start time, and *then* decrements by one.
+</code></pre>
+<pre class="fragment fade-up" style="white-space: pre-wrap"><code class="hljs c"
+>    if (s >= start＿sample  &&  s < start＿exact＿time＿sample) {
+      samples＿t sample = trak->samples＿[s];
+      // change current PTS to something *just* less than the PTS of 1st frame
+      // we want to see fully. prior frames are 1 PTS less than next frame PTS.
+</code></pre>
+<pre class="fragment fade-up" style="white-space: pre-wrap"><code class="hljs c"
+>      uint64＿t pts  = sample.pts＿;
+      uint64＿t pts2 = trak->samples＿[start＿exact＿time＿sample].pts＿ -
+                      (start＿exact＿time＿sample - s);
+      trak->samples＿[s].pts＿ = pts2;
+      MP4＿INFO(
+        "STTS[%d] samples＿[%d].pts＿ = %lu (%0.3fsec) => %lu (%0.3fsec)\n",
+        j, s, pts, ((float)pts / trak＿time＿scale), pts2,
+        ((float)pts2 / trak＿time＿scale));
+      nRewritten++;
+    }
+</code></pre>
+<pre class="fragment fade-up" style="white-space: pre-wrap"><code class="hljs c"
+>    s++;
+  }
+}
+
+if (nRewritten) MP4＿WARNING("%u FRAMES FAST-FORWARDED (APPROX %2.1f sec)",
+                             nRewritten, nRewritten/29.97);
+</code></pre>
+
 
 ---
 # 2014
