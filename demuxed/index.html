@@ -332,43 +332,25 @@ but that 2%...
 
 
 ---
-## 2021 / 6 / 1
-```sh
-git commit -m '
-Move from long abandoned (tracey as sole maintainer) mod_h264_streaming module
-to nginx "house version" (optional) http_mp4_module.
+## Look into nginx `mp4` module
+### Figure out how to patch & test
+- 3500 🥺 line single `.c` file
+<div class="fragment">_oh sh*t_</div>
 
-Like the older, the newer module still needs "&exact=1" precise start time patch
-(though newer module already has an "exact end" time feature - a nice upgrade).
-
-Will try to get patch refined and "upstream" to nginx proper ..
-'
-```
-[github/traceypooh/...nginx-mp4.patch](https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mp4.patch)
-
-
----
-## 🏛️
-and thus archive.org moves to nginx `mp4` module ..
-
-(hand-patched for exact starts)
-
----
-## Act III
-# Swimming upstream
-## 🏊‍♀️
-
----
-## xxx - points to factor in...
-- figure out how to patch & test mp4
-- `hg` mercurial
-- email devl list - `patchbomb`
-- 3500 line single `.c` file
-- best C code I've ever seen
-  - reads top-to-bottom
-  - airtight
-  - intimidating
-  - exciting
+<div class="fragment">
+BUT! 🍑
+</div>
+<div class="fragment fade-up fragm">
+Best C code I've ever seen
+</div>
+<pre class="fragment fade-up fragm">
+• reads top-to-bottom
+• airtight
+</pre>
+<pre class="fragment fade-up fragm">
+• intimidating
+• exciting
+</pre>
 
 ---
 ### C examples
@@ -402,6 +384,47 @@ ngx_http_mp4_crop_stts_data(
 <pre class="fragment fade-up" style="white-space: pre-wrap"><code class="hljs text"
 >               ☝🏽 and there's our start arg
 </code></pre>
+
+---
+## patchy 🩹
+- had read file top-to-bottom
+- plan attack (1d)
+- get "exact start" working (1d) 🙌
+
+---
+## 2021 / 6 / 1
+```sh
+git commit -m '
+Move from long abandoned (tracey as sole maintainer) mod_h264_streaming module
+to nginx "house version" (optional) http_mp4_module.
+
+Like the older, the newer module still needs "&exact=1" precise start time patch
+(though newer module already has an "exact end" time feature - a nice upgrade).
+
+Will try to get patch refined and "upstream" to nginx proper ..
+'
+```
+[github/traceypooh/...nginx-mp4.patch](https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mp4.patch)
+
+
+---
+## 🏛️
+and thus archive.org moves to nginx `mp4` module ..
+
+(hand-patched exact starts)
+
+---
+## Act III
+# Swimming upstream
+## 🏊‍♀️
+
+
+---
+## Party crasher
+- mercurial
+  - `hg clone http://hg.nginx.org/nginx`
+- they want patches emailed to devel list 🤔
+  - with `patchbomb`
 
 ---
 ## xxx - points to factor in...
@@ -561,12 +584,6 @@ The commit message should have a single-line synopsis followed by verbose descri
 
 
 
----
-Getting Sources
-
-Mercurial is used to store source code. The repository can be cloned with the following command:
-
-hg clone http://hg.nginx.org/nginx
 
 
 
