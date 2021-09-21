@@ -186,6 +186,117 @@ patched module starts at keyframe 6s in
 <br><br>
 
 ---
+## Lossless
+Let's hack some (dyslexia unfriendly)
+
+STTS and STSS moov atoms!
+
+
+---
+## 2009
+nginx v0.8
+
+[mod_h264_streaming-2.1rc2](http://h264.code-shop.com/svn/h264/tags/mod_h264_streaming-2.1rc2)
+
+[patch](https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/commits/master/nginx-mod_h264_ASIS.patch): `if (!start && !end) return mp4 // (AS IS)`
+
+
+(some user .mp4 uploads fail w/ mod_h264..)
+
+
+---
+# 2011
+[nginx_mod_h264_streaming-2.2.7.tar.gz](http://h264.code-shop.com/download/nginx_mod_h264_streaming-2.2.7.tar.gz)
+
+
+---
+# ⚡ 2013/10 ⚡
+I've added a new "&exact=1" optional arg that is used with "&start=X" arg
+that will perceptually skip through any first partial GOP to the exact
+start time.
+- @see https://github.com/traceypooh/mod_h264_streaming--intra-keyframes
+
+https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mod_h264_exact-start.patch
+
+---
+# Exact patch gist
+mod_h264 always started at closest keyframe<br>
+_at or before_ desired start time.
+
+Patch approach:
+<pre class="fragment fade-up fragm">
+• reset audio samples to wanted start time
+• video samples parsed into PTS
+  · so make all undesired initial first video frames have
+    *just* one PTS value higher than last frame
+</pre>
+
+---
+# 2014
+<u>exact end</u> patch from Péter Vajda, PhD, Stanford
+https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mod_h264_exact-end.patch
+
+---
+# 2017
+chrome duration patch
+https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mod_h264_chrome-duration.patch
+
+---
+# 2020 / 9
+- nginx rebuild to use `ipscrub` module
+- ubuntu focal
+- deployed to all archive.org nodes
+
+
+---
+# 2021 / 5 / 11
+nginx `ipscrub` patch improvements
+
+(more entropy, same salt/crypt as prior `lua` IP hider)
+
+---
+## 2021 / 5 / 18
+## 😳 🥺
+<pre class="fragment fade-up" style="white-space: pre-wrap"><code class="hljs bash"
+>
+git commit -m 'workaround (TV) mp4 clips with "&exact=1" having some kind of strange new double free() segfault - WEBDEV-4445'
+</code></pre>
+<div class="fragment">
+🤦‍♀️ 😰
+</div>
+<div class="fragment">
+🥵
+</div>
+<div class="fragment" style="font-size:2em">
+🥀
+</div>
+
+---
+# 😰
+... 98% of segfaults fixed by patching & _completely_ taking over `mod_h264_streaming`'s memory management.
+
+but that 2%...
+
+
+---
+## 2021 / 6 / 1
+```sh
+git commit -m '
+Move from long abandoned (tracey as sole maintainer) mod_h264_streaming module
+to nginx "house version" (optional) http_mp4_module.
+
+Like the older, the newer module still needs "&exact=1" precise start time patch
+(though newer module already has an "exact end" time feature - a nice upgrade).
+
+Will try to get patch refined and "upstream" to nginx proper ..
+'
+```
+https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mp4.patch
+
+
+
+
+---
 ## xxx - points to factor in...
 - figure out how to patch & test mp4
 - `hg` mercurial
@@ -378,10 +489,6 @@ https://archive.org/~tracey/ng.mp4?start=8&end=30&exact=1
 <small>US TV - 29.97 fps == 30,000 / 1001 (30000 is timescale)</small>
 
 
----
-## Lossless
-Let's hack some (dyslexia unfriendly) STTS and STSS moov atoms...
-
 
 ---
 http://nginx.org/en/docs/contributing_changes.html
@@ -396,100 +503,6 @@ Getting Sources
 Mercurial is used to store source code. The repository can be cloned with the following command:
 
 hg clone http://hg.nginx.org/nginx
-
-
----
-# 12y ago
-https://git.archive.org/ia/petabox/-/blob/6614fbaaf77c7718dad1f5ff393029d2b2f4c2db/sw/bin/nginx-README.txt xxx IA
-```text
-nginx v0.8
-mod_h264_streaming-2.1rc2
-if !start && !end -- return .mp4 AS IS (some user .mp4 uploads fail w/ mod_h264..)
-```
-
----
-# xxx
-natty
-nginx_mod_h264_streaming-2.2.7.tar.gz;
-
----
-# tracey oct2013
-I've added a new "&exact=1" optional arg that is used with "&start=X" arg
-that will perceptually skip through any first partial GOP to the exact
-start time.
-- @see https://github.com/traceypooh/mod_h264_streaming--intra-keyframes )
-
-https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mod_h264_exact-start.patch
-
----
-# Exact patch gist
-mod_h264 always started at closest keyframe **at or before** desired start time.
-approach:
-- reset audio samples to wanted start time
-- video samples parsed into PTS
-  - so make all undesired initial first video frames have *just* one PTS value higher than last frame
-
----
-# 2014
-exact end patch from Péter Vajda, PhD, Stanford
-https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mod_h264_exact-end.patch
-
----
-# 2015
-"AS IS" patch
-https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/commits/master/nginx-mod_h264_ASIS.patch
-
----
-# 2017
-chrome duration patch:
-https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mod_h264_chrome-duration.patch
-
----
-# 9/2020
-nginx rebuild to use `ipscrub` module, ubuntu focal, deployed to all archive.org nodes
-
-
----
-# 5/11/2021
-nginx `ipscrub` patch improvements
-
-(more entropy, same salt/crypt as prior `lua` IP hider)
-
----
-## 5/18/2021
-## 😳 🥺
-<pre class="fragment fade-up" style="white-space: pre-wrap"><code class="hljs bash"
->
-git commit -m 'workaround (TV) mp4 clips with "&exact=1" having some kind of strange new double free() segfault - WEBDEV-4445'
-</code></pre>
-<div class="fragment">
-🤦‍♀️ 😰
-</div>
-<div class="fragment">
-🥵
-</div>
-<div class="fragment">
-🥀
-</div>
-
----
-... got 98% of segfaults fixed by patching & completely taking over `mod_h264_streaming`'s memory management.  but that 2%...
-
-
----
-## 6/1/2021
-```sh
-git commit -m '
-Move from long abandoned (tracey as sole maintainer) mod_h264_streaming module
-to nginx "house version" (optional) http_mp4_module.
-
-Like the older, the newer module still needs an "exact=1" precise start time patch
-(though it is a smaller patch/need.  the newer module already uses an "exact end" time feature - which is a nice upgrade).
-
-Will be trying to get the patch refined and "upstream" to nginx proper
-'
-```
-https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mp4.patch
 
 
 
