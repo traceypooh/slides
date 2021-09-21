@@ -1,7 +1,7 @@
 <!doctype html><head><meta charset="utf-8"/><script>window.NIGHT=1</script><script src="../eveal.js/eveal.js"></script><style> .slide-background { background-image: url("i/bg.jpg"); }</style>
 <meta property="title" content="30,000 fps nginx - to Russia with Love : Demuxed 2021 : Tracey Jaquith">
 <!-- 😊 fish: https://sylvan.apple.com/Videos/BO_A014_C008_SDR_20190719_SDR_2K_AVC.mov -->
-<style>.frm {display:inline-block;width:33%} .frm img {border:0 !important} .fragm {font-size:.8em !important} pre.stretch code {max-height: 100% !important}</style>
+<style>.frm {display:inline-block;width:33%} .frm img {border:0 !important} .fragm {font-size:.8em !important}</style>
 </head><body>
 
 # 30,000 fps Nginx
@@ -25,6 +25,11 @@ TV Architect<br>
 <span class="fragment highlight-red">slides</span>: https://tracey.dev.archive.org<br>
 </div>
 
+
+---
+## Act I
+# The Setup
+## 🎭
 
 ---
 ## WHAT: server-side mp4 clipping?
@@ -186,6 +191,11 @@ patched module starts at keyframe 6s in
 <br><br>
 
 ---
+## Act II
+# Hacking
+## 👩‍💻
+
+---
 ## Lossless
 Let's hack some (dyslexia unfriendly)
 
@@ -234,7 +244,7 @@ Patch approach:
 ---
 # 🤓
 ---
-<pre class="" style="white-space: pre-wrap"><code class="hljs c"
+<pre style="white-space: pre-wrap"><code class="hljs c"
 >unsigned int s = 0, i = 0, j = 0, nRewritten = 0;
 for (j = 0; j < stts->entries＿; j++) {
   for (i = 0; i < stts->table＿[j].sample＿count＿; i++) {
@@ -283,7 +293,7 @@ chrome duration patch
 
 ---
 # 2020 / 9
-- nginx rebuild to use `ipscrub` module
+- nginx rebuild to use <u>`ipscrub`</u> module
 - ubuntu focal
 - deployed to all archive.org nodes
 
@@ -293,6 +303,9 @@ chrome duration patch
 nginx `ipscrub` patch improvements
 
 (more entropy, same salt/crypt as prior `lua` IP hider)
+
+---
+# 🧟‍♀️ 7 days later 🧟‍♂️
 
 ---
 ## 2021 / 5 / 18
@@ -307,7 +320,7 @@ git commit -m 'workaround (TV) mp4 clips with "&exact=1" having some kind of str
 <div class="fragment">
 🥵
 </div>
-<div class="fragment" style="font-size:2em">
+<div class="fragment" style="font-size:3em">
 🥀
 </div>
 
@@ -334,7 +347,16 @@ Will try to get patch refined and "upstream" to nginx proper ..
 [github/traceypooh/...nginx-mp4.patch](https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mp4.patch)
 
 
+---
+## 🏛️
+and thus archive.org moves to nginx `mp4` module ..
 
+(hand-patched for exact starts)
+
+---
+## Act III
+# Swimming upstream
+## 🏊‍♀️
 
 ---
 ## xxx - points to factor in...
@@ -384,9 +406,11 @@ ngx_http_mp4_crop_stts_data(
 ---
 ## xxx - points to factor in...
 - 1st guy: "why not just use a smart client/browser?"
-  - misses entire point --> "then why would i ever use nginx mp4 module??"
+  - "huh?  then why would i ever use nginx mp4 module?"
   - "good point.."
-  - gets me to Roman, the 4th most committer at nginx ; 2nd most committer in mp4 module
+- gets me to Roman:
+  - #4 committer at nginx
+  - #2 committer in mp4 module
 
 ---
 ## xxx - points to factor in...
