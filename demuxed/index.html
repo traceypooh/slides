@@ -419,7 +419,7 @@ and thus archive.org moves to nginx `mp4` module ..
 
 ---
 ## Atoms ⚛️
-Overall `moov` atom has atoms we need to update
+Overall `moov` atom (header) has atoms we must update
 <pre class="fragment fragm">
 • STTS - Time-To-Sample
   · duration of each sample/frame
@@ -470,14 +470,16 @@ Overall `moov` atom has atoms we need to update
 ## Atoms
 parse STSS - Sync Sample entries - list of keyframes
 <pre class="fragment fragm">
-• start with first frame, end once hit desired start
-• if desired start is keyframe, nothing to do
-• otherwise, "save" prior keyframe location
+• start with first keyframe
+  · end once hit desired start
+• if desired start is keyframe
+  · nothing to do
+• else "save" prior keyframe location
 </pre>
 <pre class="fragment fragm">
 • now we know [count] frames to move:
-  · from 30fps, duration 1001 (typical)
-  · to duration 1, ~30000fps (typical)
+  · from: 30fps, duration 1001 (typical)
+  · to:  ~30000fps, duration 1 (typical)
 </pre>
 <pre class="fragment fragm">
 • add new STTS entry: [count][1]
@@ -505,7 +507,7 @@ parse STSS - Sync Sample entries - list of keyframes
 default = http://hg.nginx.org/nginx
 
 [ui]
-username = Tracey Jaquith <tracey@archive.org>
+username = Tracey Jaquith &lt;tracey@archive.org>
 
 [extensions]
 hgext.patchbomb =
@@ -513,7 +515,7 @@ hgext.patchbomb =
 ```ini
 [email]
 to = nginx-devel@nginx.org
-from = Tracey Jaquith <tracey@archive.org>
+from = Tracey Jaquith &lt;tracey@archive.org>
 method = smtp
 
 [smtp]
@@ -709,3 +711,5 @@ packet  pts=82140   pts_time=2.738000   duration=1001   pos=536973   flags=K_
 ---
 <!-- .slide: data-background="https://media.giphy.com/media/q4ICE9wYvOwBG/giphy.gif" -->
 # The End
+Thanks!<br>
+<img src="demuxed.png" style="border:0">
