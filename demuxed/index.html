@@ -418,6 +418,71 @@ and thus archive.org moves to nginx `mp4` module ..
 # Swimming upstream
 ## 🏊‍♀️
 
+---
+## Atoms ⚛️
+Overall `moov` atom has atoms we need to update
+<pre class="fragment fragm">
+• STTS - Time-To-Sample
+  · duration of each sample/frame
+</pre>
+<pre class="fragment fragm">
+• STSS - Sync Sample
+  · List of sample number of each **keyframe**
+</pre>
+
+<pre class="fragment fragm">
+• ctts - Composition Time to Sample
+• stsc - Sample-To-Chunk
+• stsz - Sample Size
+</pre>
+
+<pre class="fragment fragm">
+• co64
+• stco - Chunk Offset
+• stbl - Sample Table
+• minf - Media INFormation
+• mdia - Media
+• trak - Track
+• mdat - Media DATa
+</pre>
+
+---
+## Atoms
+<img src="atoms.png">
+<pre class="fragment fragm">
+• update STTS - Time-To-Sample
+  · list of frames & durations
+</pre>
+<pre class="fragment fragm">
+• table of [8 byte] entries, each entry is:
+  · [4B] sample count
+  · [4B] sample duration
+</pre>
+<pre class="fragment fragm">
+• simple mp4 often a _single entry_ table:
+  · [4B] number of frames/samples in video
+  · [4B] 1001 duration
+</pre>
+<span class="fragment" style="font-size:.7em">
+  US TV - 29.97 fps == 30,000 / 1001 (30000 is timescale)
+</span>
+
+---
+## Atoms
+parse STSS - Sync Sample entries - list of keyframes
+<pre class="fragment fragm">
+• start with first frame, end once hit desired start
+• if desired start is keyframe, nothing to do
+• otherwise, "save" prior keyframe location
+</pre>
+<pre class="fragment fragm">
+• now we know [count] frames to move:
+  · from 30fps, duration 1001 (typical)
+  · to duration 1, ~30000fps (typical)
+</pre>
+<pre class="fragment fragm">
+• add new STTS entry: [count][1]
+</pre>
 
 ---
 ## Party crasher
@@ -522,107 +587,61 @@ https://archive.org/~tracey/ng.mp4?start=8&end=30&exact=1
 
 ---
 ## Refinements
-- back & forth, with Roman, who wizardly points out some simplifications
-- post [revised patch]() 6/15 (138 lines)
+- Roman back & forth, wizardly points out simplifications
+- I post [revised patch](https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mp4-2021-06-03.patch) 6/15 (138 lines)
 
-  - STTS - Time-To-Sample atom
-  - parse STSS - Sync Sample entries - list of keyframes
-    - each STSS entry is a [duration][count] tuple
-    - start with first frame, end once hit desired start
-    - if desired start is keyframe, nothing to do!
-    - otherwise, "save" prior keyframe location
-    - now we know how many frames to move:
-      - from 30fps, duration 1001 (typical)
-      - to duration 1, ~30000fps (typical)
 
 ---
-## xxx - points to factor in...
-- updated patch: [tracey-2021-06-15.patch](https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mp4-2021-06-03.patch) (138 lines)
+## Reply 2021 / 6 / 28
+- Roman posts _his_ revised patch (234 lines)
+- mentioned: ["your patch title exceeds 67 char limit"](http://nginx.org/en/docs/contributing_changes.html) 😞
 
-
-
-
-- `exact_video_adjustment()`
-- revised patch: 234 lines
-- mentioned: "your patch first line exceeds 67 char limit".. :(
-  - http://nginx.org/en/docs/contributing_changes.html
-- changes name / new config setting to: `mp4_seek_key_frame`
+- method renamed: `ngx_http_mp4_rewind_stts_data()`
+- new name / config setting: `mp4_seek_key_frame`
+- nginx [mp4 config](https://nginx.org/en/docs/http/ngx_http_mp4_module.html) should look like:
 ```ini
 location /video/ {
     mp4;
     mp4_buffer_size       1m;
     mp4_max_buffer_size   5m;
-    mp4_limit_rate        on;
-    mp4_limit_rate_after  30s;
     mp4_seek_key_frame    on;
 }
 ```
-   https://nginx.org/en/docs/http/ngx_http_mp4_module.html
-- `ngx_http_mp4_rewind_stts_data()`
 - "Based on a patch by Tracey Jaquith."
 
 
 ---
-## xxx - points to factor in...
-- "Can you test this?"
-  - 2 months at 50% time go by..., exercising 1-3h/day, losing 15 pounds ;-)
-  - 9/7/2021 ( https://forum.nginx.org/read.php?29,291866,292368#msg-292368 )
-  - tests heavily on linux and macosx -- looks good!
-- "If I won't end up being a committer, can you credit Internet Archive, too?" :)
+## [2021 / 9 / 7](https://forum.nginx.org/read.php?29,291866,292368#msg-292368) 🦗
+<pre class="fragm">
+- "Can you test my patch, tracey?" <span class="fragment">🙃</span>
+</pre>
+<pre class="fragment fragm">
+- 2 months, 50% vacation 🏖️ go by...
+</pre>
+<pre class="fragment fragm">
+  · (exercise 1-3h/day, lose 15 pounds ;-)
+</pre>
+<pre class="fragment fragm">
+- "tested heavily on linux and macosx -- looks good!"
+</pre>
+<pre class="fragment fragm">
+- "If I won't be a committer, can also credit Internet Archive?"
+</pre>
+<pre class="fragment fragm">
 - "Based on a patch by Tracey Jaquith, Internet Archive"
-- "We had a discussion here about enabling this feature by default or maybe making this the only supported behavior. What do you think?" 9/9/2021
-
-
----
-## Atoms ⚛️
-- update STTS - Time-To-Sample
-- update stss - Sync Sample
-  - List of sample number of each **keyframe**
-
-- update ctts - Composition Time to Sample
-- update stsc - Sample-To-Chunk
-- update stsz - Sample Size
-
-- co64
-- stco - Chunk Offset
-- stbl - Sample Table
-- minf - Media INFormation
-- mdia - Media
-- trak - Track
-- mdat - Media DATa
-
----
-## Atoms
-<img src="atoms.png">
-
-- _update STTS - Time-To-Sample_
-  - List of samples
-  - a table of [8 byte] entries, each entry is:
-    - [4B] sample count
-    - [4B] sample duration
-  - Often for simple mp4 this is a _single entry_ table:
-    - [4B] number of frames/samples in video
-    - [4B] 1001 duration
-
-<small>US TV - 29.97 fps == 30,000 / 1001 (30000 is timescale)</small>
-
-
-
----
-http://nginx.org/en/docs/contributing_changes.html
-
-The commit message should have a single-line synopsis followed by verbose description after an empty line. It is desirable that the first line is no longer than 67 symbols. The resulting changeset as a patch can be obtained using the hg export command ..
-
-
-
-
+</pre>
 
 
 ---
 ## 9/6/2021
-```text
-We’ll do an internal review of the patch now and then proceed to committing it.
-```
+"We’ll do an internal review of the patch now and then proceed to committing it"
+---
+## 9/9/2021
+We had a discussion here about enabling this feature by default
+or maybe making this the only supported behavior.
+
+What do you think?
+
 
 
 ---
