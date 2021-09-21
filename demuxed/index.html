@@ -404,7 +404,7 @@ Like the older, the newer module still needs "&exact=1" precise start time patch
 Will try to get patch refined and "upstream" to nginx proper ..
 '
 ```
-[github/traceypooh/...nginx-mp4.patch](https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mp4.patch)
+[github/traceypooh/...nginx-mp4.patch](https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mp4-2021-06-03.patch)
 
 
 ---
@@ -471,8 +471,9 @@ hg email 7872:5da9c62fa610
 ```
 
 ---
-### The Patch
-Add optional "mp4_exact_start" nginx config off/on to show video between keyframes.
+### The Patch - 2021 / 6 / 3
+[Add optional "mp4_exact_start" nginx config off/on to show video between keyframes.](
+https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mp4-2021-06-03.patch)
 
 ```text
 archive.org has been using mod_h264_streaming with a similar "exact start"
@@ -520,10 +521,12 @@ https://archive.org/~tracey/ng.mp4?start=8&end=30&exact=1
 </pre>
 
 ---
-## xxx - points to factor in...
-- back & forth, with Roman, who wizardly points out I can use ...
+## Refinements
+- back & forth, with Roman, who wizardly points out some simplifications
+- post [revised patch]() 6/15 (138 lines)
+
   - STTS - Time-To-Sample atom
-  - parse STSS - Sync Sample entries - list of keyframs
+  - parse STSS - Sync Sample entries - list of keyframes
     - each STSS entry is a [duration][count] tuple
     - start with first frame, end once hit desired start
     - if desired start is keyframe, nothing to do!
@@ -534,9 +537,11 @@ https://archive.org/~tracey/ng.mp4?start=8&end=30&exact=1
 
 ---
 ## xxx - points to factor in...
-- my patch: https://raw.githubusercontent.com/traceypooh/mod_h264_streaming--intra-keyframes/master/nginx-mp4.patch: 158 lines
-- 6/15/2021
-- updated patch: `tracey-2021-06-15.patch` (138 lines)
+- updated patch: [tracey-2021-06-15.patch](https://github.com/traceypooh/mod_h264_streaming--intra-keyframes/blob/master/nginx-mp4-2021-06-03.patch) (138 lines)
+
+
+
+
 - `exact_video_adjustment()`
 - revised patch: 234 lines
 - mentioned: "your patch first line exceeds 67 char limit".. :(
