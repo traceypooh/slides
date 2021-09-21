@@ -421,19 +421,103 @@ and thus archive.org moves to nginx `mp4` module ..
 
 ---
 ## Party crasher
-- mercurial
-  - `hg clone http://hg.nginx.org/nginx`
-- they want patches emailed to devel list 🤔
-  - with `patchbomb`
+<pre class="fragm">
+• mercurial
+  · hg clone http://hg.nginx.org/nginx
+</pre>
+<pre class="fragment fade-up fragm">
+• they want patches emailed to devel list 🤔
+  · with `patchbomb`
+</pre>
+<pre class="fragment fade-up fragm">
+• need to figure out `sendmail`..
+</pre>
+
 
 ---
-## xxx - points to factor in...
-- 1st guy: "why not just use a smart client/browser?"
-  - "huh?  then why would i ever use nginx mp4 module?"
-  - "good point.."
-- gets me to Roman:
-  - #4 committer at nginx
-  - #2 committer in mp4 module
+### .hg/hgrc
+```ini
+[paths]
+default = http://hg.nginx.org/nginx
+
+[ui]
+username = Tracey Jaquith <tracey@archive.org>
+
+[extensions]
+hgext.patchbomb =
+```
+```ini
+[email]
+to = nginx-devel@nginx.org
+from = Tracey Jaquith <tracey@archive.org>
+method = smtp
+
+[smtp]
+host = mail.archive.org
+tls = starttls
+username = tracey@archive.org
+```
+
+---
+## (my notes)
+```bash
+hg commit
+
+hg log | head # get hash like: 7872:1879d49fe0cf
+
+hg email --test 7872:1879d49fe0cf
+
+hg email 7872:5da9c62fa610
+```
+
+---
+### The Patch
+Add optional "mp4_exact_start" nginx config off/on to show video between keyframes.
+
+```text
+archive.org has been using mod_h264_streaming with a similar "exact start"
+patch from me since 2013.
+
+We just moved to nginx mp4 module and are using this patch.
+The technique is to find the video keyframe just before the desired "start" time,
+and send that down the wire so video playback can start immediately.
+
+Next calculate how many video samples are between the keyframe and desired
+"start" time and update the STTS atom where those samples move the duration
+from (typically) 1001 to 1.
+This way, initial unwanted video frames play at ~1/30,000s --
+so visually the video & audio start playing immediately.
+```
+
+```text
+Tested on linux and macosx.
+You can see an example before/after here
+(nginx binary built with mp4 module + patch):
+```
+<small style="text-align:left">
+https://archive.org/~tracey/ng.mp4?start=8&end=30 <br>
+https://archive.org/~tracey/ng.mp4?start=8&end=30&exact=1
+</small>
+
+(this is me: https://github.com/traceypooh )
+
+
+---
+## First Contact
+<pre class="fragm">
+• [1st guy]: "why not just use a smart client/browser?"
+</pre>
+<pre class="fragment fade-up fragm">
+• "huh?  then why would i ever use nginx mp4 module?"
+</pre>
+<pre class="fragment fade-up fragm">
+• "good point.."
+</pre>
+<pre class="fragment fade-up fragm">
+• gets me to Roman:
+  · #4 committer at nginx
+  · #2 committer in mp4 module
+</pre>
 
 ---
 ## xxx - points to factor in...
@@ -482,64 +566,6 @@ location /video/ {
 - "If I won't end up being a committer, can you credit Internet Archive, too?" :)
 - "Based on a patch by Tracey Jaquith, Internet Archive"
 - "We had a discussion here about enabling this feature by default or maybe making this the only supported behavior. What do you think?" 9/9/2021
-
----
-## .hg/hgrc
-```ini
-[paths]
-default = http://hg.nginx.org/nginx
-
-[ui]
-username = Tracey Jaquith <tracey@archive.org>
-
-[extensions]
-hgext.patchbomb =
-
-[email]
-to = nginx-devel@nginx.org
-from = Tracey Jaquith <tracey@archive.org>
-method = smtp
-
-[smtp]
-host = mail.archive.org
-tls = starttls
-username = tracey@archive.org
-```
-- hg commit
-- hg log |head # get hash like: 7872:1879d49fe0cf
-- hg email --test 7872:1879d49fe0cf
-- hg email 7872:5da9c62fa610
-
----
-## The Patch
-Add optional "mp4_exact_start" nginx config off/on to show video between keyframes.
-
-```text
-archive.org has been using mod_h264_streaming with a similar "exact start"
-patch from me since 2013.
-
-We just moved to nginx mp4 module and are using this patch.
-The technique is to find the video keyframe just before the desired "start" time,
-and send that down the wire so video playback can start immediately.
-
-Next calculate how many video samples are between the keyframe and desired
-"start" time and update the STTS atom where those samples move the duration
-from (typically) 1001 to 1.
-This way, initial unwanted video frames play at ~1/30,000s --
-so visually the video & audio start playing immediately.
-```
-
-```text
-Tested on linux and macosx.
-You can see an example before/after here
-(nginx binary built with mp4 module + patch):
-```
-<small style="text-align:left">
-https://archive.org/~tracey/ng.mp4?start=8&end=30 <br>
-https://archive.org/~tracey/ng.mp4?start=8&end=30&exact=1
-</small>
-
-(this is me: https://github.com/traceypooh )
 
 
 ---
