@@ -33,6 +33,13 @@ TV Architect<br>
 - import `.ts` files -- typescript 1st class; `deno --check` builtin
 
 ---
+# xxx
+- caches on demand
+  - so you can work offline
+  - can cache in `Dockerfile` [build]
+
+
+---
 # releases
 
 |  date  |   version   |
@@ -54,13 +61,13 @@ _( point-release ~every 1-2mo )_
 <small>(* maybe 7 ;-)</small>
 
 ---
-## Not sticking with Promises
+## (1/7) Not sticking with Promises
 - 2009/6 added promises to node
 - 2010/2 removed - to be minimal (one less obj per callback)
-- its possible unified usage of promise in node would have sped the delivery of the standardization and async/await
+- promise in node could have sped standardizing async/await
 
 ---
-## Security
+## (2/7) Security
 - any node program can:
   - disk read/write
   - network access
@@ -70,7 +77,7 @@ _( point-release ~every 1-2mo )_
 "what about just a linter needing minimal access?"
 
 ---
-## The Build System (biggest regret)
+## (3/7) The Build System (biggest regret)
 - modules linking to C libs
   - GYP to compile & link into node
 
@@ -78,27 +85,25 @@ _( point-release ~every 1-2mo )_
   - but now Node is the sole user
 
 - funky interface, python adaptation of JSON
-  - node has several unnecessary complex wrappers around it
+  - node => several unnecessary complex wrappers
 
 ---
-## package.json
+## (4/7) package.json
 - should have included `npm` in `node`
-  - making `npm` the standard of the `node` distribution
+  - making `npm` standard of `node` distribution
 
 - centralized (privately controlled) repository for modules
-
-- `require('sommodule')` isnt specific
+- `require('somemodule')` isnt specific
   - `package.json` -or-
   - local `node_modules` folder -or-
   - npm's database
-
-- unnecessary abstraction to rise the concept of a 'module' as a directory of files
+- unnecessary abstraction of a 'module' as dir of files
 - concept not web-like
-- includes unnecessary information, such as license, repository ..
+- unnecessary info: license, repository ..
 
 ---
-## node_modules
-- module resolution algorithm is wildly complex
+## (5/7) node_modules
+- wildly complex module resolution algorithm
 
 - "vendored-by-default" has good intentions
   - but `$NODE_PATH` would have worked
@@ -106,13 +111,13 @@ _( point-release ~every 1-2mo )_
 - deviates from browser
 
 ---
-## Require without .js extension
+## (6/7) Require without .js extension
 - needlessly less explicit
-- not how browser works
+- not how browsers work
 - module loader has to guess
 
 ---
-## index.js
+## (7/7) index.js
 - needlessly complicated the module loading system
 - especially unnecessary after `require` supported `package.json`
 
