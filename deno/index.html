@@ -8,9 +8,10 @@
 
 Tracey Jaquith
 
+Oct 2021
+
 slides: tracey.dev.archive.org
 
-<img style="position:fixed;border:0;width:150px;margin:0;bottom:0;left:0" src="demuxed.png">
 
 ---
 @tracey_pooh 🧸<br>
@@ -22,60 +23,110 @@ TV Architect<br>
 
 ---
 # overview
-- v1.0.0 may 2020
-- v.14 ~every 1-2mo
-- always opensource, no freemium locked features
+- always opensource
+  - no freemium locked features
 - isomorphic
-  - uses web stds wherever possible: `fetch`, `URLSearchParams`, etc.
+  - use web stds wherever possible, eg:
+    - `fetch`
+    - `URLSearchParams`
+- die immediately unhandled promise
+- import `.ts` files -- typescript 1st class; `deno --check` builtin
 
-- import `.ts` files -- typescript 1st class; `--check` builtin
+---
+# releases
 
-# 10 (or 7 ;-) things I regret about Node
-## Ryan Dahl
+|  date  |   version   |
+| ------ | ----------- |
+| 2018/6 | (announced) |
+| 2020/5 | v1.0.0      |
+| 2021/9 | v1.14       |
+
+_( point-release ~every 1-2mo )_
+
+
+---
+## 10* things I regret about Node
+### Ryan Dahl
 - https://www.youtube.com/watch?v=M3BM9TB-8yA
   - Jun 2018 (15min)
   - announces `deno` (deh - no ;-)
 
+<small>(* maybe 7 ;-)</small>
+
+---
 ## Not sticking with Promises
 - 2009/6 added promises to node
 - 2010/2 removed - to be minimal (one less obj per callback)
 - its possible unified usage of promise in node would have sped the delivery of the standardization and async/await
+
+---
 ## Security
-- any node program can disk read/write, network access, env vars access, ...
+- any node program can:
+  - disk read/write
+  - network access
+  - env vars access
+  - ...
 
+"what about just a linter needing minimal access?"
+
+---
 ## The Build System (biggest regret)
-- modules linking to C libs - GYP to compile & link into node
-- chrome used to use GYP, but now Node is the sole user
-- funky interface, python adaptation of JSON - node has several unnecessary complex wrappers around it
+- modules linking to C libs
+  - GYP to compile & link into node
 
+- chrome used to use GYP
+  - but now Node is the sole user
+
+- funky interface, python adaptation of JSON
+  - node has several unnecessary complex wrappers around it
+
+---
 ## package.json
-- should have included `npm` in `node` - making `npm` the standard of the `node` distribution
+- should have included `npm` in `node`
+  - making `npm` the standard of the `node` distribution
+
 - centralized (privately controlled) repository for modules
-- `require('sommodule')` isnt specific: `package.json` -or- local `node_modules` folder -or- npm's database.
+
+- `require('sommodule')` isnt specific
+  - `package.json` -or-
+  - local `node_modules` folder -or-
+  - npm's database
+
 - unnecessary abstraction to rise the concept of a 'module' as a directory of files
 - concept not web-like
 - includes unnecessary information, such as license, repository ..
 
+---
 ## node_modules
 - module resolution algorithm is wildly complex
-- 'vendored-by-default' has good intentions, but `$NODE_PATH` would have worked
+
+- "vendored-by-default" has good intentions
+  - but `$NODE_PATH` would have worked
+
 - deviates from browser
-## Require without the extension
+
+---
+## Require without .js extension
 - needlessly less explicit
 - not how browser works
 - module loader has to guess
+---
 ## index.js
 - needlessly complicated the module loading system
 - especially unnecessary after `require` supported `package.json`
 
+---
 ## CDN
+include your JS (and more) as-needed
+
 - https://www.skypack.dev/
 - https://esm.sh
   - https://github.com/alephjs/esm.sh/blob/master/HOSTING.md
   - https://git.archive.org/www/esm/-/blob/master/Dockerfile
   - https://esm.archive.org
-  - user privacy 👍🏼
+  - ☝🏽 user privacy 👍🏼
 
+---
 ## lit
 - https://www-av-deno.dev.archive.org/
 - https://git.archive.org/www/av/-/blob/deno/www/index.html
@@ -83,21 +134,34 @@ TV Architect<br>
 - https://git.archive.org/www/av/-/blob/deno/www/js/search-results.js
   - `import { LitElement, html, css } from 'https://esm.archive.org/lit'`
 
+---
 ## we could get rid of:
   - `node`
   - `npm`
     - `npm i`
     - `npm ci`
+    - `npm run build`
+    - `npm run serve`
   - `node_modules`
   - `webpack`
-  - 1GB of 3rd party code in every `petabox` image and CI/CD phase
-- we could:
-  - import `bookreader`
-    - eg: `import BookReader from 'https://esm.archive.org/@internetarchive/bookreader/src/BookReader.js'`
-    - from https://www.npmjs.com/package/@internetarchive/bookreader
-    - file:///Users/tracey/av/www/demo/bookreader.htm
-  - import radio player directly
-    - `.ts` => `.js` dynamic through https://esm.archive.org
+  - **1GB** of 3rd party code in every `petabox` image & every CI/CD phase
+
+---
+# we could
+- import `bookreader`
+  - eg: `import BookReader from 'https://esm.archive.org/@internetarchive/bookreader/src/BookReader.js'`
+  - from https://www.npmjs.com/package/@internetarchive/bookreader
+<br><br>
+
+## demo
+- https://www-av-deno.dev.archive.org/demo/bookreader.htm
+- file:///Users/tracey/av/www/demo/bookreader.htm
+  - ☝🏽 this works as a **[file]** reference 🎉
+
+---
+# we could
+- import radio player directly
+  - `.ts` => `.js` dynamic through https://esm.archive.org
 
 
 
