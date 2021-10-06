@@ -110,15 +110,15 @@ _( point-release ~every 1-2mo )_
 - needlessly less explicit
 - not how browser works
 - module loader has to guess
+
 ---
 ## index.js
 - needlessly complicated the module loading system
 - especially unnecessary after `require` supported `package.json`
 
+
 ---
 ## CDN
-include your JS (and more) as-needed
-
 - https://www.skypack.dev/
 - https://esm.sh
   - https://github.com/alephjs/esm.sh/blob/master/HOSTING.md
@@ -127,12 +127,31 @@ include your JS (and more) as-needed
   - ☝🏽 user privacy 👍🏼
 
 ---
+## CDN
+include your JS (and more) as-needed
+
+```html
+<div id="x">🦕</div>
+
+<script type="module">
+import $ from 'https://esm.archive.org/jquery'
+
+$('#x').animate({ 'font-size': 400 })
+</script>
+```
+[app.htm](app.htm)
+
+
+---
 ## lit
 - https://www-av-deno.dev.archive.org/
 - https://git.archive.org/www/av/-/blob/deno/www/index.html
 - https://git.archive.org/www/av/-/blob/deno/www/js/router.js
 - https://git.archive.org/www/av/-/blob/deno/www/js/search-results.js
-  - `import { LitElement, html, css } from 'https://esm.archive.org/lit'`
+
+```js
+import { LitElement, html, css } from 'https://esm.archive.org/lit'
+```
 
 ---
 ## we could get rid of:
@@ -147,26 +166,67 @@ include your JS (and more) as-needed
   - **1GB** of 3rd party code in every `petabox` image & every CI/CD phase
 
 ---
-# we could
+## we could...
 - import `bookreader`
-  - eg: `import BookReader from 'https://esm.archive.org/@internetarchive/bookreader/src/BookReader.js'`
-  - from https://www.npmjs.com/package/@internetarchive/bookreader
-<br><br>
 
-## demo
+```js
+import BookReader from 'https://esm.archive.org/@internetarchive/bookreader/src/BookReader.js'
+```
+from https://www.npmjs.com/package/@internetarchive/bookreader
+
+
+---
+# 📖 demo
 - https://www-av-deno.dev.archive.org/demo/bookreader.htm
 - file:///Users/tracey/av/www/demo/bookreader.htm
   - ☝🏽 this works as a **[file]** reference 🎉
 
 ---
-# we could
+## we could..
 - import radio player directly
   - `.ts` => `.js` dynamic through https://esm.archive.org
 
+---
+## handy links
+- https://doc.deno.land/builtin/stable
+  - standard / builtin object & methods
+  - `Deno.args`
+  - `Deno.env`
+  - `Deno.readTextFileSync`
+- https://deno.land/std
+  - https://deno.land/std/node
+    - `node`-compatible methods
+- https://deno.land/x
+  - user-maintained modules
 
+---
+## first Hack 👩‍💻
+
+- wanted simple `deno` static file server
+  - **with** 404 redir back to `index.html` (to re-route, eg: /details/IDENTIFIER)
+
+- looked around, many _close_ - but deno std looked closest:
+  - https://deno.land/std/http/file_server.ts
+
+---
+## first Hack 👩‍💻
+- 🍴 a few lines later..
+  - https://github.com/traceypooh/deno_std/commit/c0d2cabfaf4badc810271eed13cc4953aeade0dd
+
+---
+## first Hack 👩‍💻
+et voila! 🎉
+
+```sh
+deno run --allow-net --allow-read \
+  https://raw.githubusercontent.com/traceypooh/deno_std/main/http/file_server.ts \
+    -p 5000 --cors
+```
+
+- powers https://www-av-deno.dev.archive.org/
+  - [.. /details/commute](https://www-av-deno.dev.archive.org/details/commute)
 
 ---
 <!-- .slide: data-background="https://media.giphy.com/media/q4ICE9wYvOwBG/giphy.gif" -->
 # The End
-Thanks!<br>
-<img src="demuxed.png" style="border:0">
+## Thanks! 🙏
