@@ -184,7 +184,7 @@ include:
     - export BRANCH_PART=""
     - if [ "$CI_COMMIT_REF_SLUG" != "master" ]; then export BRANCH_PART="-${CI_COMMIT_REF_SLUG}"; fi
     - export NOMAD_VAR_SLUG=$(echo "${CI_PROJECT_PATH_SLUG}${BRANCH_PART}" |cut -b1-63)
-    - export NOMAD_VAR_HOSTNAME="${NOMAD_VAR_SLUG}.${KUBE_INGRESS_BASE_DOMAIN}"
+    - export NOMAD_VAR_HOSTNAME="${NOMAD_VAR_SLUG}.${BASE_DOMAIN}"
     - if [ "$NOMAD_VAR_HOSTNAMES" = "" ]; then export NOMAD_VAR_HOSTNAMES='["'$NOMAD_VAR_HOSTNAME'"]'; fi
 
 
@@ -293,7 +293,7 @@ variables {
   CI_PROJECT_PATH_SLUG = "internetarchive-bai"              # repo and group it is part of, slugged
   CI_REGISTRY_USER = ""                                     # set for each pipeline and ..
   CI_REGISTRY_PASSWORD = ""                                 # .. allows pull from private registry
-  KUBE_INGRESS_BASE_DOMAIN = "x.archive.org"
+  BASE_DOMAIN = "x.archive.org"
 }
 
 locals {
@@ -318,7 +318,7 @@ job "hello-world" {
       }
       service {
         name = local.job_names[0]
-        tags = ["urlprefix-${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}.${var.KUBE_INGRESS_BASE_DOMAIN}:443/"]
+        tags = ["urlprefix-${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}.${var.BASE_DOMAIN}:443/"]
         port = "http"
         check {
           type     = "http"

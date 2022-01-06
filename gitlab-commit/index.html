@@ -183,7 +183,7 @@ include:
       [ "$CI_COMMIT_REF_SLUG" != "master" ]  &&  BRANCH_PART="-${CI_COMMIT_REF_SLUG}"
       export NOMAD__SLUG=$(echo "${CI_PROJECT_PATH_SLUG}${BRANCH_PART}" |cut -b1-63)
 
-      DOM=${KUBE_INGRESS_BASE_DOMAIN}
+      DOM=${BASE_DOMAIN}
       [ "$NOMAD__HOSTNAME" = "" ]  &&  export NOMAD__HOSTNAME="${NOMAD__SLUG}.${DOM}"
 
 
@@ -300,7 +300,7 @@ job "[[.CI_PROJECT_PATH_SLUG]]-[[.CI_COMMIT_REF_SLUG]]" {
 
       service {
         name = "[[.CI_PROJECT_PATH_SLUG]]-[[.CI_COMMIT_REF_SLUG]]"
-        tags = ["urlprefix-[[.CI_PROJECT_PATH_SLUG]]-[[.CI_COMMIT_REF_SLUG]].[[.KUBE_INGRESS_BASE_DOMAIN]]:443/"]
+        tags = ["urlprefix-[[.CI_PROJECT_PATH_SLUG]]-[[.CI_COMMIT_REF_SLUG]].[[.BASE_DOMAIN]]:443/"]
         port = "http"
         check {
           type     = "http"

@@ -635,7 +635,7 @@ $NOMAD_SECRET_DATABASE_URL
 <pre class=""><code class="hljs yaml"
 >    service {
       name = "hello-world"
-      tags = ["urlprefix-${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}.${var.KUBE_INGRESS_BASE_DOMAIN}:443/"]
+      tags = ["urlprefix-${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}.${var.BASE_DOMAIN}:443/"]
       port = "http"
 </code></pre>
 <pre class=""><code class="hljs yaml"
@@ -672,7 +672,7 @@ $NOMAD_SECRET_DATABASE_URL
 <pre class=""><code class="hljs yaml"
 >    service {
       name = "hello-world"
-      tags = ["urlprefix-${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}.${var.KUBE_INGRESS_BASE_DOMAIN}:443/"]
+      tags = ["urlprefix-${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}.${var.BASE_DOMAIN}:443/"]
       port = "http"
 </code></pre>
 <pre class=""><code class="hljs yaml"
