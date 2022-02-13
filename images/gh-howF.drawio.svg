@@ -1,0 +1,130 @@
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="502px" height="512px" viewBox="-0.5 -0.5 502 512" content="&lt;mxfile&gt;&lt;diagram id=&quot;HGx-KSyTClWaXAEMqCEW&quot; name=&quot;Page-1&quot;&gt;1VfbcpswEP0aT5+SwVxs59EhsZOZXDpx06ZPHhnWoEYgKoQv/fqujLjj9DJNpvGDkc7uSquzR0IMLDfazQVJwlvuAxuYhr8bWBcD0xya4zE+FLLPEXNkOTkSCOprrwpY0B+gQUOjGfUhbThKzpmkSRP0eByDJxsYEYJvm25rzpqzJiSADrDwCOuiX6gvwxydOEaFXwENwmLmoaEtESmcNZCGxOfbGmRdDixXcC7zVrRzgSn2Cl7yuNkRa5mYgFj2BDymIO5X3xQnpsHICgtzcBqYI4b+52seK0sq93qpo+8ZLwwn6aEQU3QYjpJdZcRWoJ5zKq+yFZrda5zRxXBjQ0RaDL4ShWMXgeAw8DFHndeaeM20XJ4JCuhu3MG2m1A5YAXY8+tPV4/ny4fL2fJuentZuGDCq3YYYvnEx7I+6mjWamKWZS3LVfFrCp7FPijXIUZuQyphkeTL3OLuQSyUEdPmUi2G6jyD9EJt6dZdS2EDQsKuBulM5sAjkGKPLtpaSFJvyqGt+9tK4eUGDOvqLsRN9K4KyqEr4WFDr77o1qT4BtJ0s1TyCM0Qb/5LWd7d304vlp+nD8vFzeP89VTJaPycExtKqY7LqaqROQuoRNJPPUXSjMYSRAySCC+kG0Ak5hHx8XmiMmJ8pepJUqnWOPMhYXx/moZN3VvvRffj3xC+8V6FjwWNqIpHgESK1/xfsZapkrXV4wkgEl+uptFznCc0AVQQ9IjOae8KjzMuGgkPTGu9NgxFWzvNXEPHlOsc5g5JCi9qu3wLDl+UHqopUc0sYlNPqhzPlVoovt9vFP0feUol5TG6rLhUx0blMGU0UAbJWxLlmVTEuOWNQ0m1KfLXVbHVUnFXxFaPhkf/RMKde0iZP2EZ/KWcJ31yvkICcVHw4TCdz9Wc8kVR9BQeiZaUsAfMn8SBsv7qAGKwLmuqyVPtNWXM1TKPeQxvVHJd4hOrW2On76Cy/rzI3YraPRVt8QuxP1W364qNGoW4TrF/qne+1jsXO81S3tsXvR2VT7V2GYPtKkR1ioijxILfuNR3aW3Q2GWxwAQwItVbsfFV0UOtnuEjpwfF65rap449tseWY0wmI3tkD+FkaDW2rj1p1SvF64QHepz67b899NnZ6Vnt5zgvj4vv9wBkZ9yDFEpejhwB1SdK7l596VmXPwE=&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs/>
+    <g>
+        <rect x="20" y="170" width="210" height="100" rx="15" ry="15" fill="none" stroke="none" pointer-events="all"/>
+        <path d="M 33.01 171.55 L 215.83 171.44 L 222.22 170.21 L 226.11 174.49 L 229.86 184.72 L 229.78 255.59 L 226.91 266.08 L 223.06 266.76 L 214.19 269.82 L 37 269.53 L 27.84 269.85 L 20.46 265.34 L 20.95 255.47 L 18.53 182.5 L 23.4 174.78 L 27.53 171.57 L 36.58 170.8" fill="rgb(255, 255, 255)" stroke="none" pointer-events="all"/>
+        <path d="M 35 170 M 35 170 C 78.49 169.01 125.6 170.82 215 170 M 35 170 C 92.52 168.19 150.77 169.68 215 170 M 215 170 C 223.71 169.46 230.36 174.63 230 185 M 215 170 C 225.39 170.87 229.21 173.83 230 185 M 230 185 C 230.21 213.34 228.23 239.1 230 255 M 230 185 C 229.35 202.45 230.97 219.15 230 255 M 230 255 C 231.2 263.12 225.2 271.8 215 270 M 230 255 C 228.37 264.93 223.05 269.2 215 270 M 215 270 C 165.72 267.71 111.08 269.69 35 270 M 215 270 C 177.1 270.63 141.17 269.4 35 270 M 35 270 C 25.55 270.96 18.97 265.13 20 255 M 35 270 C 27.12 269.12 19.98 266.24 20 255 M 20 255 C 19.05 238.36 19.86 216.46 20 185 M 20 255 C 20.68 230.63 20.61 205.46 20 185 M 20 185 C 20.13 173.58 23.14 171.81 35 170 M 20 185 C 18.69 175.23 24.48 170.06 35 170" fill="none" stroke="rgb(0, 0, 0)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 208px; height: 1px; padding-top: 220px; margin-left: 21px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <font style="font-size: 16px">
+                                    GitHub CI/CD vars
+                                    <br/>
+                                    <br/>
+                                    eg:
+                                    <br/>
+                                    <font face="Courier New">
+                                        <b>
+                                            $GITHUB_REF_NAME
+                                        </b>
+                                    </font>
+                                    <br/>
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="125" y="224" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    GitHub CI/CD vars...
+                </text>
+            </switch>
+        </g>
+        <a xlink:href="https://gitlab.com/internetarchive/nomad/-/blob/master/deploy.sh">
+            <rect x="270" y="170" width="200" height="100" rx="15" ry="15" fill="none" stroke="none" pointer-events="all"/>
+            <path d="M 283.01 171.89 L 454.24 170.3 L 465.18 171.89 L 469.27 175.93 L 470.13 185.93 L 468.17 256.02 L 468.45 264.94 L 463.76 269.28 L 453.07 269.45 L 285.17 268.02 L 274.68 269.35 L 270.81 262.42 L 269.41 255.01 L 268.78 181.59 L 272.63 174.57 L 277.89 170.96 L 283.71 168.17" fill="rgb(255, 255, 255)" stroke="none" pointer-events="all"/>
+            <path d="M 285 170 M 285 170 C 348.74 172.7 415.59 172.56 455 170 M 285 170 C 322.93 170.61 361.27 170.36 455 170 M 455 170 C 465.5 168.5 468.17 174.95 470 185 M 455 170 C 466.84 170.68 471.05 173.27 470 185 M 470 185 C 468.7 202.51 471.54 221.37 470 255 M 470 185 C 470.18 209.12 469.86 231.68 470 255 M 470 255 C 468.92 266.38 465.67 269.32 455 270 M 470 255 C 470.87 263.31 463.97 268.36 455 270 M 455 270 C 415.09 270.26 370.52 273.25 285 270 M 455 270 C 417.67 269.32 381.43 269.28 285 270 M 285 270 C 273.8 271.19 271.9 264.66 270 255 M 285 270 C 273.08 271.69 269.95 264.52 270 255 M 270 255 C 271.16 235.02 269.22 209.84 270 185 M 270 255 C 270.31 230.73 269.42 207.72 270 185 M 270 185 C 268.48 176.95 274.82 168.15 285 170 M 270 185 C 269.21 173.16 273.7 171.05 285 170" fill="none" stroke="rgb(0, 0, 0)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="all"/>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 220px; margin-left: 271px;">
+                            <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                                <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                    <font style="font-size: 16px">
+                                        Custom env vars
+                                        <br/>
+                                        <br/>
+                                        eg:
+                                        <br/>
+                                        <font face="Courier New">
+                                            <b>
+                                                $NOMAD_VAR_SLUG
+                                            </b>
+                                        </font>
+                                        <br/>
+                                    </font>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="370" y="224" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                        Custom env vars...
+                    </text>
+                </switch>
+            </g>
+        </a>
+        <ellipse cx="245" cy="47.5" rx="7.5" ry="7.5" fill="none" stroke="none" pointer-events="all"/>
+        <path d="M 245 55 L 245 80 M 245 60 L 230 60 M 245 60 L 260 60 M 245 80 L 230 100 M 245 80 L 260 100" fill="none" stroke="none" pointer-events="all"/>
+        <path d="M 244.84 40.99 C 246.38 40.65 247.7 41.24 248.77 41.93 C 249.83 42.61 250.65 43.69 251.25 45.1 C 251.85 46.52 252.84 49.06 252.38 50.42 C 251.91 51.78 250.03 52.65 248.45 53.26 C 246.88 53.87 244.4 54.17 242.92 54.07 C 241.44 53.98 240.32 53.87 239.58 52.68 C 238.84 51.5 238.58 48.79 238.49 46.97 C 238.41 45.16 237.79 42.88 239.06 41.8 C 240.33 40.71 244.75 40.66 246.09 40.47 C 247.44 40.28 247.12 40.47 247.13 40.67 M 247.7 40.88 C 249.2 41.4 251.65 44.21 252.46 45.49 C 253.28 46.77 252.84 47.26 252.59 48.59 C 252.34 49.91 252.35 52.61 250.95 53.44 C 249.55 54.26 246.09 53.61 244.18 53.53 C 242.27 53.45 240.28 53.76 239.47 52.96 C 238.65 52.15 239.24 50.23 239.28 48.68 C 239.33 47.13 239.15 45.13 239.73 43.66 C 240.31 42.18 241.59 40.18 242.76 39.81 C 243.93 39.45 245.99 41.52 246.73 41.47 C 247.48 41.42 246.93 39.45 247.23 39.53" fill="rgb(255, 255, 255)" stroke="none" pointer-events="all"/>
+        <path d="M 247.62 41.16 C 249.13 41.54 251.05 43 251.93 44.45 C 252.82 45.91 253.43 48.49 252.95 49.88 C 252.47 51.27 250.58 52.12 249.04 52.81 C 247.49 53.5 245.22 53.96 243.69 54.02 C 242.16 54.08 240.99 54.07 239.88 53.15 C 238.77 52.23 237.18 50.17 237.02 48.5 C 236.86 46.83 237.87 44.31 238.92 43.15 C 239.97 41.98 241.78 41.79 243.31 41.5 C 244.84 41.2 247.11 41.28 248.12 41.37 C 249.12 41.46 249.29 42.04 249.36 42.04 M 246.41 39.84 C 247.89 39.98 250.74 42.38 251.73 43.85 C 252.71 45.31 252.37 47.5 252.32 48.64 C 252.26 49.78 252.17 49.52 251.41 50.71 C 250.65 51.9 249.56 55.19 247.74 55.79 C 245.91 56.39 242.08 55.45 240.46 54.3 C 238.84 53.14 238.36 50.15 238.02 48.86 C 237.68 47.56 237.88 48.01 238.42 46.52 C 238.96 45.04 239.82 40.91 241.28 39.95 C 242.75 38.98 246.42 40.68 247.18 40.75 C 247.94 40.81 245.9 40.4 245.83 40.33" fill="none" stroke="rgb(0, 0, 0)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 245 55 M 245 55 C 244.79 61.95 244.12 67.23 245 80 M 245 55 C 245.16 62.8 245.72 68.43 245 80 M 245 60 M 245 60 C 240.98 60.64 236.14 60.26 230 60 M 245 60 C 241.35 59.42 236.27 59.72 230 60 M 245 60 M 245 60 C 249.51 61.17 254.08 60.29 260 60 M 245 60 C 248.97 60.48 253.24 59.21 260 60 M 245 80 M 245 80 C 239.97 87.56 231.73 96.08 230 100 M 245 80 C 239.65 88.02 232.8 95.6 230 100 M 245 80 M 245 80 C 251.05 86.4 253.59 95.51 260 100 M 245 80 C 251.02 86.74 255.77 95.48 260 100" fill="none" stroke="rgb(0, 0, 0)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-start; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 107px; margin-left: 245px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: nowrap;">
+                                <font style="font-size: 16px">
+                                    commit &amp; push
+                                    <br/>
+                                    creates GitHub CI/CD pipeline
+                                    <br/>
+                                    [
+                                    <font color="#ff0000">
+                                        deploy
+                                    </font>
+                                    ] phase
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="245" y="119" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    commi...
+                </text>
+            </switch>
+        </g>
+        <rect x="0" y="0" width="500" height="30" fill="none" stroke="none" pointer-events="all"/>
+        <path d="M 0 0 L 500 0 M 500 30 L 0 30" fill="none" stroke="none" pointer-events="all"/>
+        <path d="M 0 0 M 0 0 C 105.99 1.02 211.28 0.29 500 0 M 0 0 C 151.76 1.45 304.4 1.68 500 0 M 500 30 M 500 30 C 329.25 30.13 158.15 29.39 0 30 M 500 30 C 339.95 31.98 179.03 31.82 0 30" fill="none" stroke="rgb(0, 0, 0)" stroke-linejoin="round" stroke-linecap="square" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 498px; height: 1px; padding-top: 15px; margin-left: 1px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <font style="font-size: 18px">
+                                    How we'll do it
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="250" y="19" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    How we'll do it
+                </text>
+            </switch>
+        </g>
+        <path d="M 0 510 L 500 510" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+    </g>
+    <switch>
+        <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/>
+        <a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank">
+            <text text-anchor="middle" font-size="10px" x="50%" y="100%">
+                Viewer does not support full SVG 1.1
+            </text>
+        </a>
+    </switch>
+</svg>
