@@ -1,54 +1,54 @@
-<!doctype html><head><meta charset="utf-8"/><script>window.NIGHT=1</script><script src="../eveal.js/eveal.js"></script><style> .slide-background { background-image: url("bg.jpg"); }</style>
-<meta property="title" content="GitLab + Nomad = A Dream Come True: HashiConf Europe: Tracey Jaquith">
+<!doctype html><head><meta charset="utf-8"/><script>window.NIGHT=1</script><script src="../eveal.js/eveal.js"></script><style>.slide-background{background-image:url("bg.jpg")} .lefty{text-align:left}</style>
+<title>Nomad the Easy Way - Creating GitHub & GitLab Pipelines in Minutes : HashiTalks 2022 : Tracey Jaquith"</title>
 <!-- 😊 fish: https://sylvan.apple.com/Videos/BO_A014_C008_SDR_20190719_SDR_2K_AVC.mov -->
 </head><body>
 
-<section data-background-image="welcome.jpg" data-background-size="contain" data-background-color="black"></section>
+<section data-background-image="welcomexxx.jpg" data-background-size="contain" data-background-color="black"></section>
 
 ---
 <!-- .slide: data-background="nomad.jpg" -->
-GitLab + Nomad = A Dream Come True
+## Nomad the Easy Way
+Creating GitHub & GitLab Pipelines in Minutes
 
-HashiConf Europe 2021<br>
-Tracey Jaquith
-
-slides: tracey.dev.archive.org
+HashiTalks 2022<br>
+Tracey Jaquith<br>
+slides: <a href="https://tracey.archive.org">tracey.archive.org</a>
 
 
 ---
 @tracey_pooh 🧸<br>
 Internet Archive 🏛️
 <div class="fragment"><br>
-TV Architect<br>
-· video/audio · devops · javascript ·<br>
+founding coder<br>
+· tv · video/audio · devops · javascript ·<br>
 </div>
 
 <div class="fragment"><br><br>
-<span class="fragment highlight-red">slides</span>: https://tracey.dev.archive.org<br>
+<span class="fragment highlight-red">slides</span>: https://tracey.archive.org<br>
 repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 </div>
 
 ---
 <img src="i/containers-and-tracey.jpg" style="margin-top:-10%"/>
-tracey.dev.archive.org
+tracey.archive.org
 
 
 ---
 ## Why are We Here?
 <div class="fragment">
-Use GitLab with Nomad clusters
+Use GitHub with Nomad clusters
 </div>
-
+<h1 class="fragment">🚀</h1>
 
 ---
-## GitLab + Nomad
+## GitHub + Nomad
 <div class="fragment">
 <hr>
-2 line `.gitlab-ci.yml`
+~20 line yaml - GitHub Actions
 </div>
 <div class="fragment">
 <hr>
-2 CI/CD variables
+1 GitHub Secret
 </div>
 
 ---
@@ -73,7 +73,7 @@ phase
 <div class="fragment">
 <br>
 <br>
-tracey.dev.archive.org
+tracey.archive.org
 </div>
 
 ---
@@ -117,6 +117,87 @@ include:
 add 👆 to your GitLab repository :
 - top-level file:
 - [.gitlab-ci.yml](https://gitlab.com/internetarchive/nomad/-/blob/master/.gitlab-ci.yml)
+
+
+---
+## GitHub Actions YAML setup
+- Add a YAML file to your repository, named like:
+```sh
+.github/workflows/cicd.yml
+```
+
+<div class="fragment">
+`cicd.yml` can be any filename you like
+</div>
+
+---
+### GitHub Actions YAML
+<pre><code class="hljs yaml"
+>name: CICD
+on: push
+jobs:
+  cicd:
+</code></pre><pre class="fragment fade-up"><code class="hljs yaml"
+>    runs-on: ubuntu-latest
+    permissions:
+       contents: read
+       packages: write
+       id-token: write
+</code></pre><pre class="fragment fade-up"><code class="hljs yaml"
+>    steps:
+      # https://github.com/internetarchive/cicd
+      - uses: internetarchive/cicd@v1
+</code></pre><pre class="fragment fade-up"><code class="hljs yaml"
+>        with:
+          # ACTION ITEM: change values to your HinD/nomad cluster
+          BASE_DOMAIN: 'example.com'
+          NOMAD_ADDR: 'https://nom.example.com'
+
+          # ACTION ITEM: add GitHub Secret to your repository,
+          # with the token value for your nomad cluster
+          NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
+</code></pre><pre class="fragment fade-up"><code class="hljs yaml"
+>          # this is automatically taken care of
+          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+</code></pre>
+
+
+---
+## Deployment
+Your GitHub Action will
+
+<div class="fragment lefty">
+- build: `docker build` and `push` to github registry
+</div>
+<div class="fragment lefty">
+- test: (optionally)
+</div>
+<div class="fragment lefty">
+- deploy: runs:
+[deploy.sh](https://gitlab.com/internetarchive/nomad/-/blob/master/deploy.sh)
+</div>
+
+---
+## Deployment
+[deploy.sh](https://gitlab.com/internetarchive/nomad/-/blob/master/deploy.sh)
+
+Runs inside a container with `nomad` binary
+
+<div class="fragment fade-up lefty">
+- merge CI/CD Variables & Secrets
+  - into shell environment variables and an `env.env` file
+</div><div class="fragment fade-up lefty">
+- use a templated
+[project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
+(HCL format)
+</div><div class="fragment fade-up lefty">
+- `project.nomad` + `env.env` + env vars => `project.hcl`
+</div><pre class="fragment fade-up"><code class="hljs bash"
+># Run
+nomad validate  var-file=env.env  project.hcl
+nomad plan      var-file=env.env  project.hcl
+nomad run       var-file=env.env  project.hcl
+</code></pre>
 
 
 ---
@@ -432,6 +513,6 @@ all main dev using gitlab + nomad review apps
 <!-- .slide: data-background="thanks.jpg" -->
 <div style="color: #ddd; margin-top:20%">
 Thank You!<br>
-slides: tracey.dev.archive.org<br>
+slides: tracey.archive.org<br>
 repo: [gitlab/internetarchive](https://gitlab.com/internetarchive/nomad)<br>
 </div>
