@@ -16,18 +16,27 @@ slides: <a href="https://tracey.archive.org">tracey.archive.org</a>
 
 
 ---
-## Why are We Here?
-<div class="fragment">
-Use GitHub/GitLab with Nomad clusters
-</div>
+Show you how to easily:
+<h2 class="fragment">
+deploy git repositories to Nomad
+</h2>
+<h2 class="fragment">
+set up full CI/CD piplines
+</h2>
+<h2 class="fragment">
+project.hcl template
+</h2>
 
+<h2 class="fragment">
+from scratch
+</h2>
 <h1 class="fragment">🚀</h1>
 
 ---
 ## GitHub + Nomad
 <div class="fragment">
 <hr>
-~20 line yaml - GitHub Actions
+~15 line yaml - GitHub Actions
 </div>
 <div class="fragment">
 <hr>
@@ -133,7 +142,7 @@ GitHub Action<br>
 ```
 
 <div class="fragment">
-`cicd.yml` can be any filename you like
+_(`cicd.yml` can be any filename you like)_
 </div>
 
 ---
@@ -145,17 +154,14 @@ jobs:
   cicd:
 </code></pre><pre class="fragment fade-up"><code class="hljs yaml"
 >    runs-on: ubuntu-latest
-    permissions:
-       contents: read
-       packages: write
-       id-token: write
+    permissions: { contents: read, packages: write, id-token: write }  # chexxx
 </code></pre><pre class="fragment fade-up"><code class="hljs yaml"
 >    steps:
       # https://github.com/internetarchive/cicd
       - uses: internetarchive/cicd@v1
 </code></pre><pre class="fragment fade-up"><code class="hljs yaml"
 >        with:
-          # ACTION ITEM: change values to your HinD/nomad cluster
+          # ACTION ITEM: change values to your nomad cluster
           BASE_DOMAIN: 'example.com'
           NOMAD_ADDR: 'https://nom.example.com'
 
@@ -170,13 +176,13 @@ jobs:
 
 ---
 ## Deployment
-Your GitHub Action will
+GitHub Action will
 
 <div class="fragment lefty">
 - build: `docker build` and `push` to github registry
 </div>
 <div class="fragment lefty">
-- test: (optionally)
+- test: if exists, runs `test.sh` <span class="fragment">- [can customize](https://github.com/internetarchive/hello-js)</span>
 </div>
 <div class="fragment lefty">
 - deploy: runs:
@@ -388,7 +394,7 @@ https://github.com/internetarchive/hashitalks-demo xxx make this
 
 
 ---
-## Customize
+## [Customize](https://gitlab.com/internetarchive/nomad/-/tree/master#customizing)
 Optional CI/CD vars for
 [project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
 
@@ -408,7 +414,7 @@ NOMAD_VAR_PV
 NOMAD_VAR_PV_DB
 ```
 <div class="fragment">
-Add any ☝🏽 to your `.cicd.yml`<br>
+Add any ☝🏽 to your `cicd.yml`<br>
 ([more info](https://gitlab.com/internetarchive/nomad/-/blob/master/README.md))
 </div>
 
@@ -453,16 +459,19 @@ based on CWD & git info
 2x+ faster deploys
 </div>
 <div class="fragment lefty">
-- all main dev using gitlab/github + nomad
+- devs using gitlab/github + nomad<br>
 - archive.org home page & more using live nomad cluster
 </div>
 
 ---
-## Deploy with GitLab + Nomad xxx
-- 2 line [.gitlab-ci.yml](https://gitlab.com/internetarchive/nomad/-/blob/master/.gitlab-ci.yml)
-- 2 CI/CD vars
+## Deploy Git repositories to Nomad
+- 15 line [cicd.yml](https://github.com/internetarchive/hello-nginx/blob/main/.github/workflows/cicd.yml)
+- 1 GitHub Secret
 
-<h1 class="fragment">🚀</h1>
+<br><div class="fragment">
+up in minutes
+<h1>🚀</h1>
+</div>
 
 ---
 <!-- .slide: data-background="https://media.giphy.com/media/q4ICE9wYvOwBG/giphy.gif" -->
