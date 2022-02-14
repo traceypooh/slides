@@ -154,7 +154,7 @@ jobs:
   cicd:
 </code></pre><pre class="fragment fade-up"><code class="hljs yaml"
 >    runs-on: ubuntu-latest
-    permissions: { contents: read, packages: write, id-token: write }  # chexxx
+    permissions: { contents: read, packages: write, id-token: write }
 </code></pre><pre class="fragment fade-up"><code class="hljs yaml"
 >    steps:
       # https://github.com/internetarchive/cicd
@@ -197,7 +197,7 @@ Runs inside a container with `nomad` binary
 
 <div class="fragment fade-up lefty">
 - merges CI/CD Variables & Secrets
-  - into shell environment variables and `env.env` file
+  - into shell environment variables & `env.env` file
 </div><div class="fragment fade-up lefty">
 - uses templated
 [project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
@@ -263,7 +263,8 @@ $NOMAD_SECRET_DATABASE_URL
 </code></pre><pre class="fragment fade-up"><code class="hljs yaml"
 >    service {
       name = "hello-world"
-      tags = ["urlprefix-${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}.${var.BASE_DOMAIN}:443/"]
+      tags = [
+"urlprefix-${var.CI_PROJECT_PATH_SLUG}-${var.CI_COMMIT_REF_SLUG}.${var.BASE_DOMAIN}:443/" ]
       port = "http"
 </code></pre><pre class="fragment fade-up"><code class="hljs yaml"
 >      check {
@@ -296,11 +297,11 @@ Semantic hostnames 🙌
 <pre>
 https://internetarchive-timemachine
             ╰──┬──╯      ╰──┬──╯
- <span class="fragment">GitHub</span> account/org   repository name
+ <span class="fragment">GitHub</span>  account/org      repository name
 </pre><pre class="fragment fade-up">
-https://internetarchive-website-123-ticket-3939-fix-boom
-            ╰──┬──╯      ╰───┬───╯   ╰────────┬───────╯
-           account       repository        branch
+https://internetarchive-webservice-ticket-3939-fix-boom
+            ╰──┬──╯      ╰──┬───╯   ╰────────┬───────╯
+           account      repository        branch
 </pre>
 
 ---
@@ -356,7 +357,7 @@ on: push
 jobs:
   cicd:
     runs-on: ubuntu-latest
-    permissions: { contents: read, packages: write, id-token: write }  # chexxx
+    permissions: { contents: read, packages: write, id-token: write }
     steps:
       - uses: internetarchive/cicd@v1
         with:
@@ -400,9 +401,12 @@ Optional CI/CD vars for
 
 ```
 NOMAD_VAR_BIND_MOUNTS
+NOMAD_VAR_CHECK_PATH
 NOMAD_VAR_CHECK_PROTOCOL
+NOMAD_VAR_CHECK_TIMEOUT
 NOMAD_VAR_COUNT
 NOMAD_VAR_CPU
+NOMAD_VAR_FORCE_PULL
 NOMAD_VAR_HEALTH_TIMEOUT
 NOMAD_VAR_HOME
 NOMAD_VAR_HOSTNAMES
@@ -433,6 +437,13 @@ based on CWD & git info
 
 
 ---
+# One More Thing
+
+---
+# HinD - Hashistack-IN-Docker
+xxx
+
+---
 ## 🚨 Halp 🥺 - [build] & [test] Caching 🚨
 - use self-hosted runners
 - use `docker.sock` not `docker-in-docker`
@@ -441,26 +452,32 @@ based on CWD & git info
 
 ---
 ## Additional Help
-- [Create Nomad cluster](https://gitlab.com/internetarchive/nomad/-/blob/master/README.md#setup-a-nomad-cluster)
-- [xxx] hind or setup.sh
-- [xxx] hello-nginx
-- [xxx] hello-js
+<div class="lefty">
+· [Create Nomad cluster](https://gitlab.com/internetarchive/nomad/-/blob/master/README.md#setup-a-nomad-cluster)<br>
+· [Create Nomad cluster with HinD](https://github.com/internetarchive/hind)
+</div><br>
 
+<div class="fragment lefty">
+· [hello-nginx](https://github.com/internetarchive/hello-nginx) - minimal CI/CD demo<br>
+· [hello-js](https://github.com/internetarchive/hello-js) - custom CI/CD pipeline demo<br>
+· [hind-test](https://github.com/internetarchive/hind-test) - custom pipeline _and_ HinD demo
+</div>
 
 ---
 ## Results: 🏛️  move to Nomad
 <div class="fragment lefty">
-100 repos/webapps deployed
+· 100 repos/webapps deployed
 </div>
 <div class="fragment lefty">
-600+ review apps deployed
+· 600+ review apps deployed
 </div>
 <div class="fragment lefty">
-2x+ faster deploys
-</div>
+· 2x+ faster deploys
+</div><br>
+
 <div class="fragment lefty">
-- devs using gitlab/github + nomad<br>
-- archive.org home page & more using live nomad cluster
+· devs using gitlab/github + nomad<br>
+· [archive.org](https://archive.org) home page & more using live nomad cluster
 </div>
 
 ---
