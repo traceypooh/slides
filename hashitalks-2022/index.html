@@ -7,6 +7,7 @@
 
 ---
 <!-- .slide: data-background="i/nomad.jpg" -->
+<br>
 ## Nomad the Easy Way
 Creating GitHub & GitLab Pipelines in Minutes
 
@@ -18,17 +19,14 @@ slides: <a href="https://tracey.archive.org">tracey.archive.org</a>
 ---
 Show you how to easily:
 <h2 class="fragment">
-deploy git repositories to Nomad
+deploy Git repositories to Nomad
 </h2>
 <h2 class="fragment">
-set up full CI/CD piplines
-</h2>
-<h2 class="fragment">
-project.hcl template
+set up full CI/CD Pipelines
 </h2>
 
 <h2 class="fragment">
-from scratch
+from Scratch
 </h2>
 <h1 class="fragment">🚀</h1>
 
@@ -36,7 +34,7 @@ from scratch
 ## GitHub + Nomad
 <div class="fragment">
 <hr>
-~15 line yaml - GitHub Actions
+15 line yaml - GitHub Actions
 </div>
 <div class="fragment">
 <hr>
@@ -91,7 +89,7 @@ tracey.archive.org
 ---
 ## [* GitLab is even easier](https://archive.org/~tracey/slides/hashiconf)
 
-So we'll focus on GitHub today
+focus on GitHub today
 
 
 ---
@@ -179,13 +177,13 @@ jobs:
 GitHub Action will
 
 <div class="fragment lefty">
-- build: `docker build` and `push` to github registry
+- [build] `docker build` and `push` to github registry
 </div>
 <div class="fragment lefty">
-- test: if exists, runs `test.sh` <span class="fragment">- [can customize](https://github.com/internetarchive/hello-js)</span>
+- [test] if exists, runs `test.sh` <span class="fragment">- [can customize](https://github.com/internetarchive/hello-js)</span>
 </div>
 <div class="fragment lefty">
-- deploy: runs:
+- [deploy] runs:
 [deploy.sh](https://gitlab.com/internetarchive/nomad/-/blob/master/deploy.sh)
 </div>
 
@@ -368,6 +366,9 @@ jobs:
 </code></pre>
 
 
+---
+https://github.com/internetarchive/hashitalks-demo xxx make this
+
 
 ---
 <section data-background-image="i/gh-overview0.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
@@ -382,10 +383,6 @@ jobs:
 ---
 <section data-background-image="i/gh-overviewE.drawio.svg" data-background-size="contain" data-background-color="#eee"></section>
 
-
-
----
-https://github.com/internetarchive/hashitalks-demo xxx make this
 
 
 ---
@@ -452,7 +449,7 @@ Create a nomad cluster inside a single `docker` container!
 
 ---
 # [HinD](https://github.com/internetarchive/hind)
-- [nomad](https://www.nomadproject.io/) - scheduler
+- [nomad](https://www.nomadproject.io/) - scheduler, etc.
 - [consul](https://www.consul.io/) - networking, healthchecks
 - [caddy](https://caddyserver.com/) - router, https, lets encrypt
 - [consul-template](https://github.com/hashicorp/consul-template) - consul/caddy glue
@@ -478,23 +475,6 @@ docker run --net=host --privileged -v /var/run/docker.sock:/var/run/docker.sock 
 
 
 ---
-## Additional Help
-Create a Nomad cluster
-<div class="fragment">
-· [single node HinD](https://github.com/internetarchive/hind)<br>
-· [multi node](https://gitlab.com/internetarchive/nomad/-/blob/master/README.md#setup-a-nomad-cluster)<br>
-</div><br>
-
-<div class="fragment">
-Demo repositories
-</div>
-<div class="fragment">
-[hello-nginx](https://github.com/internetarchive/hello-nginx) - minimal CI/CD<br>
-[hello-js](https://github.com/internetarchive/hello-js) - custom CI/CD pipeline<br>
-[hind-test](https://github.com/internetarchive/hind-test) - custom pipeline _and_ HinD
-</div>
-
----
 ## Results: 🏛️  move to Nomad
 <div class="fragment lefty">
 · 100 repos/webapps deployed
@@ -510,6 +490,22 @@ Demo repositories
 · devs using gitlab/github + nomad<br>
 · [archive.org](https://archive.org) home page & more using live nomad cluster
 </div>
+
+---
+## Get Started
+Demo repositories
+</div>
+<div class="fragment">
+[hello-nginx](https://github.com/internetarchive/hello-nginx) - minimal CI/CD<br>
+[hello-js](https://github.com/internetarchive/hello-js) - custom CI/CD pipeline<br>
+[hind-test](https://github.com/internetarchive/hind-test) - custom pipeline _and_ HinD
+</div><br>
+
+<div class="fragment">
+Create a Nomad cluster
+<div class="fragment">
+· [single node HinD](https://github.com/internetarchive/hind)<br>
+· [multi node](https://gitlab.com/internetarchive/nomad/-/blob/master/README.md#setup-a-nomad-cluster)</div>
 
 ---
 ## Deploy Git repositories to Nomad
