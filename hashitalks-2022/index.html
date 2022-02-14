@@ -440,11 +440,38 @@ based on CWD & git info
 # One More Thing
 
 ---
-# HinD - Hashistack-IN-Docker
-xxx
+# [HinD](https://github.com/internetarchive/hind)
+### Hashistack-IN-Docker
+<div class="fragment">
+Don't have a nomad cluster?<br>
+
+Create a nomad cluster inside a single `docker` container!
+</div>
+<div class="fragment">
+`NOMAD_ADDR` + `NOMAD_TOKEN` you can deploy to
 
 ---
-## 🚨 Halp 🥺 - [build] & [test] Caching 🚨
+# [HinD](https://github.com/internetarchive/hind)
+- [nomad](https://www.nomadproject.io/) - scheduler
+- [consul](https://www.consul.io/) - networking, healthchecks
+- [caddy](https://caddyserver.com/) - router, https, lets encrypt
+- [consul-template](https://github.com/hashicorp/consul-template) - consul/caddy glue
+
+---
+# [HinD v0.1](https://github.com/internetarchive/hind)
+minimal needs:
+- VM with docker
+- wildcard DNS name pointing to VM (ideally)
+
+```bash
+docker run --net=host --privileged -v /var/run/docker.sock:/var/run/docker.sock \
+  --restart=always --name hind -d \
+  ghcr.io/internetarchive/hind:main
+```
+
+
+---
+## 🚨 Help 🥺 - [build] & [test] Caching 🚨
 - use self-hosted runners
 - use `docker.sock` not `docker-in-docker`
 - [gitlab runners & monorepos](https://docs.gitlab.com/ee/ci/large_repositories/#store-custom-clone-options-in-configtoml)
