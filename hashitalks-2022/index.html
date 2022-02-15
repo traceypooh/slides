@@ -463,8 +463,8 @@ minimal needs:
 - wildcard DNS name pointing to VM (ideally)
 
 ```bash
-docker run --net=host -v /var/run/docker.sock:/var/run/docker.sock --rm --name hind \
-  ghcr.io/internetarchive/hind:main
+docker run --net=host -v /var/run/docker.sock:/var/run/docker.sock --rm \
+  --name hind  ghcr.io/internetarchive/hind:main
 ```
 
 
