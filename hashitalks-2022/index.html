@@ -1,5 +1,5 @@
 <!doctype html><head><meta charset="utf-8"/><script>window.NIGHT=1</script><script src="../eveal.js/eveal.js"></script><style>.slide-background{background-image:url("bg.jpg")} .lefty{text-align:left}</style>
-<title>Nomad the Easy Way - Creating GitHub & GitLab Pipelines in Minutes : HashiTalks 2022 : Tracey Jaquith"</title>
+<title>Nomad the Easy Way - Creating GitHub & GitLab Pipelines in Minutes : HashiTalks 2022 : Tracey Jaquith</title>
 <!-- 😊 fish: https://sylvan.apple.com/Videos/BO_A014_C008_SDR_20190719_SDR_2K_AVC.mov -->
 </head><body>
 
@@ -117,10 +117,15 @@ focus on GitHub today
 ## tl;dr 🥱
 GitHub Action<br>
 - create file `.github/workflows/cicd.yml`
-  - update `BASE_DOMAIN`
+<div class="fragment">
+  - update `BASE_DOMAIN`<br>
   - update `NOMAD_ADDR`
+</div>
+
 - create secret `NOMAD_TOKEN`
+<div class="fragment">
   - [⚙️ Settings > Security > Secrets > Actions > New repository secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository)
+</div>
 
 
 ---
