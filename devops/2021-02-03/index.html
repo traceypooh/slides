@@ -1,1 +1,364 @@
-../../../TechDocs/devops/2021-02-03.md
+<!doctype html><head><meta charset="utf-8"/><script src="../eveal.js/eveal.js"></script></head><body>
+
+
+# 🚂 DevOps Training
+## Week 2
+### Feb 3, 2021
+
+---
+# Don't forget!
+## press record
+
+
+---
+## Attendees
+tracey, matt, jason, clau, drini, arkiver, sawood
+
+
+---
+# Preview
+## hands on webapp creation
+- start to finish
+- full CI/CD pipelines
+
+
+---
+# Overview
+- https://gitlab.com/internetarchive/nomad repo
+  - [project.nomad](https://gitlab.com/internetarchive/nomad/-/blob/master/project.nomad)
+  - [variables & `levant`](https://gitlab.com/internetarchive/nomad/-/blob/master/.gitlab-ci.yml)
+- RAM min/max
+- more info:
+  - https://archive.org/~tracey/slides/gitlab-commit (slides)
+  - https://www.youtube.com/watch?v=6mAmH_-HCxg (video)
+
+
+---
+# new repo
+https://git.archive.org/www
+
+(feel free to use your name or anything)
+
+
+---
+## Snake or Coffee?  🐍  ☕
+- Let's make a webapp!
+- Python3 or JS
+- Full pipeline w/ basic: [build] [test] [deploy]
+
+
+---
+## Baseline CI/CD config
+- new file in repo `.gitlab-ci.yml`
+
+```yaml
+include:
+  - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
+```
+- [build] - use stock GitLab
+- [test] - not yet
+- [deploy] - custom, to nomad
+
+[(^ included .yml)](https://gitlab.com/internetarchive/nomad/-/blob/master/.gitlab-ci.yml)
+
+
+---
+## Deploy to Nomad cluster
+- https://git.archive.org/www
+  - left side menu
+  - [Settings]
+  - [CI/CD]
+  - [Runners]
+    - group runner "io for www"
+  - [Variables]
+    - `NOMAD_ADDR`
+    - `NOMAD_TOKEN`
+
+
+---
+## Minimal Dockerfile
+- new file in repo `Dockerfile`
+### Python3
+```
+FROM python:3
+COPY . /app
+WORKDIR /app
+CMD python main.py
+```
+
+### JS
+```
+FROM node
+COPY . /app
+WORKDIR /app
+CMD node main.js
+```
+
+
+---
+## Minimal Dockerfile
+- https://hub.docker.com/_/python
+- https://hub.docker.com/_/node
+- check out tags and options
+  - different OS
+  - different versions
+
+
+---
+## Minimal app
+- new `main.py` or `main.js` in repo
+
+### Python3
+```python
+from flask import Flask
+app = Flask(__name__)
+@app.route("/")
+def hello():
+__return "Hai Whirld from Flask"
+if __name__ == "__main__":
+__app.run(host='0.0.0.0', debug=True, port=5000)
+```
+
+### JS
+```javascript
+import http from 'http'
+http.createServer(
+__(req, res) => res.end('Hai Whirld from JS')
+).listen(5000)
+```
+
+
+---
+## daemons
+- listen on port :5000
+- listen on all interfaces / ip addresses
+- only need to talk http
+- https and http/2 taken care of by ingress / edge router
+
+
+---
+## Add requirements
+### Python
+- new file `requirements.txt`
+```
+flask
+```
+
+### JS
+- new file `package.json`
+```json
+{
+  "type": "module"
+}
+```
+
+
+---
+## setup requirements
+add after `WORKDIR` to `Dockerfile`:
+### Python
+```
+RUN pip install -r requirements.txt
+```
+### JS
+```
+RUN npm i
+```
+
+
+---
+## OpSec++
+- change `Dockerfile` to downgrade privs
+- add before `CMD`
+
+### Python3
+```
+USER nobody
+```
+
+### JS
+```
+USER node
+```
+
+
+---
+## Dockerfile top tips
+- you can add comments inline in `Dockerfile` - very nice for pkg requirements
+- comments are filtered out line-by-line as preprocessing step
+
+```
+RUN apt-get install zsh \
+# this is nice for colors when diffing:
+colordiff \
+# for `ps`
+procps \
+..
+```
+
+
+---
+## Dockerfile top tips - Caching
+- Do 3rd party packages first
+```
+apt-get update && apt-get install ..
+apk add ..
+```
+- next
+```
+COPY requirements.txt /app
+COPY package.json /app
+```
+- then
+```
+RUN pip install -r requirements.txt
+RUN npm i
+```
+- then
+```
+COPY . /app
+```
+
+
+---
+## Dockerfile top tips
+- Grab files from other images
+```
+COPY --from=registry.archive.org/www/av/production /av/www/ /av/www/
+```
+- multi-stage builds - pull results from other steps/`FROM`s
+  - https://docs.docker.com/develop/develop-images/multistage-build/
+
+
+---
+## Dockerfile top tips
+### Advanced caching
+- https://docs.docker.com/develop/develop-images/build_enhancements/
+- requires `.gitlab-ci.yml` and `Dockerfile` 1-2 line changes
+- checksums `COPY` files and compares commits
+- uses prior build results - `CACHED` in build logs
+
+
+---
+## Warp Speed 🚀
+- each `RUN` is a docker image "copy on write" layer
+- group `RUN` together like
+```
+RUN apt-get update && apt-get install
+```
+- dont do
+```
+RUN apt-get upgrade
+```
+  - layer thrash
+  - rely on upstream for version updates
+    - official images are _very_ frequently updated / maintained
+
+
+---
+## Warp Speed 🚀
+- Alpine linux - musl C
+
+```
+apt-get install nginx
+apk add nginx
+```
+
+```
+apt-cache search flask
+apk search flask
+```
+
+
+---
+## Warp Speed 🚀
+- Alpine linux
+- change `FROM` in `Dockerfile`
+
+### Python3
+```
+FROM python:3-alpine
+```
+### JS
+```
+FROM node:alpine
+```
+
+
+---
+## Basic [test]
+- test what [build] just made
+- add to `.gitlab-ci.yml`
+
+```yml
+test:
+__stage: test
+__image: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHA}
+__script:
+____- cd /app
+____- python -m py_compile main.py # python
+____- node --check main.js # javascript
+```
+
+
+---
+## .git who?
+- `.dockerignore`
+```
+.git
+__pycache__
+```
+- skips copying `.git` into docker image
+  - `.git` is slight security risk
+  - `.git` is sizable, often 2x+ repo
+
+
+---
+## pop in to your running webapp
+```
+nom-ssh
+```
+
+
+---
+# Top Tip
+build locally, eg:
+```
+docker build -t webapp .
+
+docker run --rm -it webapp sh
+```
+
+
+---
+# Hai Whirlds
+- https://gitlab.com/internetarchive/bai/
+- https://git.archive.org/services/pyhi
+
+
+---
+# Homework:
+- add `logo.jpg` or `logo.png` (~500x500 or less) to your repo
+- check out:
+  - https://git.archive.org/services
+  - https://archive.org/services/clusters
+
+---
+## Homework:
+- setup docker locally
+  - https://docs.docker.com/docker-for-mac/install/
+
+---
+## Homework:
+- setup nomad locally
+  - https://gitlab.com/internetarchive/nomad
+  - https://gitlab.com/internetarchive/nomad#laptop-access
+  - `aliases`
+```
+brew install nomad
+```
+
+---
+## Homework:
+- add `NOMAD_TOKEN` and look around at `Jobs` and `Topology`
+- https://nom.us.archive.org:4646

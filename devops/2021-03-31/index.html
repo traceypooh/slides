@@ -1,1 +1,686 @@
-../../../TechDocs/devops/2021-03-31.md
+<!doctype html><head><meta charset="utf-8"/><script src="../eveal.js/eveal.js"></script></head><body>
+
+# 🚂 DevOps Training
+## Week 6
+### Mar 31, 2021
+
+Slides: https://archive.org/~tracey/slides/devops/
+
+---
+## Overview
+### Setup GitLab, Nomad, Consul & Fabio
+
+
+---
+## Don't forget!
+### press record
+
+
+---
+## Attendees
+tracey, matt, clau, drini, jason,
+sawood, brenton, christian, charles, arkiver
+
+
+---
+## Overview
+- Install GitLab
+- Install nomad & consul servers
+  - securely talking together
+  - auto-elect cluster leaders
+- Install load balancer / edge router "fabio"
+- Some support for Persistent Volumes
+
+
+---
+## Setup VM
+- digitalocean - $20/mo
+  - ubuntu focal
+  - 4GB RAM
+  - SSD
+
+
+---
+## VM access
+```bash
+ssh-copy-id root@[DIGITAL-OCEAN-IP-ADDRESS]
+```
+- enter VM password
+
+
+---
+## VM login
+- use agent forwarding `-A` to make cert copying easier
+
+```bash
+ssh -A root@[DIGITAL-OCEAN-IP-ADDRESS]
+```
+
+
+---
+## Setup Docker
+- clone nomad repo
+  - helper scripts & aliases
+  - cluster creation scripts
+
+```bash
+cd
+git clone https://gitlab.com/internetarchive/nomad.git
+./nomad/install-docker-ce.sh
+```
+
+
+---
+### Environment setup
+
+---
+<pre class="stretch"><code class="hljs bash">
+export DOMAIN=x.archive.org
+export FIRST=nom.${DOMAIN?}
+export GITLAB_HOME=$HOME/gitlab
+echo "
+#
+source $HOME/nomad/aliases
+#
+export GITLAB_HOME=${GITLAB_HOME?}
+export DOMAIN=${DOMAIN?}
+export FIRST=${FIRST?}
+export FIRSTIP=$(ip a |egrep -o 'inet [0-9\.]+' |cut -f2 -d' ' |fgrep -v 127.0.0 |head -1)
+export TLS_CRT=${GITLAB_HOME?}/tls/${DOMAIN?}-cert.pem
+export TLS_KEY=${GITLAB_HOME?}/tls/${DOMAIN?}-key.pem
+export NOMAD_ADDR=https://${FIRST?}:4646
+#
+export PV_MAX=20
+export PV_DIR=/pv
+export NOMAD_HCL=/etc/nomad.d/nomad.hcl
+export CONSUL_HCL=/etc/consul.d/consul.hcl
+export NOMAD_COUNT=1
+export CONSUL_COUNT=1
+" >| $HOME/.env
+</code></pre>
+
+```bash
+source $HOME/.env
+```
+
+
+---
+## ssh setup
+- update `tracey` to your /home/NAME account name on home.archive.org
+
+```bash
+IANAME=tracey
+```
+
+```bash
+echo '
+Host  *.archive.org  *us.archive.org  !sshgw*
+User '${IANAME?}'
+ForwardAgent yes
+ProxyJump '${IANAME?}'@sshgw-sf.us.archive.org
+' >| $HOME/.ssh/config
+```
+
+---
+## HTTPS Wildcard Certs
+
+```bash
+mkdir -p ${GITLAB_HOME?}/tls
+cd       ${GITLAB_HOME?}/tls
+
+scp -p home.archive.org:/home/tracey/dev/nomad/certs/${DOMAIN?}*.pem .
+
+chmod 400 *key.pem
+cd
+```
+
+
+---
+## VM DNS - /etc/hosts
+- point hostnames to VM
+
+```bash
+echo "
+
+# from IA DevOps Training
+${FIRSTIP?}  git.${DOMAIN?}
+${FIRSTIP?}  registry.${DOMAIN?}
+${FIRSTIP?}  nom.${DOMAIN?}
+" >> /etc/hosts
+```
+
+---
+## laptop DNS wildcard domain
+- use env vars from VM
+
+```bash
+brew install dnsmasq
+
+echo "
+
+# IA DevOps Training
+address=/${DOMAIN?}/${FIRSTIP?}
+
+listen-address=127.0.0.1
+" >> $(brew --prefix)/etc/dnsmasq.conf
+
+
+sudo brew services restart dnsmasq
+```
+(not mac?  you can insert single name entries to your `/etc/hosts` like prior slide)
+
+---
+## DNS Wildcard Domain - Additional Step
+-  [System Preferences]
+- [Network]
+- [Advanced]
+- [DNS]
+- [DNS Servers]
+- add '127.0.0.1' as *first* resolver
+  - (ie: change order once added)
+
+---
+## DNS Wildcard Domain
+<img src="dns.jpg"/>
+
+
+---
+## DNS laptop verify
+- verify host lookups are working now
+```bash
+host something.${DOMAIN?}
+```
+should point to your VM IP address
+
+
+---
+## GitLab - setup config
+- alt ports - :80 :443 used by nomad load balancer
+  - gitlab on http/80 on inside container
+    - (map to :88 on outside next)
+  - registry on https/444 inside container
+
+```bash
+mkdir -p ${GITLAB_HOME?}/config/
+echo "
+# IA DevOps Training:
+
+external_url 'https://git.${DOMAIN?}'
+registry_external_url 'https://registry.${DOMAIN?}:444'
+
+nginx['listen_port'] = 80
+nginx['listen_https'] = false
+nginx['redirect_http_to_https'] = false
+
+registry_nginx['listen_port'] = 444
+registry_nginx['listen_https'] = true
+registry_nginx['redirect_http_to_https'] = false
+registry_nginx['ssl_certificate']     = '/etc/gitlab/tls/${DOMAIN?}-cert.pem'
+registry_nginx['ssl_certificate_key'] = '/etc/gitlab/tls/${DOMAIN?}-key.pem'
+" >> ${GITLAB_HOME?}/config/gitlab.rb
+```
+
+
+---
+# GitLab - get running
+- :80 => :88 - for https://git.x.archive.org
+- :444 => :444 - for https://registry.x.archive.org
+- :22 => :222 - for git clone/push over ssh
+```bash
+docker run --detach \
+  -p "88:80/tcp" \
+  -p "444:444/tcp" \
+  -p "222:22/tcp" \
+  --volume ${GITLAB_HOME?}/config:/etc/gitlab \
+  --volume ${GITLAB_HOME?}/logs:/var/log/gitlab \
+  --volume ${GITLAB_HOME?}/data:/var/opt/gitlab \
+  --volume ${GITLAB_HOME?}/tls:/etc/gitlab/tls \
+  --name gitlab \
+  --restart always \
+  gitlab/gitlab-ce
+```
+
+
+---
+## Nomad & Consul packages
+- install binaries and service files
+  - eg: /bin/nomad  /var/lib/nomad
+
+```bash
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+sudo apt-get -yqq update
+
+sudo apt-get -yqq install  nomad  consul
+```
+
+
+---
+## Setup Certs
+- sets up https / TLS  and fabio for routing, loadbalancing, and https traffic
+- reuse same certs for encrypted traffic between nomad & consul servers
+
+---
+## Setup Certs
+```bash
+CRT=/etc/fabio/ssl/${DOMAIN?}-cert.pem
+KEY=/etc/fabio/ssl/${DOMAIN?}-key.pem
+
+sudo mkdir -p        /etc/fabio/ssl/
+sudo chown root:root /etc/fabio/ssl/
+cp ~/nomad/etc/fabio.properties /etc/fabio/
+
+sudo cp ${TLS_CRT?} ${CRT?}
+sudo cp ${TLS_KEY?} ${KEY?}
+
+sudo chown root:root ${CRT} ${KEY}
+sudo chmod 444 ${CRT}
+sudo chmod 400 ${KEY}
+sudo mkdir -m 500 -p      /opt/nomad/tls
+sudo cp $CRT              /opt/nomad/tls/tls.crt
+sudo cp $KEY              /opt/nomad/tls/tls.key
+sudo chmod -R go-rwx      /opt/nomad/tls
+```
+
+
+---
+## Config stashing
+```bash
+# restore original config (if reran)
+[ -e  $NOMAD_HCL.orig ]  &&  sudo cp -p  $NOMAD_HCL.orig  $NOMAD_HCL
+[ -e $CONSUL_HCL.orig ]  &&  sudo cp -p $CONSUL_HCL.orig $CONSUL_HCL
+
+
+# stash copies of original config
+sudo cp -p  $NOMAD_HCL  $NOMAD_HCL.orig
+sudo cp -p $CONSUL_HCL $CONSUL_HCL.orig
+```
+
+
+---
+## Persistent Volumes
+- One server in cluster gets marked for hosting all repos with Persistent Volume requirements.
+- Keeps things simple
+  - avoid complex multi-host solutions like rook/ceph
+  - pass through these `/pv/` dirs from VM/host to containers
+- Each container using it needs to use a unique subdir...
+
+```bash
+for N in $(seq 1 ${PV_MAX?}); do
+  sudo mkdir -m777 -p ${PV_DIR?}/$N
+done
+```
+
+---
+## Configure Nomad & Consul
+- For 2+ node clusters, we have to make _all_ nomad servers VERY angry first, before we can get a leader and token
+
+
+---
+## Configure Nomad
+- Boostrap communication between 2+ nodes running full nomad servers.
+- They will each seek this number of servers, minus one, to `gossip` and **consensus** elect a leader.
+- Each nomad server VM can run/stop jobs as a "control plane".
+- Each stays sync-ed with the leader, in case leader vanishes.
+  - ... at which point they'll self-elect a new leader
+
+```bash
+sudo sed -i -e 's^bootstrap_expect =.*$^bootstrap_expect = '${NOMAD_COUNT?}'^' $NOMAD_HCL
+```
+
+---
+## Communication Overviews
+- [nomad](https://learn.hashicorp.com/tutorials/nomad/production-reference-architecture-vm-with-consul#deployment-topology-within-a-single-region)
+- [consul](https://www.consul.io/docs/architecture)
+
+
+---
+## Configure Nomad - encrypted gossip
+```bash
+# mint a nomad encryption token
+TOK_N=$(nomad operator keygen |tr -d ^ |cat)
+
+echo '
+name = "'$(hostname -s)'"
+
+server {
+  encrypt = "'${TOK_N?}'"
+
+  server_join {
+    retry_join = ["'${FIRSTIP?}'"]
+    retry_max = 0
+  }
+}' | sudo tee -a $NOMAD_HCL
+```
+
+
+---
+## Configure Nomad
+```bash
+echo '
+addresses {
+  http = "0.0.0.0"
+}
+
+advertise {
+  http = "{{ GetInterfaceIP \"eth0\" }}"
+  rpc = "{{ GetInterfaceIP \"eth0\" }}"
+  serf = "{{ GetInterfaceIP \"eth0\" }}"
+}
+' | sudo tee -a $NOMAD_HCL
+```
+
+
+---
+## Configure Nomad - docker
+```bash
+# ensure docker jobs can mount volumes
+echo '
+plugin "docker" {
+  config {
+    volumes {
+      enabled = true
+    }
+  }
+}
+' | sudo tee -a $NOMAD_HCL
+```
+
+---
+## Configure Nomad - raw exec
+- enable raw_exec alternate driver
+
+```bash
+echo '
+plugin "raw_exec" {
+  config {
+    enabled = true
+  }
+}
+' | sudo tee -a $NOMAD_HCL
+```
+
+---
+## Configure Nomad - HTTPS
+- https communication only!
+- @see https://learn.hashicorp.com/nomad/transport-security/enable-tls
+
+```bash
+echo '
+acl {
+  enabled = true
+}
+tls {
+  http = true
+  cert_file = "/opt/nomad/tls/tls.crt"
+  key_file  = "/opt/nomad/tls/tls.key"
+}
+' | sudo tee -a $NOMAD_HCL
+```
+
+---
+## Configure Nomad - Kinds
+- We'll put a loadbalancer on all cluster nodes
+- All jobs requiring a PV get put on first cluster node
+
+```bash
+KIND=worker
+KIND="$KIND,lb"
+KIND="$KIND,pv"
+
+echo '
+client {
+  meta {
+    "kind" = "'$KIND'"
+  }
+}' | sudo tee -a $NOMAD_HCL
+```
+
+
+---
+## Configure Nomad - HOME dirs
+```bash
+echo '
+client {
+  host_volume "home-ro" {
+    path      = "/home"
+    read_only = true
+  }
+
+  host_volume "home-rw" {
+    path      = "/home"
+    read_only = false
+  }
+}' | sudo tee -a $NOMAD_HCL
+```
+
+
+---
+## Configure Nomad - Persistent Volumes
+```bash
+(
+  echo '
+client {'
+  # pass through disk from host for now.
+  # peg project(s) with PV requirements to this host.
+  for N in $(seq 1 ${PV_MAX?}); do
+    echo -n '
+  host_volume "pv'$N'" {
+    path      = "'$PV_DIR'/'$N'"
+    read_only = false
+  }'
+  done
+
+  echo '
+}'
+) | sudo tee -a $NOMAD_HCL
+```
+
+
+---
+## Configure Consul
+- setup encrypted communication
+
+```bash
+# mint an encryption token
+TOK_C=$(consul keygen |tr -d ^)
+
+echo '
+server = true
+advertise_addr = "{{ GetInterfaceIP \"eth0\" }}"
+node_name = "'$(hostname -s)'"
+bootstrap_expect = '${CONSUL_COUNT?}'
+encrypt = "'${TOK_C?}'"
+retry_join = ["'${FIRSTIP?}'"]
+' >> $CONSUL_HCL
+```
+
+
+---
+## Start daemons
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable  consul  nomad
+sudo systemctl start nomad
+sudo systemctl start consul
+```
+
+
+---
+## Avoid Consul join issues
+- avoid failures join-ing and messages like:
+  - `No installed keys could decrypt the message`
+```bash
+sudo rm -fv /opt/consul/serf/local.keyring
+sudo systemctl restart consul
+sleep 10
+```
+
+
+---
+## Nomad bootstrap - get ACL token
+- stash any current file first
+
+```bash
+CONF=$HOME/.config/nomad
+[ -e $CONF ]  &&  mv $CONF $CONF.prev
+
+NOMACL=$HOME/.config/nomad.$(echo ${FIRST?} |cut -f1 -d.)
+mkdir -p $(dirname $NOMACL)
+chmod 600 $NOMACL $CONF 2>/dev/null |cat
+
+nomad acl bootstrap |tee $NOMACL
+```
+
+---
+## NOMAD_ADDR + NOMAD_TOKEN
+```bash
+echo "
+export NOMAD_ADDR=$NOMAD_ADDR
+export NOMAD_TOKEN="$(fgrep 'Secret ID' $NOMACL |cut -f2- -d= |tr -d ' ') |tee $CONF
+chmod 400 $NOMACL $CONF
+
+source $CONF
+```
+
+( can run later if needed: )
+```
+nomad acl token self
+```
+
+
+---
+## Validation!
+- now we can finally 🤦‍♀️  get them to cluster up, elect a leader, and do their effin job 😼
+```bash
+consul members
+nomad server members
+nomad node status
+sleep 30
+```
+
+
+---
+### Fabio load balancer / edge router
+```bash
+nomad run nomad/etc/fabio.hcl
+```
+( [fabio.hcl source](https://gitlab.com/internetarchive/nomad/-/raw/master/etc/fabio.hcl) )
+( [fabio config](https://gitlab.com/internetarchive/nomad/-/raw/master/etc/fabio.properties) )
+
+
+---
+## ✨ fabio static routes ✨
+- use fabio to `proxy_pass` our
+  - https:// git hostname
+  - to GitLab http://..:88 alt port
+
+```bash
+curl -X PUT -H "Content-Type: application/json" \
+  -k http://localhost:8500/v1/kv/fabio/config \
+  -d "route add svc git.${DOMAIN?}/ http://${FIRSTIP?}:88/"
+```
+( [source bucket of gold](https://github.com/fabiolb/fabio/issues/498) )
+
+
+---
+## Run a hello-world job 🚀
+```bash
+wget -qO- \
+  https://gitlab.com/internetarchive/nomad/-/raw/master/etc/hello-world.hcl \
+  |nomad run -
+```
+
+( [hello-world.hcl source](https://gitlab.com/internetarchive/nomad/-/raw/master/etc/hello-world.hcl) )
+
+try a few times:
+
+```bash
+nomad status
+```
+
+want to see:
+```
+ID           Type     Priority  Status   Submit Date
+hello-world  service  50        running  2021-03-09T18:40:25-08:00
+```
+
+---
+## hello world webapp
+- this should now work for you
+- https://internetarchive-bai-master.x.archive.org/
+
+
+
+
+---
+# GitLab visit
+- https://git.x.archive.org
+  - login as 'root'
+  - pick some easy to remember password - save for next week
+
+- "⚠️ Open registration is enabled on your instance"
+  - https://git.x.archive.org/admin/application_settings/general#js-signup-settings
+  - turn off "Sign-up enabled" (open to anyone)
+  - [Save changes]
+
+
+---
+### 💥 CONGRATULATIONS!  Your cluster is setup 💥
+
+Get started with the UI
+
+**Nomad**  (deployment: container management & scheduling):
+
+- https://nom.x.archive.org:4646
+- https://www.nomadproject.io
+
+- login with `NOMAD_TOKEN` from `$HOME/.config/nomad`
+- keep this ^^ safe!
+
+---
+### 💥 CONGRATULATIONS!  Your cluster is setup 💥
+**Consul** (networking: service discovery & health checks):
+- http://nom.x.archive.org:8500
+- https://www.consul.io
+
+
+---
+### 💥 CONGRATULATIONS!  Your cluster is setup 💥
+**Fabio**  (routing: load balancing, ingress/edge router, https and http2 termination (to http))
+- http://nom.x.archive.org:9998
+- https://fabiolb.net
+
+
+---
+## Block open ports 🙅‍♀️
+Once you've visited your Consul and Fabio UI in prior slides, block ports from bad apples:
+
+```bash
+/sbin/iptables -A INPUT -p tcp -i eth0 --dport 8500 -j DROP
+/sbin/iptables -A INPUT -p tcp -i eth0 --dport 9998 -j DROP
+```
+(🚨 you have to run ☝️ after each reboot 🚨)
+
+
+re-open to public:
+```bash
+/sbin/iptables -D INPUT -p tcp -i eth0 --dport 8500 -j DROP
+/sbin/iptables -D INPUT -p tcp -i eth0 --dport 9998 -j DROP
+```
+
+
+---
+## Next week
+- Setup GitLab Runner
+- Connect everything together
+- run full CI/CD pipelines
+- deploys to Nomad
+
+
+---
+## Congratulations!
+
+## ⭐ ⭐ ⭐
+
+## 🐢🚀
