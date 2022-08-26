@@ -1,4 +1,4 @@
-<!doctype html><head><meta charset="utf-8"/><script src="../eveal.js/eveal.js"></script></head><body>
+<!doctype html><head><meta charset="utf-8"/><script src="../eveal.js/eveal.js"></script><title>Blogs & Websites from Markdown & JS - Tracey Jaquith</title></head><body>
 
 # Blogs & Websites from Markdown & JS
 ## Content first, Decentralizable, Archivable
@@ -45,49 +45,119 @@ const [frontmatter, markdown] = markdown_parse(
 
 
 ---
-## Publish full blog and web pages
+## Publish full blog & web pages
 - content 100% markdown
-- theme and markdown-to-markup done with JavaScript
+- theme & markdown-to-markup using JavaScript
+
+---
+## Publish full blog & web pages
 - free github.com, gitlab.com
-  - using a `sitemap.xml` or RSS feed, pages can be hosted anywhere
-    - including DWeb
-    - like "pointers" to your posts/pages
+- using a `sitemap.xml` or RSS feed
+
+<p class="fragment fade-up fragm">
+• pages can be hosted anywhere
+</p>
+
+<p class="fragment fade-up fragm">
+• including DWeb
+</p>
+
+<p class="fragment fade-up">
+• like "pointers" to your posts/pages
+</p>
+
 
 ---
 ## How 🕷️
-- JS "crawls" your site
-  - parses markdown "front matter"
-    - date
-    - title
-    - tags
-    - categories
-  - uses `showdown` to convert to HTML
-  - re-paints page
-  - uses `localStorage` to save analyzed site, auto-updates daily (_can force re-cache_)
-  - uses `lunr` for browser searching your posts/pages
+<pre class="fragment fade-up">
+JS "crawls" your site
+</pre>
+
+<pre class="fragment fade-up">
+parses markdown "front matter"
+- date
+- title
+- tags
+- categories
+</pre>
+
+<pre class="fragment fade-up">
+`showdown` to convert to HTML
+</pre>
+
+<pre class="fragment fade-up">
+re-paints page
+</pre>
+
+<pre class="fragment fade-up">
+`localStorage` to save analyzed site, auto-updates daily (can force re-cache)
+</pre>
+
+<pre class="fragment fade-up">
+`lunr` for browser searching your posts/pages
+</pre>
 
 ---
 ## Why 🤔
-- save each post or page as single markdown file
-  - markdown is primary, archive-friendly, format/theme agnostic
-  - site formatting is _secondary_
-- all posts and pages can live in free `git` repo on github.com, gitlab.com, DWeb, self-hosted, etc.
-- no build step, no backend needed
+- each post or page is a markdown file
+
+<p class="fragment fade-up">
+• markdown is primary, archive-friendly, format/theme agnostic
+</p>
+
+<p class="fragment fade-up">
+• site formatting is _secondary_
+</p>
+
+---
+## Why 🤔
+- all posts/pages can live in free `git` repo
+  - github.com, gitlab.com, DWeb, self-hosted, etc.
+
+<p class="fragment fade-up">
+• no build step, no backend needed<br>
   - just a static file server
-- theme can be changed anytime (1 line change)
-- [_good_ google SEO](https://www.google.com/search?q=site%3Ablogtini.com+and)
-  - google & more crawlers doing JS rendering
+</p>
+
+<p class="fragment fade-up">
+• theme can be changed anytime (1 line change)
+</p>
+
+<p class="fragment fade-up">
+• [_good_ google SEO](https://www.google.com/search?q=site%3Ablogtini.com+and)
+</p>
+
+<p class="fragment fade-up">
+• google & more crawlers doing JS rendering
+</p>
 
 ---
 ## Why 🤔
 - "View Source" is your original content -- no formatting, no clutter
 
-- You're in control of your content
-- posting to facebook, twitter, strava sucks
-  - where is your content?
-  - _what_ do you do with your GDPR?
-- should last forever
-- "roach proof" content-only format
+<p class="fragment fade-up">
+• You control your content
+</p>
+
+<p class="fragment fade-up">
+• posting to facebook, twitter, strava sucks
+</p>
+
+<p class="fragment fade-up">
+• where is your content?
+</p>
+
+<p class="fragment fade-up">
+• _what_ do you do with your GDPR?
+</p>
+
+<p class="fragment fade-up">
+• your data should last forever
+</p>
+
+<p class="fragment fade-up">
+• "roach proof" content-only format
+</p>
 
 ---
 ## Life is better client-side 😊
@@ -96,7 +166,7 @@ const [frontmatter, markdown] = markdown_parse(
 - Just html + JS static files
 
 ---
-## Life is better client-side 😊
+### Life is better client-side 😊
 
 ```js
 // parse frontmatter & (optional) `config.yml`
@@ -132,13 +202,13 @@ import { krsort } from 'https://av.prod.archive.org/js/util/strings.js'
   - minor comments management
 
 ---
-## Try it!
+## Try it! 🤓
 Simple as:
 - create new file
 - index.html
   - contents:
 
-<pre>
+<pre style="white-space: pre-wrap">
 ‐‐‐
 title: my neat post
 date: 2022-08-27
@@ -151,7 +221,7 @@ Having fun *blogging* and hoping to write _more_ this year.
 </pre>
 
 ---
-# Preview
+# Preview 👀
 - use any basic http file server, eg:
 ```sh
 python3 -m http.server
@@ -160,7 +230,9 @@ python3 -m http.server
   - [mac]: double click from `finder` folder; `open index.html` in `terminal`
 - copy url to `safari` (if not already)
 - dev tools, disable CORS restrictions & reload
-<img src="cors.png">
+
+---
+<!-- .slide: data-background="cors.jpg" data-background-size="contain" -->
 
 ---
 # Examples
@@ -170,7 +242,7 @@ python3 -m http.server
 
 
 ---
-# Publish
+# Publish ✍🏽
 - make https://github.com account
 - create and `git clone` a new repository
 - add your `index.html` file
@@ -182,12 +254,12 @@ python3 -m http.server
 ---
 # Extending out
 - millions of sites linked together
-- save a list of friends and families for a merged activity "feed"
+- save a list of friends & families for a merged activity "feed"
 - only needs to determine latest few posts from each site per sitemap/RSS
   - JS "crawl" them, parse their markdown, merge into decentralized feed
 
 ---
-# Future
+# Future 🔮
 - Aggregate all _your data/posts_ (twitter, facebook, etc.) to markdown posts on _your own_ site
 
 - Friends & Family aggregate sitemap/feed
@@ -195,7 +267,7 @@ python3 -m http.server
   - comments go to the right specific site/place/person/entity
 
 ---
-# Future
+# Future 🔮
 - https://www.w3.org/TR/activitypub
   - SocialWG _(Christine is here...)_
   - publish new activity
@@ -204,22 +276,34 @@ python3 -m http.server
 
 
 ---
-# GDPR
+# GDPR 🇪🇺
 - General Data Protection Regulation (EU)
-- primary aim is to enhance individuals' control and rights over their personal data
-- "must be able to transfer personal data from one electronic processing system to and into another, without being prevented from doing so"
 
+<p class="fragment fade-up">
+• primary aim is to enhance individuals' control & rights over their personal data
+</p>
+
+<p class="fragment fade-up">
+"must be able to transfer personal data from one electronic processing system to and into another, without being prevented from doing so"
+</p>
 
 ---
-# Longevity 🪄
-If `WordPress` goes away, billions of people disappear forever.
+# Longevity 🧛
+<p class="fragment fade-up">
+• If `WordPress` goes away, billions of people _disappear forever_
+</p>
 
-Average web page is gone in *three months*.
+<p class="fragment fade-up">
+• Average web page is gone in *three months*
+</p>
 
-Make your (digital) life a Vampire.
+<p class="fragment fade-up">
+• Make your (digital) life a _Vampire_
+</p>
 
-Make it Live Forever.
-
+<p class="fragment fade-up">
+• Make it _Live Forever_
+</p>
 
 ---
 # Longevity 🪄
@@ -227,10 +311,10 @@ Make it Live Forever.
 “Tell me, what is it you plan to do
 with your one wild and precious life?”
 ```
-[https://wordsfortheyear.com/2015/06/21/the-summer-day-by-mary-oliver/](Mary Oliver - "The Summer Day")
+[Mary Oliver - "The Summer Day"](https://wordsfortheyear.com/2015/06/21/the-summer-day-by-mary-oliver/)
 
 
 ---
-# Thank You!
+# Thank You! 🙏🏽
 
 [tracey.archive.org](https://tracey.archive.org)
