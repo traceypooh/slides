@@ -1,31 +1,63 @@
 <!doctype html><head><meta charset="utf-8"/><script src="../eveal.js/eveal.js"></script></head><body>
 
+xxx
+Friends & Family aggregate sitemap/feed
+  - Friends & Family client-side aggregate lunr search
+  - comments go to the right specific site/place/person/entity
+- https://www.w3.org/TR/activitypub
+  - SocialWG (christine is here...)
+  - publish new activity
+  - notify followers in their chosen way
+- aggregate all your data/posts (twitter, f8, etc.) to markdown posts on your own site
 
 
 # Blogs & Websites from Markdown & JS
 ## Content first, Decentralizable, Archivable
 
-### Tracey Jaquith DwebCamp 2022
+### [Tracey Jaquith](http://twitter.com/tracey_pooh)
+
+#### [DwebCamp 2022](https://dwebcamp.org)
 
 ---
-## Preview feedback
-- dont rush / pace
-- mention what GDPR is
-- *start with* magic trick
-  - check out site
-  - check out post
-  - 'view source'
-- explain why markdown in html even works (body...innerHTML)
+# The Idea
+
+---
+# A Site
+<a href="https://blogtini.com"><img src="website.jpg"</a>
+
+---
+# A Post
+<a href="https://blogtini.com/2022-07-blogtini-update/"><img src="post.jpg"</a>
+
+---
+# View Source
+<a href="view-source:https://blogtini.com/2022-07-blogtini-update/"><img src="view-source.jpg"</a>
+
+---
+# Huh?
+The page reads & parses itself
+
+```js
+const [frontmatter, markdown] = markdown_parse(
+  document.getElementsByTagName('body')[0].innerHTML
+)
+```
+[JS](https://blogtini.com/js/blogtini.js)
+
+---
+## Preview feedback xxx
+
 - slide of tech for client side and why for each
   - diagram of stack
   - lunr
   - showdown
   - yml parser
   - localStorage
-  - way relying on browser to display
 - show files layout on server https://github.com/traceypooh/ipfstini
-- if WP goes away, billions of people disappear forever
-- archivists site of many sites -- one combo sitemap away
+
+
+---
+- archivists site of many sites -- one combo sitemap away xxx
 
 
 ---
@@ -38,7 +70,7 @@
     - like "pointers" to your posts/pages
 
 ---
-## How
+## How 🕷️
 - JS "crawls" your site
   - parses markdown "front matter"
     - date
@@ -51,7 +83,7 @@
   - uses `lunr` for browser searching your posts/pages
 
 ---
-## Why
+## Why 🤔
 - save each post or page as single markdown file
   - markdown is primary, archive-friendly, format/theme agnostic
   - site formatting is _secondary_
@@ -63,15 +95,48 @@
   - google & more crawlers doing JS rendering
 
 ---
-## Why
+## Why 🤔
 - "View Source" is your original content -- no formatting, no clutter
 
 - You're in control of your content
 - posting to facebook, twitter, strava sucks
   - where is your content?
-  - _what_ do you do with your GDPR? (xxx)
+  - _what_ do you do with your GDPR?
 - should last forever
 - "roach proof" content-only format
+
+---
+## Life is better client-side 😊
+- No build step
+- No back-end
+- Just html + JS static files
+
+---
+## Life is better client-side 😊
+
+```js
+// parse frontmatter & (optional) `config.yml`
+import yml from 'https://esm.archive.org/js-yaml'
+
+// markdown-to-html
+import showdown from 'https://esm.archive.org/showdown'
+
+// code highlighting
+import hljs from 'https://esm.archive.org/highlightjs'
+
+// client-side search - like `solr`
+import lunr from 'https://esm.archive.org/lunr'
+
+// date/time hacking
+import dayjs from 'https://esm.archive.org/dayjs'
+
+// comments
+import './staticman.js'
+
+// sort hashmap by key
+import { krsort } from 'https://av.prod.archive.org/js/util/strings.js'
+```
+
 
 ---
 ## Static Sites
@@ -110,8 +175,8 @@ python3 -m http.server
 - OR open `index.html` in browser
   - [mac]: double click from `finder` folder; `open index.html` in `terminal`
 - copy url to `safari` (if not already)
-- dev tools, disable CORS restrictions xxx
-- reload
+- dev tools, disable CORS restrictions & reload
+<img src="cors.png">
 
 ---
 # Examples
@@ -127,7 +192,7 @@ python3 -m http.server
 - add your `index.html` file
 - add `.nojekyll` (empty) file
 - `git push`
-- turn on GitHub Pages xxx
+- [turn on GitHub Pages](https://docs.github.com/en/pages/quickstart)
 - https://[YOUR-GITHUB-USERNAME].github.io/[REPOSITORY-NAME]/
 
 ---
@@ -136,3 +201,20 @@ python3 -m http.server
 - save a list of friends and families for a merged activity "feed"
 - only needs to determine latest few posts from each site per sitemap/RSS
   - JS "crawl" them, parse their markdown, merge into decentralized feed
+
+---
+# GDPR
+- General Data Protection Regulation (EU)
+- primary aim is to enhance individuals' control and rights over their personal data
+- "must be able to transfer personal data from one electronic processing system to and into another, without being prevented from doing so"
+
+
+---
+# Longevity 🪄
+- if `WordPress` goes away, billions of people disappear forever
+
+```
+“Tell me, what is it you plan to do
+with your one wild and precious life?”
+```
+[https://wordsfortheyear.com/2015/06/21/the-summer-day-by-mary-oliver/](Mary Oliver - "The Summer Day")
