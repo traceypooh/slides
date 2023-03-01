@@ -1,0 +1,76 @@
+<!doctype html><head><meta charset="utf-8"/><script src="../eveal.js/eveal.js"></script><title>CodeRunr - Website edits live in seconds - Tracey Jaquith</title></head><body>
+
+# CodeRunr
+# ₀₀₀₁₀₁ ᕕ( ᐛ )ᕗ
+
+## Website edits live in seconds
+
+### [Tracey Jaquith](https://twitter.com/tracey_pooh)
+
+#### 2023 Mar 1
+
+[tracey.archive.org](https://tracey.archive.org)
+
+---
+# The Idea
+
+Deploy saved changes to websites – without commits, pushes & full CI/CD
+
+https://coderunr.com/
+
+
+---
+# Source
+https://github.com/internetarchive/coderunr
+
+---
+# Requirements
+- CodeRunr server
+  - `docker` single container
+  - uses `caddy` for automatic https
+    - https://code.archive.org
+    - has wildcard dns `*.code.archive.org`
+  - everything lives in `/coderunr/`
+
+---
+# Client
+- `ssh` access
+- *or* visit web page
+  - https://ux-dev0.us.archive.org/website.html
+
+---
+# VS Code Extension
+
+https://marketplace.visualstudio.com/items?itemName=InternetArchive.coderunr-vscode
+
+source:
+
+https://github.com/internetarchive/coderunr-vscode
+
+
+---
+# Examples
+- https://petabox.code.archive.org
+- https://av.code.archive.org
+- https://offshoot.code.archive.org
+
+
+---
+# Feedback / Future
+- If [master] `docker` container updates, re-`docker pull` and `restart`
+- Any `git push` to a branch -- "clean" server checked out branch & `git pull`
+- GH/GL triggers?  just check every 5 min?
+- User perms
+
+---
+# To Do
+@cdrini - Here's the error I'm getting:
+```
+BRANCH=scooby-scooby-drini
+CLONE=https://git.archive.org/ia/petabox.git
+CLONED_CACHE=/coderunr/ia/petabox/__clone
+fatal: detected dubious ownership in repository at '/coderunr/ia/petabox/__clone'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /coderunr/ia/petabox/__clone
+```
