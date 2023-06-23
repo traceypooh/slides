@@ -1,7 +1,8 @@
 <!doctype html><head><meta charset="utf-8"/><script src="../eveal.js/eveal.js"></script><title>Blogs & Websites from Markdown & JS - Tracey Jaquith</title></head><body>
 
 # Blogtini
-## Blogs & static websites using markdown, imagery & 1 line of javascript
+## Blogs & static Websites
+## Markdown + 1 line of Javascript
 ### Decentralize & Archive your content forever
 
 ### [Tracey Jaquith](https://twitter.com/tracey_pooh)
@@ -10,21 +11,11 @@
 
 [tracey.archive.org](https://tracey.archive.org)
 
----
-# xxx
-The first five minutes are to explain the idea, show a post and explain how the simple markdown becomes a full website.
-We'll then talk about the benefits of this approach, what a sitemap is and how it's used.
-
-Next, we'll show a little bit of the javascript that parses the posts, creates the site theme, and transforms the content.
-
-Finally, we'll gather people's thoughts, ideas, and preferences on things like themes, site features, and more.
-We'll brainstorm together about things like crawlers, archives, artificial intelligence, dweb -- and how things could change in a world of decentralized markdown websites & blogs.
-
 
 ---
 # The Idea
 
-[tracey.archive.org](https://tracey.archive.org)
+[blogtini.com](https://blogtini.com)
 
 ---
 # A Site
@@ -64,20 +55,27 @@ const [frontmatter, markdown] = markdown_parse(
 
 ---
 ## Publish full blog & web pages
-- free github.com, gitlab.com
-- using a `sitemap.xml` or RSS feed
+- uses a `sitemap.xml` or RSS feed
 
-<p class="fragment fade-up fragm">
-• pages can be hosted anywhere
-</p>
-
-<p class="fragment fade-up fragm">
-• including DWeb
+<p class="fragment fade-up">
+It's like "pointers" to your posts/pages
 </p>
 
 <p class="fragment fade-up">
-• like "pointers" to your posts/pages
+Posts can be hosted anywhere
 </p>
+
+<div class="fragment fade-up">
+• free github.com, gitlab.com
+</div>
+
+<div class="fragment fade-up">
+• including DWeb
+</div>
+
+<div class="fragment fade-up">
+• self-hosted
+</div>
 
 
 ---
@@ -103,7 +101,7 @@ re-paints page
 </pre>
 
 <pre class="fragment fade-up">
-`localStorage` to save analyzed site, auto-updates daily (can force re-cache)
+browser caches the analyzed site, auto-updates daily (can force re-cache)
 </pre>
 
 <pre class="fragment fade-up">
@@ -124,9 +122,6 @@ re-paints page
 
 ---
 ## Why 🤔
-- all posts/pages can live in free `git` repo
-  - github.com, gitlab.com, DWeb, self-hosted, etc.
-
 <p class="fragment fade-up">
 • no build step, no backend needed<br>
   - just a static file server
@@ -146,7 +141,7 @@ re-paints page
 
 ---
 ## Why 🤔
-- "View Source" is your original content -- no formatting, no clutter
+- "View Source" is your _original_ content -- no formatting, no clutter
 
 <p class="fragment fade-up">
 • You control your content
@@ -174,9 +169,6 @@ re-paints page
 
 ---
 ## Life is better client-side 😊
-- No build step
-- No back-end
-- Just html + JS static files
 
 ---
 ### Life is better client-side 😊
@@ -222,14 +214,13 @@ Simple as:
   - contents:
 
 <pre style="white-space: pre-wrap">
-‐‐‐
+&#45;&#45;&#45;
 title: my neat post
 date: 2022-08-27
-tags:
-  ‐ blogging
-  ‐ markdown
+tags: [blogging, markdown]
 comment: &amp;#60;script src="https://blogtini.com/js/blogtini.js" type="module" charset="utf-8"&amp;#62;&amp;#60;/script&amp;#62;
-‐‐‐
+–––
+
 Having fun *blogging* and hoping to write _more_ this year.
 </pre>
 
@@ -315,7 +306,6 @@ Just one combo `sitemap.xml` away <span class="fragment">!</span>
   - notify followers in their chosen way
 
 
-
 ---
 # GDPR 🇪🇺
 - General Data Protection Regulation (EU)
@@ -327,6 +317,7 @@ Just one combo `sitemap.xml` away <span class="fragment">!</span>
 <p class="fragment fade-up">
 "must be able to transfer personal data from one electronic processing system to and into another, without being prevented from doing so"
 </p>
+
 
 ---
 # Longevity 🧛
@@ -346,36 +337,14 @@ Just one combo `sitemap.xml` away <span class="fragment">!</span>
 • Make it _Live Forever_
 </p>
 
----
-# Longevity 🪄
-```
-“Tell me, what is it you plan to do
-with your one wild and precious life?”
-```
-[Mary Oliver - "The Summer Day"](https://wordsfortheyear.com/2015/06/21/the-summer-day-by-mary-oliver/)
-
 
 ---
+<!-- .slide: data-background="i/redwoods.jpg" data-background-size="contain" -->
 ## 🙏🏽 Thank You! 🙏🏽
 
 [tracey.archive.org](https://tracey.archive.org)
 
 
----
-# Postscript 📸
 
 ---
-<!-- .slide: data-background="i/driving-to-camp.jpg" data-background-size="contain" -->
----
-<!-- .slide: data-background="i/borrowed-bike-happy.jpg" data-background-size="contain" -->
----
-<!-- .slide: data-background="i/redwood-nursery.jpg" data-background-size="contain" -->
----
-<!-- .slide: data-background="i/redwoods.jpg" data-background-size="contain" -->
----
-<!-- .slide: data-background="i/new-friends.jpg" data-background-size="contain" -->
----
-<!-- .slide: data-background="i/silent-disco.jpg" data-background-size="contain" -->
----
-<!-- .slide: data-background="i/storj.jpg" data-background-size="contain" -->
-# <span style="color:white">STORJ</span>
+# The Future
