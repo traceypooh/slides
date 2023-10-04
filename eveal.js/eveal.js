@@ -7,79 +7,88 @@
 
 // Utility - loads an external JS file and append it to the head, from:
 // http://zcourts.com/2011/10/06/dynamically-requireinclude-a-javascript-file-into-a-page-and-be-notified-when-its-loaded
-function require(file, callback){
-  var script = document.createElement('script');
-  script.src = file;
-  script.type = 'text/javascript';
-  script.onload = callback; // real browsers
-  script.onreadystatechange = function() { if (_this.readyState == 'complete') callback() }; //MSIE
-  document.getElementsByTagName('head')[0].appendChild(script);
+function req(file, callback) {
+  const script = document.createElement('script')
+  script.src = file
+  script.type = 'text/javascript'
+  script.onload = callback // real browsers
+  document.getElementsByTagName('head')[0].appendChild(script)
 }
 
+// NOTE: this allows caller to override the default and include us remotely
+if (!window.BASE) window.BASE = '../eveal.js/reveal.js/'
 
-var BASE = '../eveal.js/reveal.js/'
-require(BASE + 'lib/js/head.min.js', function() {
-
+req(`${window.BASE}lib/js/head.min.js`, () => {
   // slurp the current body text (markdown) into a string,
   // then rebuild the body with the proper markup wrapping the markdown
-  var body = document.getElementsByTagName('body')[0];
-  var markdown = body.innerHTML;
+  const body = document.getElementsByTagName('body')[0]
+  const markdown = body.innerHTML
 
-  body.innerHTML = ('\n\
-    <div class="reveal">\n\
-    	<div class="slides">\n\
-    		<section data-markdown  data-separator="^---">\n\
-    			<textarea data-template id="inject">\n\
-          </textarea>\n\
-  			</section>\n\
-  		</div>\n\
-  	</div>\n\
-  ');
+  body.innerHTML = `
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown  data-separator="^---">
+          <textarea data-template id="inject">
+          </textarea>
+        </section>
+      </div>
+    </div>`
 
-  document.getElementById('inject').innerHTML = markdown;
+  document.getElementById('inject').innerHTML = markdown
 
 
-  var meta = document.createElement('meta');
-  meta.name = 'viewport';
-  meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
-  document.getElementsByTagName('head')[0].appendChild(meta);
+  const meta = document.createElement('meta')
+  meta.name = 'viewport'
+  meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+  document.getElementsByTagName('head')[0].appendChild(meta)
 
 
   // get the styles and theme in place
-  var loads = [
-    BASE + 'css/reveal.css',       // main CSS
-    BASE + (window.NIGHT ? '../night.css' : '../sky.css'), // desired theme
-    BASE + 'lib/css/zenburn.css',  // for syntax highlighting of code
-    (window.location.search.match( /print-pdf/gi ) ? // printing and PDF exports
-      BASE + 'css/print/pdf.css' :
-      BASE + 'css/print/paper.css')
-  ];
-  for (var idx in loads) {
-		var link = document.createElement('link');
-		link.href = loads[idx];
-		link.rel = 'stylesheet';
-		link.type = 'text/css';
-		document.getElementsByTagName('head')[0].appendChild(link);
+  const loads = [
+    `${window.BASE}css/reveal.css`,       // main CSS
+    `${window.BASE}${window.NIGHT ? '../night.css' : '../sky.css'}`, // desired theme
+    `${window.BASE}lib/css/zenburn.css`,  // for syntax highlighting of code
+    (window.location.search.match(/print-pdf/gi) ? // printing and PDF exports
+      `${window.BASE}css/print/pdf.css` :
+      `${window.BASE}css/print/paper.css`),
+  ]
+
+  // eslint-disable-next-line guard-for-in
+  for (const idx in loads) {
+    const link = document.createElement('link')
+    link.href = loads[idx]
+    link.rel = 'stylesheet'
+    link.type = 'text/css'
+    document.getElementsByTagName('head')[0].appendChild(link)
   }
 
 
-  require(BASE + 'js/reveal.js', function(){
+  req(`${window.BASE}js/reveal.js`, () => {
     // More info about config & dependencies:
     // - https://github.com/hakimel/reveal.js#configuration
     // - https://github.com/hakimel/reveal.js#dependencies
-    Reveal.initialize({controls: true,  progress: false,  history: true,  center: true,  margin: 0.1,
+    window.Reveal.initialize({
+      controls: true,
+      progress: false,
+      history: true,
+      center: true,
+      margin: 0.1,
       // width: 1920, height: 1080, // ?print-pdf => 16:9
       dependencies: [
-        { src: BASE + 'plugin/markdown/marked.js' },
-        { src: BASE + 'plugin/markdown/markdown.js' },
-        { src: BASE + 'plugin/notes/notes.js', async: true },
-        { src: BASE + 'plugin/highlight/highlight.js', async: true, callback: function() {
-          hljs.configure({tabReplace: '  '})
-          hljs.initHighlightingOnLoad()
-        } }
-      ]
-    });
+        { src: `${window.BASE}plugin/markdown/marked.js` },
+        { src: `${window.BASE}plugin/markdown/markdown.js` },
+        { src: `${window.BASE}plugin/notes/notes.js`, async: true },
+        {
+          src: `${window.BASE}plugin/highlight/highlight.js`,
+          async: true,
+          callback: () => {
+            window.hljs.configure({tabReplace: '  '})
+            window.hljs.initHighlightingOnLoad()
+          },
+        },
+      ],
+    })
 
-    // Reveal.configure({ pdfSeparateFragments: true });
-  });
-});
+    // window.Reveal.configure({ pdfSeparateFragments: true });
+  })
+})
