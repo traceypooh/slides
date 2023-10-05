@@ -4,9 +4,14 @@
 // This also very nicely allows the file to be served locally in a browser
 // (avoids blocked AJAX attempt for an external .md file load, etc.)
 
+/* CUSTOMIZATION SETTINGS:
+window.NIGHT
+window.REMOTE
+window.BASE
+*/
 
-// Utility - loads an external JS file and append it to the head, from:
-// http://zcourts.com/2011/10/06/dynamically-requireinclude-a-javascript-file-into-a-page-and-be-notified-when-its-loaded
+
+// Utility - loads an external JS file and append it to the head
 function req(file, callback) {
   const script = document.createElement('script')
   script.src = file
@@ -15,14 +20,24 @@ function req(file, callback) {
   document.getElementsByTagName('head')[0].appendChild(script)
 }
 
-// NOTE: this allows caller to override the default and include us remotely
-if (!window.BASE) window.BASE = '../eveal.js/reveal.js/'
+// NOTE: these allow caller to override the default (2 different ways) and include us remotely.
+// NOTE: the `../eveal.js/` redundancy is for legacy setup
+if (window.REMOTE)
+  window.BASE = 'https://archive.org/~tracey/slides/eveal.js/reveal.js/'
+const BASE = window.BASE ?? '../eveal.js/reveal.js/'
 
-req(`${window.BASE}lib/js/head.min.js`, () => {
+req(`${BASE}lib/js/head.min.js`, () => {
   // slurp the current body text (markdown) into a string,
   // then rebuild the body with the proper markup wrapping the markdown
   const body = document.getElementsByTagName('body')[0]
+
+  // `replace()` for bulleted lists..
+  // handle 'soft tabs' of TAB getting turned into 2 SPACE chars
   const markdown = body.innerHTML
+    .replace(/\n {2}- /g, '\n\t- ')
+    .replace(/\n {4}- /g, '\n\t\t- ')
+    .replace(/\n {6}- /g, '\n\t\t\t- ')
+    .replace(/\n {8}- /g, '\n\t\t\t\t- ')
 
   body.innerHTML = `
     <div class="reveal">
@@ -45,12 +60,12 @@ req(`${window.BASE}lib/js/head.min.js`, () => {
 
   // get the styles and theme in place
   const loads = [
-    `${window.BASE}css/reveal.css`,       // main CSS
-    `${window.BASE}${window.NIGHT ? '../night.css' : '../sky.css'}`, // desired theme
-    `${window.BASE}lib/css/zenburn.css`,  // for syntax highlighting of code
+    `${BASE}css/reveal.css`,       // main CSS
+    `${BASE}${window.NIGHT ? '../night.css' : '../sky.css'}`, // desired theme
+    `${BASE}lib/css/zenburn.css`,  // for syntax highlighting of code
     (window.location.search.match(/print-pdf/gi) ? // printing and PDF exports
-      `${window.BASE}css/print/pdf.css` :
-      `${window.BASE}css/print/paper.css`),
+      `${BASE}css/print/pdf.css` :
+      `${BASE}css/print/paper.css`),
   ]
 
   // eslint-disable-next-line guard-for-in
@@ -63,7 +78,7 @@ req(`${window.BASE}lib/js/head.min.js`, () => {
   }
 
 
-  req(`${window.BASE}js/reveal.js`, () => {
+  req(`${BASE}js/reveal.js`, () => {
     // More info about config & dependencies:
     // - https://github.com/hakimel/reveal.js#configuration
     // - https://github.com/hakimel/reveal.js#dependencies
@@ -75,11 +90,11 @@ req(`${window.BASE}lib/js/head.min.js`, () => {
       margin: 0.1,
       // width: 1920, height: 1080, // ?print-pdf => 16:9
       dependencies: [
-        { src: `${window.BASE}plugin/markdown/marked.js` },
-        { src: `${window.BASE}plugin/markdown/markdown.js` },
-        { src: `${window.BASE}plugin/notes/notes.js`, async: true },
+        { src: `${BASE}plugin/markdown/marked.js` },
+        { src: `${BASE}plugin/markdown/markdown.js` },
+        { src: `${BASE}plugin/notes/notes.js`, async: true },
         {
-          src: `${window.BASE}plugin/highlight/highlight.js`,
+          src: `${BASE}plugin/highlight/highlight.js`,
           async: true,
           callback: () => {
             window.hljs.configure({tabReplace: '  '})
