@@ -34,7 +34,7 @@ from Scratch
 ## GitHub + Nomad
 <div class="fragment">
 <hr>
-15 line yaml - GitHub Actions
+9 line yaml - GitHub Actions
 </div>
 <div class="fragment">
 <hr>
@@ -151,29 +151,22 @@ _(`cicd.yml` can be any filename you like)_
 ---
 ### GitHub Actions YAML
 <pre><code class="hljs yaml"
->name: CICD
-on: push
+>on: push
 jobs:
   cicd:
 </code></pre><pre class="fragment fade-up"><code class="hljs yaml"
->    runs-on: ubuntu-latest
-    permissions: { contents: read, packages: write, id-token: write }
+>    # https://github.com/internetarchive/cicd
+    uses: internetarchive/cicd/.github/workflows/cicd.yml@main
 </code></pre><pre class="fragment fade-up"><code class="hljs yaml"
->    steps:
-      # https://github.com/internetarchive/cicd
-      - uses: internetarchive/cicd@v1
+>    with:
+      # ACTION ITEM: change values to your nomad cluster
+      BASE_DOMAIN: 'example.com'
+      NOMAD_ADDR: 'https://nom.example.com'
 </code></pre><pre class="fragment fade-up"><code class="hljs yaml"
->        with:
-          # ACTION ITEM: change values to your nomad cluster
-          BASE_DOMAIN: 'example.com'
-          NOMAD_ADDR: 'https://nom.example.com'
-
-          # ACTION ITEM: add GitHub Secret to your repository,
-          # with the token value for your nomad cluster
-          NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
-</code></pre><pre class="fragment fade-up"><code class="hljs yaml"
->          # this is automatically taken care of
-          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+>    secrets:
+      # ACTION ITEM: add GitHub Secret to your repository,
+      # with the token value for your nomad cluster
+      NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
 </code></pre>
 
 
@@ -327,7 +320,7 @@ x-thumb                         service  50        running  2020-07-04T04:34:54-
 - Deploy to nomad
 
 ---
-### Hello World - 3 files, 20 lines
+### Hello World - 3 files, 16 lines
 </code></pre>
 <pre class="fragment fade-up">
  ╭─── clock.js ───╮
@@ -349,19 +342,15 @@ CMD node /app/clock.js
 <pre class="fragment fade-up">
  ╭─── .github/workflows/cicd.yml ───╮
 <code class="hljs yml"
->name: CICD
-on: push
+>on: push
 jobs:
   cicd:
-    runs-on: ubuntu-latest
-    permissions: { contents: read, packages: write, id-token: write }
-    steps:
-      - uses: internetarchive/cicd@v1
-        with:
-          BASE_DOMAIN: 'code.archive.org'
-          NOMAD_ADDR: 'https://code.archive.org'
-          NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
-          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    uses: internetarchive/cicd/.github/workflows/cicd.yml@main
+    with:
+      BASE_DOMAIN: 'code.archive.org'
+      NOMAD_ADDR: 'https://code.archive.org'
+    secrets:
+      NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
 </code></pre>
 
 
@@ -515,7 +504,7 @@ Create a Nomad cluster
 
 ---
 ## Deploy Git repositories to Nomad
-- 15 line [cicd.yml](https://github.com/internetarchive/hello-nginx/blob/main/.github/workflows/cicd.yml)
+- 9 line [cicd.yml](https://github.com/internetarchive/hello-nginx/blob/main/.github/workflows/cicd.yml)
 - 1 GitHub Secret
 
 <br><div class="fragment">
