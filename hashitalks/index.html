@@ -975,7 +975,6 @@ NOMAD_VAR_CHECK_PROTOCOL
 NOMAD_VAR_COUNT
 NOMAD_VAR_CPU
 NOMAD_VAR_HEALTH_TIMEOUT
-NOMAD_VAR_HOME
 NOMAD_VAR_HOSTNAMES
 NOMAD_VAR_MEMORY
 NOMAD_VAR_MYSQL
@@ -992,7 +991,7 @@ NOMAD_VOLUMES
 `.gitlab-ci.yml`
 ```
 variables:
-  NOMAD_VAR_HOME: 'rw'
+  NOMAD_VAR_VOLUMES: '["/home:/home:ro"]'
 
 include:
   - remote: 'https://gitlab.com/internetarchive/nomad/-/raw/master/.gitlab-ci.yml'
