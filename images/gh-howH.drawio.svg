@@ -97,7 +97,7 @@
                 </switch>
             </g>
         </a>
-        <a xlink:href="https://gitlab.com/internetarchive/nomad/-/blob/master/setup.sh">
+        <a xlink:href="https://gitlab.com/internetarchive/nomad/-/blob/clustering/setup.sh">
             <path d="M 185 425 C 185 416.72 211.86 410 245 410 C 260.91 410 276.17 411.58 287.43 414.39 C 298.68 417.21 305 421.02 305 425 L 305 475 C 305 483.28 278.14 490 245 490 C 211.86 490 185 483.28 185 475 Z" fill="none" stroke="none" pointer-events="all"/>
             <path d="M 305 425 C 305 433.28 278.14 440 245 440 C 211.86 440 185 433.28 185 425" fill="none" stroke="none" pointer-events="all"/>
             <path d="M 183.01 424.59 L 186.96 419.12 L 195.1 416.8 L 212.65 411.83 L 234.38 409.26 L 266.49 410.33 L 295.03 415.73 L 301.43 418.58 L 305.46 426.58 L 303.72 474.99 L 299.3 479.83 L 287.88 485.27 L 256.78 491.39 L 221.44 488.43 L 194.28 483.15 L 188.95 480.44 L 185.37 476.01 L 183.77 426.18" fill="rgb(255, 255, 255)" stroke="none" pointer-events="all"/>

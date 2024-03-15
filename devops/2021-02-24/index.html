@@ -192,7 +192,7 @@ sudo cp -p $CONSUL_HCL $CONSUL_HCL.orig
 brew install dnsmasq
 
 echo "
-# from https://gitlab.com/internetarchive/nomad/-/blob/master/setup.sh
+# from https://gitlab.com/internetarchive/nomad/-/blob/clustering/setup.sh
 
 address=/${DOMAIN?}/${FIRSTIP?}
 listen-address=127.0.0.1
@@ -527,18 +527,18 @@ sleep 30
 - ideally `fabio` is running in `docker`..
   - but macos issues so alt "exec" driver instead of "docker"
   - [inspiration](https://medium.com/hashicorp-engineering/hashicorp-nomad-from-zero-to-wow-1615345aa539)
-  - [fabio job](https://gitlab.com/internetarchive/nomad/-/blob/master/etc/fabio-exec.hcl)
+  - [fabio job](https://gitlab.com/internetarchive/nomad/-/blob/fabio/etc/fabio-exec.hcl)
 
 ```bash
-wget -qO- https://gitlab.com/internetarchive/nomad/-/raw/master/etc/fabio-exec.hcl | nomad run -
+wget -qO- https://gitlab.com/internetarchive/nomad/-/raw/fabio/etc/fabio-exec.hcl | nomad run -
 ```
 
 
 ---
 ## Try a "hi world" job 🚀
-[hi world job](https://gitlab.com/internetarchive/nomad/-/blob/master/etc/hello-world.hcl)
+[hi world job](https://gitlab.com/internetarchive/nomad/-/blob/master/hello-world.hcl)
 ```bash
-wget https://gitlab.com/internetarchive/nomad/-/raw/master/etc/hello-world.hcl
+wget https://gitlab.com/internetarchive/nomad/-/raw/master/hello-world.hcl
 perl -i -pe 's/x.archive.org/test.archive.org/' hello-world.hcl
 nomad run hello-world.hcl
 
@@ -578,4 +578,4 @@ open $NOMAD_ADDR
 
 ---
 ## Uninstall? 😔
-- https://gitlab.com/internetarchive/nomad/-/blob/master/macos-uninstall.sh
+- https://gitlab.com/internetarchive/nomad/-/blob/clustering/bin/macos-uninstall.sh

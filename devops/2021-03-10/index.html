@@ -93,7 +93,7 @@ cd
 
 ```bash
 echo "
-# from https://gitlab.com/internetarchive/nomad/-/blob/master/setup.sh
+# from https://gitlab.com/internetarchive/nomad/-/blob/clustering/setup.sh
 
 address=/git.x.archive.org/${FIRSTIP?}
 address=/registry.x.archive.org/${FIRSTIP?}
@@ -160,12 +160,12 @@ docker run --detach \
 ## Run a hello-world job
 ```bash
 wget -qO- \
-  https://gitlab.com/internetarchive/nomad/-/raw/master/etc/hello-world.hcl \
+  https://gitlab.com/internetarchive/nomad/-/raw/master/hello-world.hcl \
   |perl -pe 's/x.archive.org/test.archive.org/' \
   |nomad run -
 ```
 
-( [hello-world.hcl source](https://gitlab.com/internetarchive/nomad/-/raw/master/etc/hello-world.hcl) )
+( [hello-world.hcl source](https://gitlab.com/internetarchive/nomad/-/raw/master/hello-world.hcl) )
 
 try a few times:
 
@@ -189,10 +189,10 @@ IFF issues see nomad rebuild later in slides
 
 ```bash
 wget -qO- \
-  https://gitlab.com/internetarchive/nomad/-/raw/master/etc/fabio-exec.hcl \
+  https://gitlab.com/internetarchive/nomad/-/raw/fabio/etc/fabio-exec.hcl \
   |nomad run -
 ```
-( [fabio-exec.hcl source](https://gitlab.com/internetarchive/nomad/-/raw/master/etc/fabio-exec.hcl) )
+( [fabio-exec.hcl source](https://gitlab.com/internetarchive/nomad/-/raw/fabio/etc/fabio-exec.hcl) )
 
 
 ---

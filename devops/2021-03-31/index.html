@@ -66,9 +66,8 @@ ssh -A root@[DIGITAL-OCEAN-IP-ADDRESS]
 ```bash
 cd
 git clone https://gitlab.com/internetarchive/nomad.git
-./nomad/bin/install-docker-ce.sh
 ```
-
+https://gitlab.com/internetarchive/nomad/-/blob/clustering/bin/install-docker-ce.sh
 
 ---
 ### Environment setup
@@ -565,8 +564,8 @@ sleep 30
 ```bash
 nomad run nomad/etc/fabio.hcl
 ```
-( [fabio.hcl source](https://gitlab.com/internetarchive/nomad/-/raw/master/etc/fabio.hcl) )
-( [fabio config](https://gitlab.com/internetarchive/nomad/-/raw/master/etc/fabio.properties) )
+( [fabio.hcl source](https://gitlab.com/internetarchive/nomad/-/raw/fabio/etc/fabio.hcl) )
+( [fabio config](https://gitlab.com/internetarchive/nomad/-/raw/fabio/etc/fabio.properties) )
 
 
 ---
@@ -587,11 +586,11 @@ curl -X PUT -H "Content-Type: application/json" \
 ## Run a hello-world job 🚀
 ```bash
 wget -qO- \
-  https://gitlab.com/internetarchive/nomad/-/raw/master/etc/hello-world.hcl \
+  https://gitlab.com/internetarchive/nomad/-/raw/master/hello-world.hcl \
   |nomad run -
 ```
 
-( [hello-world.hcl source](https://gitlab.com/internetarchive/nomad/-/raw/master/etc/hello-world.hcl) )
+( [hello-world.hcl source](https://gitlab.com/internetarchive/nomad/-/raw/master/hello-world.hcl) )
 
 try a few times:
 
