@@ -1,9 +1,10 @@
-<!doctype html><head><meta charset="utf-8"/><script src="../eveal.js/eveal.js"></script><title>What's on TV? 4 editors and 2 robots walk into a bar.. - Tracey Jaquith</title></head><body>
+<!doctype html><head><meta charset="utf-8"/><script src="../eveal.js/eveal.js"></script><title>What's on TV? 4 editors and 2 robots walk into a bar.. - Demuxed 2024 - Tracey Jaquith</title></head><body>
+
 
 # What's on TV?
 ## Four Editors & Two Robots walk into a bar..
 
-## [Aaron Swartz Day 2023](https://www.aaronswartzday.org/)
+## [Demuxed 2024](https://2024.demuxed.com)
 
 ### [🦣 Tracey](https://mastodon.social/@traceypooh) [Jaquith 🐦](https://twitter.com/tracey_pooh)
 
@@ -18,6 +19,19 @@
 Summarize TV News
 
 each hour
+
+---
+# Overview
+`We social post hourly: "What's on TV?"
+from TV news "chyrons".
+
+The non-captions news text (eg: BIDEN VISITS MEXICO) which shows up at the bottom of the TV, are  written by human editors -- yet are not carried anywhere inside the TV streams.
+What's a girl with robots to do?
+
+We use:
+- `ffmpeg` to crop the image area
+- `tesseract` to OCR the image into text
+- `GPT AI` to summarize, remove ads, and cleanup the text
 
 
 ---
@@ -107,7 +121,9 @@ You are a helpful news summarizer assistant.
 ```
 Summarize this hour of TV news chyrons,
 that were OCR scanned from the lower third of TV broadcasts,
-and ignore any advertisements, in under 440 characters
+and ignore any advertisements, in under 440 characters.
+Use only the data provided for summarizing.
+Do not hallucinate.  Do not make up factual information.
 ```
 
 ---
@@ -253,16 +269,17 @@ Stiltz.com 1-8OO-314-3317\nIN THE USA
 
 
 ---
-## Summary - gpt 4
-The FBI seized New York City Mayor Eric Adams' phones and iPad as part of a fundraising investigation, leading to the Mayor asserting he has nothing to hide.
+## Summary - gpt-4o-mini
+FBI seizes phones and iPad of NYC Mayor Eric Adams as part of a federal investigation into fundraising.
 
-Discussions around the Israel-Hamas war and companies' stance continue.
+Protests shut down Grand Central Terminal.
 
-An off-duty pilot who attempted to crash a plane attributes his actions to a bad mushroom trip.
+Democrats achieve significant wins in recent elections, with abortion rights as a key issue.
 
-Joe Manchin seeks to unite the country and doubts on whether he'll run for the White House grow.
+Speculation about Joe Manchin's future as he decides not to seek re-election in 2024.
 
-Trump's $250M civil fraud case continues.
+The ongoing Israel-Hamas conflict continues to draw international criticism and protests; tensions rise in U.S.-China relations.
+
 
 ---
 ## Summary - gpt 4-turbo
