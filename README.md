@@ -1,3 +1,3 @@
 # Moved to:
-- github.com/internetarchive/tracey
-- tracey.archive.org
+- https://github.com/internetarchive/tracey
+- https://tracey.archive.org
